@@ -9,3 +9,5 @@
             "dbname"    => "phpbuddy"
         ]
     ];
+
+    ?>
