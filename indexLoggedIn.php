@@ -70,7 +70,7 @@
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item">
                             <div class="dropdown">
-                                <a class="dropbtn"><i class="fas fa-user"></i> Student</a  >
+                                <a class="dropbtn"><i class="fas fa-user"></i> student </a  >
                                     <div class="dropdown-content">
                                         <a href="#">profiel</a>
                                         <div class="dropdown-divider"></div>

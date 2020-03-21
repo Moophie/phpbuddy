@@ -1,5 +1,5 @@
 <?php
- 
+  $useremail = email;
     function canLogin($email, $password) {
         if( $email === "e@student.thomasmore.be" && $password === "12" ) {
             return true;
