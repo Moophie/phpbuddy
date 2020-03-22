@@ -4,8 +4,11 @@
 
             $user = new User();
             $user->setFullname($_POST['fullname']);
-            $user->setEmail($_POST['email']);
-            $user->setPassword($_POST['password']);
+			$user->setEmail($_POST['email']);
+
+			$hash = password_hash($_POST['password'], PASSWORD_BCRYPT);
+
+            $user->setPassword($hash);
 
             $user->save();//active record patroon
             $success = "user saved";
