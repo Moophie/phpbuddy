@@ -3,7 +3,7 @@
 	include_once(__DIR__ . "/classes/Db.php");
 
 	
-
+	if(!isset($_POST['submit'])) {
             $user = new User();
 			$user->setFullname($_POST['fullname']);
 
@@ -35,7 +35,9 @@
 
     
     
-    $users = User::getAll();
+	$users = User::getAll();
+	
+		}
 
 ?><!DOCTYPE html>
 <html lang="en">

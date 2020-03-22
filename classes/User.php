@@ -46,6 +46,8 @@ class User {
      * @return  self
      */ 
     public function setEmail($email)
+
+
     {
         $this->email = $email;
 
