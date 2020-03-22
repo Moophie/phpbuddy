@@ -1,19 +1,16 @@
 <?php 
     include_once(__DIR__ . "/classes/User.php");
 
-    if(!empty($_POST)) {
-        try {
+
             $user = new User();
-            $user->setFirstname($_POST['fullname']);
-            $user->setLastname($_POST['email']);
-            $user->setEmail($_POST['password']);
+            $user->setFullname($_POST['fullname']);
+            $user->setEmail($_POST['email']);
+            $user->setPassword($_POST['password']);
 
             $user->save();//active record patroon
             $success = "user saved";
-        } catch (\Throwable $th) {
-            $error = $th->getMessage();
-        }
-    }
+
+    
     
     $users = User::getAll();
 
@@ -32,7 +29,7 @@
 <body class="form-v5">
 	<div class="page-content">
 		<div class="form-v5-content">
-			<form class="form-detail" action="#" method="post">
+			<form class="form-detail" action="" method="post">
 				<h2>Register Account Byddy application</h2>
 				<div class="form-row">
 					<label for="fullname">Full Name</label>

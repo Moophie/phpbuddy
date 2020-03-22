@@ -74,9 +74,9 @@ class User {
         $conn = Db::getConnection();
         //insert query
         $statement = $conn->prepare("insert into users (fullname, email, password) values (:fullname, :email, :password)");
-        $firstname = $this->getFullname();
-        $lastname = $this->getEmail();
-        $email = $this->getPassword();
+        $fullname = $this->getFullname();
+        $email = $this->getEmail();
+        $password = $this->getPassword();
         
         $statement->bindValue(":fullname", $fullname);
         $statement->bindValue(":email", $email);
