@@ -1,10 +1,30 @@
 <?php 
-    include_once(__DIR__ . "/classes/User.php");
+	include_once(__DIR__ . "/classes/User.php");
+	include_once(__DIR__ . "/classes/Db.php");
 
+	
 
             $user = new User();
-            $user->setFullname($_POST['fullname']);
-			$user->setEmail($_POST['email']);
+			$user->setFullname($_POST['fullname']);
+
+			$conn =mysqli_connect("localhost", "root", "", "phpbuddy");
+			
+ 
+				$email= $_POST['email'];
+
+				
+				$sql= "SELECT id FROM users WHERE email = '$email'";
+				$results = mysqli_query($conn , $sql);
+				$row = mysqli_num_rows($results);
+			 if ($row > 0 ) {
+			 //if $row is greater than 0, (means the email exists)
+			 echo "Error: email already exists";
+			 } else {
+			 		
+				$user->setEmail($_POST['email']);
+			}
+		
+			
 
 			$hash = password_hash($_POST['password'], PASSWORD_BCRYPT);
 

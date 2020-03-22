@@ -2,6 +2,8 @@
 
 include_once(__DIR__ . "./Db.php");
 
+
+
 class User {
 
     private $fullname;
@@ -74,6 +76,7 @@ class User {
     public function save() {
         //db conn
         $conn = Db::getConnection();
+        
         //insert query
         $statement = $conn->prepare("insert into users (fullname, email, password) values (:fullname, :email, :password)");
         $fullname = $this->getFullname();
