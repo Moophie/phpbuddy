@@ -3,7 +3,9 @@
 	include_once(__DIR__ . "/classes/Db.php");
 
 	
-	if(!isset($_POST['submit'])) {
+	if(isset($_POST['register'])) {
+
+
             $user = new User();
 			$user->setFullname($_POST['fullname']);
 
@@ -17,7 +19,6 @@
 				$results = mysqli_query($conn , $sql);
 				$row = mysqli_num_rows($results);
 			 if ($row > 0 ) {
-			 //if $row is greater than 0, (means the email exists)
 			 echo "Error: email already exists";
 			 } else {
 			 		
@@ -39,7 +40,9 @@
 	
 		}
 
-?><!DOCTYPE html>
+?>
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
