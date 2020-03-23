@@ -1,59 +1,80 @@
-<?php 
-	include_once(__DIR__ . "/classes/User.php");
-	include_once(__DIR__ . "/classes/Db.php");
-
-	
-	if(isset($_POST['register'])) {
+<?php
+include_once(__DIR__ . "/classes/User.php");
+include_once(__DIR__ . "/classes/Db.php");
 
 
-            $user = new User();
-			$user->setFullname($_POST['fullname']);
+if (isset($_POST['register'])) {
 
-			$conn =mysqli_connect("localhost", "root", "", "phpbuddy");
-			
- 
-				$email= $_POST['email'];
 
-				
-				$sql= "SELECT id FROM users WHERE email = '$email'";
-				$results = mysqli_query($conn , $sql);
-				$row = mysqli_num_rows($results);
-			 if ($row > 0 ) {
-			 echo "Error: email already exists";
-			 } else {
-			 		
-				$user->setEmail($_POST['email']);
-			}
-		
-			
+	$user = new User();
+	$user->setFullname($_POST['fullname']);
 
-			$hash = password_hash($_POST['password'], PASSWORD_BCRYPT);
+	$conn = mysqli_connect("localhost", "root", "", "phpbuddy");
 
-            $user->setPassword($hash);
 
-            $user->save();//active record patroon
-            $success = "user saved";
+	$email = $_POST['email'];
 
-    
-    
-	$users = User::getAll();
-	
+
+	function endsWith($string, $endString)
+	{
+		$len = strlen($endString);
+		if ($len == 0) {
+			return true;
 		}
+		return (substr($string, -$len) === $endString);
+	}
+
+
+	$sql = "SELECT id FROM users WHERE email = '$email'";
+	$results = mysqli_query($conn, $sql);
+	$row = mysqli_num_rows($results);
+	if ($row > 0) {
+		echo "Error: email already exists";
+	} elseif (!endsWith("student.thomasmore.be", $email)) {
+
+		echo "email does not end with student.thomasmore.be";
+	} else {
+
+
+		$user->setEmail($_POST['email']);
+	}
+
+
+
+
+
+
+
+
+
+	$hash = password_hash($_POST['password'], PASSWORD_BCRYPT);
+
+	$user->setPassword($hash);
+
+	$user->save(); //active record patroon
+	$success = "user saved";
+
+
+
+	$users = User::getAll();
+}
 
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="utf-8">
+	<meta charset="utf-8">
 	<title>Register</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 	<!-- Font-->
 	<link rel="stylesheet" type="text/css" href="css/roboto-font.css">
 	<link rel="stylesheet" type="text/css" href="fonts/font-awesome-5/css/fontawesome-all.min.css">
 	<!-- Main Style Css -->
-    <link rel="stylesheet" href="css/style_register.css"/>
+	<link rel="stylesheet" href="css/style_register.css" />
 </head>
+
 <body class="form-v5">
 	<div class="page-content">
 		<div class="form-v5-content">
@@ -81,4 +102,5 @@
 		</div>
 	</div>
 </body>
+
 </html>
