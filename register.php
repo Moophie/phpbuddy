@@ -32,7 +32,6 @@ if (isset($_POST['register'])) {
 		echo "Error: email already exists";
 	} elseif (!endsWith($email, "student.thomasmore.be")) {
 		
-		var_dump($email);
 
 		echo "email does not end with student.thomasmore.be";
 	} else {
