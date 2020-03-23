@@ -30,7 +30,9 @@ if (isset($_POST['register'])) {
 	$row = mysqli_num_rows($results);
 	if ($row > 0) {
 		echo "Error: email already exists";
-	} elseif (!endsWith("student.thomasmore.be", $email)) {
+	} elseif (!endsWith($email, "student.thomasmore.be")) {
+		
+		var_dump($email);
 
 		echo "email does not end with student.thomasmore.be";
 	} else {
