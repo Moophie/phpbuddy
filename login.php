@@ -1,32 +1,57 @@
 <?php
+
+include_once(__DIR__ . "/classes/Db.php");
+
 function canLogin($email, $password)
 {
-  if ($email === "e@student.thomasmore.be" && $password === "12") {
+  // Prepared PDO statement that fetches the password corresponding to the inputted email
+  $conn = Db::getConnection();
+  $statement = $conn->prepare("SELECT password FROM users WHERE email = :email");
+  $statement->bindValue(":email", $email);
+  $statement->execute();
+  $result = $statement->fetch(PDO::FETCH_ASSOC);
+
+  // Check if the password is correct
+  if (password_verify($password, $result['password'])) {
     return true;
   } else {
     return false;
   }
 }
 
-// detecteer submit
+// Detect submit
 if (!empty($_POST)) {
-  // velden uitlezen in variabelen
+
+  // Put fields in variables
   $email = $_POST['email'];
   $password = $_POST['password'];
 
   if (!empty($email) && !empty($password)) {
-    // indien ok: login checken
+    // If both fields are filled in, check if the login is correct
 
     if (canLogin($email, $password)) {
+
+      // Fetches the user's full name to use as user
+      $conn = Db::getConnection();
+      $statement = $conn->prepare("SELECT fullname FROM users WHERE email = :email");
+      $statement->bindValue(":email", $email);
+      $statement->execute();
+      $result = $statement->fetch(PDO::FETCH_ASSOC);
+
+      // Start the session, fill in session variables
+      // Redirect to the logged in page
       session_start();
-      $_SESSION["user"] = $email;
+      $_SESSION["user"] = $result['fullname'];
       header("Location: indexLoggedIn.php");
+
     } else {
       $error = "Sorry, we couldn't log you in.";
     }
   } else {
-    // indien leeg: error generen
+
+    // If one of the fields is empty, generate an error
     $error = "Email and password are required.";
+    
   }
 }
 ?>

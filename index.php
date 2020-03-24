@@ -38,7 +38,7 @@
                             <a class="nav-link" href="login.php"><i class="fas fa-user"></i> Log in</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#"><i class="fas fa-user-plus"></i> Sign up</a>
+                            <a class="nav-link" href="register.php"><i class="fas fa-user-plus"></i> Sign up</a>
                         </li>
                     </ul>
                 </span>

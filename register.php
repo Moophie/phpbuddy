@@ -46,13 +46,17 @@ if (!empty($_POST)) {
 
 	} else {
 		//If the email is unique, create a new user and save him
-		//Post a success message
+		//Create a session
+		//Redirect user to the homepage
 		$user = new User();
 		$user->setEmail($email);
 		$user->setFullname($fullname);
 		$user->setPassword($hash);
 		$user->save();
-		$success = "User saved!";
+
+		session_start();
+		$_SESSION['user'] = $fullname;
+		header("Location: indexLoggedIn.php");
 	}
 }
 
@@ -84,14 +88,6 @@ if (!empty($_POST)) {
 						</div>
 						<br>
 					<?php endif; ?>
-
-					<?php if (!empty($success)) : ?>
-						<div style="background-color:#D4EDDA; padding:10px; border-radius:10px;">
-							<?= $success ?>
-						</div>
-						<br>
-					<?php endif; ?>
-
 					<label for="fullname">Full Name</label>
 					<input type="text" name="fullname" id="fullname" class="input-text" placeholder="Your Name" required>
 					<i class="fas fa-user"></i>
