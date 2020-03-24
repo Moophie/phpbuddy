@@ -1,14 +1,12 @@
 <?php
-
-//Start the session
 session_start();
 
-//If there's an active session, put the session variable into $username for easier access
+// If there's an active session, put the session variable into $username for easier access
 if (!empty($_SESSION['user'])) {
     $username = $_SESSION['user'];
 } else {
 
-    //If there's no active session, redirect to index.php
+    // If there's no active session, redirect to index.php
     header("Location: index.php");
 }
 
@@ -99,14 +97,14 @@ if (!empty($_SESSION['user'])) {
                                 <a class="dropbtn">
                                     <i class="fas fa-user"></i>
                                     <?php
-                                    //Don't forget to htmlspecialchars() when using inputted variables in your code
+                                    // Don't forget to htmlspecialchars() when using inputted variables in your code
                                     echo htmlspecialchars($username);
                                     ?>
                                 </a>
                                 <div class="dropdown-content">
                                     <a href="#">Profile</a>
                                     <div class="dropdown-divider"></div>
-                                    <a href="index.php">log out</a>
+                                    <a href="logout.php">Log out</a>
                                 </div>
                             </div>
                         </li>
