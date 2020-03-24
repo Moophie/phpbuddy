@@ -9,6 +9,8 @@
 <body>
 
   <!------------------------PROFIELFOTO--------------------------->
+  
+
     <form enctype="multipart/form-data" action="uploadProfileImg.php" method="POST">
         <input type="file" name="profileImg" capture="camera" required/><br>
         <input type="submit" value="upload" name="upload"/>
