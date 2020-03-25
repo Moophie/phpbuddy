@@ -138,9 +138,12 @@ class User{
 
     public static function profileImg(){
         $conn = Db::getConnection();
+        session_start();
 
-        $statement = $conn->prepare('SELECT profileImg FROM users WHERE users.id=:id');
-        $statement->bindValue(':id', $id);
+
+        $statement = $conn->prepare('SELECT profileImg FROM users WHERE email = :email');
+        $email = $_SESSION['user'];
+        $statement->bindValue(':email', $email);
         $statement->execute();
         $profileImg = $statement->fetch(PDO::FETCH_COLUMN);
 

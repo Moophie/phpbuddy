@@ -1,5 +1,6 @@
 <?php
-
+include_once(__DIR__ . "/classes/User.php");
+$profileImg = User::profileImg();
 
 ?>
 <!DOCTYPE html>
@@ -13,7 +14,10 @@
 
   <!------------------------PROFIELFOTO--------------------------->
   <h1>Profile Image</h1>
-<img src="<?php echo $profileImg; ?>"/>
+  <?php foreach ($profileImg as $p): ?>
+      <img src="<?php echo $p['profileImg']; ?>"/>
+  <?php endforeach; ?>
+
     <form enctype="multipart/form-data" action="uploadProfileImg.php" method="POST">
         <input type="file" name="profileImg" capture="camera" required/><br>
         <input type="submit" value="upload" name="upload"/>

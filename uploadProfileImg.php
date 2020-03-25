@@ -35,7 +35,7 @@ if (isset($_FILES['profileImg'])) {
                 $insert->bindValue(":email", $email);
                 $insert->execute();
 
-                echo "gelukt";
+                header('location:profile.php');
 
             } else {
                 $msg = 'Sorry, de upload is mislukt.';
