@@ -55,7 +55,7 @@ if (!empty($_POST)) {
 		$user->save();
 
 		session_start();
-		$_SESSION['user'] = $fullname;
+		$_SESSION['user'] = $email;
 		header("Location: indexLoggedIn.php");
 	}
 }

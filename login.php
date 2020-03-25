@@ -33,7 +33,7 @@ if (!empty($_POST)) {
 
       // Fetches the user's full name to use as user
       $conn = Db::getConnection();
-      $statement = $conn->prepare("SELECT fullname FROM users WHERE email = :email");
+      $statement = $conn->prepare("SELECT id FROM users WHERE email = :email");
       $statement->bindValue(":email", $email);
       $statement->execute();
       $result = $statement->fetch(PDO::FETCH_ASSOC);
@@ -41,7 +41,7 @@ if (!empty($_POST)) {
       // Start the session, fill in session variables
       // Redirect to the logged in page
       session_start();
-      $_SESSION["user"] = $result['fullname'];
+      $_SESSION["user"] = $result['email'];
       header("Location: indexLoggedIn.php");
 
     } else {
