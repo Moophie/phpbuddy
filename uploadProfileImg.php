@@ -28,7 +28,7 @@ if (isset($_FILES['profileImg'])) {
             $newfilename = 'uploads/'.$_FILES['profileImg']['name'];
 
             if (move_uploaded_file($_FILES['profileImg']['tmp_name'], $newfilename)) {
-                $insert = $conn->query("INSERT INTO users.profileImg VALUES $newfilename");
+                $insert = $conn->query("INSERT INTO users (profileImg) VALUES ('".$_FILES['profileImg']['name']."')");
 
                 echo "gelukt";
 
