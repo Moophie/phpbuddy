@@ -1,11 +1,13 @@
 <?php
-include_once(__DIR__ . "./Db.php");
+   //include_once(__DIR__ . "/Db.php");
+
 
 class User{
     private $fullname;
     private $email;
     private $password;
     private $profileImg;
+    private $bio;
 
        /**
      * Get the value of fullname
@@ -86,6 +88,25 @@ class User{
 
         return $this;
     }
+      /**
+     * Get the value of bio
+     */ 
+    public function getBio()
+    {
+        return $this->bio;
+    }
+
+    /**
+     * Set the value of bio
+     *
+     * @return  self
+     */ 
+    public function setBio($bio)
+    {
+        $this->bio = $bio;
+
+        return $this;
+    }
     
 
 
@@ -137,9 +158,8 @@ class User{
     /************PROFILE IMAGE SEARCH*************/
 
     public static function profileImg(){
-        $conn = Db::getConnection();
         session_start();
-
+        $conn = Db::getConnection();
 
         $statement = $conn->prepare('SELECT profileImg FROM users WHERE email = :email');
         $email = $_SESSION['user'];
@@ -151,7 +171,7 @@ class User{
     }
 
 
-        /***********CHANGE EMAIL*************/
+        /***********CHANGE EMAIL**********/
     public static function changeEmail(){
         $conn = Db::getConnection();
 
@@ -197,7 +217,44 @@ class User{
         }
     }
 
+    public static function bio(){
+        $conn = getConnection();
+
+        $statement = $conn->prepare('SELECT bio FROM users WHERE email = :email');
+        $email = $_SESSION['user'];
+        $statement->bindValue(':email', $email);
+        $statement->execute();
+        $bio = $statement->fetch(PDO::FETCH_COLUMN);
+
+        return $bio;
+    }
+
+    public static function updateBio()
+    {
+        $conn = Db::getConnection();
+
+        if (isset($_POST['submit'])) {
+            $bio = htmlspecialchars($_POST['bio']);
+
+            if (empty($bio)) {
+                echo '<p Write something nice! (or not)</p><br/>';
+            } else {
+
+                $insert = $conn->prepare('UPDATE users SET bio = :bio WHERE email = :email');
+                $email = $_SESSION['user'];
+                $insert->bindValue(':bio', $bio);
+                $insert->bindValue(':email', $email);
+                $insert->execute();
+            }
+
+            return $insert;
+        }
+    }
  
+
+ 
+
+  
 }
 
 ?>

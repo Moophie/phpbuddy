@@ -1,6 +1,10 @@
 <?php
+include_once(__DIR__ . "/classes/Db.php");
 include_once(__DIR__ . "/classes/User.php");
 $profileImg = User::profileImg();
+//$bio = User::bio();
+User::updateBio();
+
 
 ?>
 <!DOCTYPE html>
@@ -12,11 +16,10 @@ $profileImg = User::profileImg();
 </head>
 <body>
 
+
   <!------------------------PROFIELFOTO--------------------------->
   <h1>Profile Image</h1>
-  <?php foreach ($profileImg as $p): ?>
-      <img src="<?php echo $p['profileImg']; ?>"/>
-  <?php endforeach; ?>
+      <img src="<?php echo $profileImg; ?>"/>
 
     <form enctype="multipart/form-data" action="uploadProfileImg.php" method="POST">
         <input type="file" name="profileImg" capture="camera" required/><br>
@@ -24,7 +27,13 @@ $profileImg = User::profileImg();
     </form>
 
   <!------------------------PROFIELTEKST--------------------------->
-  <h1>Bio</h1>
+  <h1>About me</h1>
+
+  <p><?php //echo $bio; ?></p>
+  <form action="" method="post">
+    <textarea name="bio" id="bio" cols="30" rows="10"></textarea>
+    <input type="submit" name="submit" value="submit">
+  </form>
   <!------------------------PASSWOORD EN EMAIL WIJZIGEN--------------------------->
 <h1>Settings</h1>
 
