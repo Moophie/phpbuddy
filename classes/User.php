@@ -156,21 +156,43 @@ class User{
         $conn = Db::getConnection();
 
         if(isset($_POST['submit'])){
-            $email = htmlspecialchars($_POST['email']);
+            $email = $_SESSION['user'];
             $password = htmlspecialchars($_POST['password']);
 
             if(empty($password)){
                 echo "<font color='red'>Password field is empty!</font><br/>";
             }else{
-                $stm = $conn->prepare("SELECT id FROM users WHERE fullname = '".$_SESSION['user']."'");
-                $stm->execute();
-                $id = $stm->fetch(PDO::FETCH_COLUMN);
 
-                $insert = $conn->prepare("UPDATE users SET email = :email WHERE users.id='".$id."';");
-                $insert->bindParam(':email', $email);
+                $insert = $conn->prepare("UPDATE users SET email = ('".$_POST['email']."') WHERE email = :email");
+                $insert->bindValue(':email', $email);
                 $insert->execute();
                 header('Location:profile.php');
             }
+            return $insert;
+        }
+    }
+
+    public static function changePassword()
+    {
+        $conn = Db::getConnection();
+
+        if (isset($_POST['submit'])) {
+            $email = $_SESSION['user'];
+            $oldpassword = htmlspecialchars($_POST['oldpassword']);
+            $newpassword = htmlspecialchars($_POST['newpassword']);
+
+            $newpassword = password_hash($newpassword, PASSWORD_BCRYPT);
+
+            if (empty($oldpassword)) {
+                echo "<font color='red'>Old password is empty!</font><br/>";
+            } else {
+                $insert = $conn->prepare("UPDATE users SET password = :newpassword WHERE email = :email");
+                $insert->bindValue(':email', $email);
+                $insert->bindValue(':newpassword', $newpassword);
+                $insert->execute();
+                header('Location:profile.php');
+            }
+
             return $insert;
         }
     }
