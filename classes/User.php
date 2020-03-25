@@ -147,19 +147,30 @@ class User{
         return $profileImg;
     }
 
-    public static function detailPagina($id)
-    {
-        $conn = Db::getInstance();
 
-        $statement = $conn->prepare('SELECT * FROM users WHERE users.id=:id');
-        $statement->bindParam(':id', $id);
-        $statement->execute();
-        $detailUser = $statement->fetchAll();
+        /***********CHANGE EMAIL*************/
+    public static function changeEmail(){
+        $conn = Db::getConnection();
 
-        return $detailUser;
+        if(isset($_POST['submit'])){
+            $email = htmlspecialchars($_POST['email']);
+            $password = htmlspecialchars($_POST['password']);
+
+            if(empty($password)){
+                echo "<font color='red'>Password field is empty!</font><br/>";
+            }else{
+                $stm = $conn->prepare("SELECT id FROM users WHERE fullname = '".$_SESSION['user']."'");
+                $stm->execute();
+                $id = $stm->fetch(PDO::FETCH_COLUMN);
+
+                $insert = $conn->prepare("UPDATE users SET email = :email WHERE users.id='".$id."';");
+                $insert->bindParam(':email', $email);
+                $insert->execute();
+                header('Location:profile.php');
+            }
+            return $insert;
+        }
     }
-
-    
 
  
 }
