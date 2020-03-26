@@ -7,7 +7,9 @@ if (!empty($_SESSION['user'])) {
 } else {
 
     // If there's no active session, redirect to index.php
-    header("Location: index.php");
+    //header("Location: index.php");
+
+    echo "nope nie gelukt";
 }
 
 ?>

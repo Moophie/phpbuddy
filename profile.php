@@ -3,7 +3,7 @@ include_once(__DIR__ . "/classes/Db.php");
 include_once(__DIR__ . "/classes/User.php");
 $profileImg = User::profileImg();
 //$bio = User::bio();
-User::updateBio();
+//User::updateBio();
 
 
 ?>

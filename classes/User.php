@@ -165,7 +165,7 @@ class User{
         $email = $_SESSION['user'];
         $statement->bindValue(':email', $email);
         $statement->execute();
-        $profileImg = $statement->fetch(PDO::FETCH_COLUMN);
+        $profileImg = $statement->fetchAll(PDO::FETCH_ASSOC);
 
         return $profileImg;
     }
@@ -192,32 +192,11 @@ class User{
         }
     }
 
-    public static function changePassword()
-    {
-        $conn = Db::getConnection();
 
-        if (isset($_POST['submit'])) {
-            $email = $_SESSION['user'];
-            $oldpassword = htmlspecialchars($_POST['oldpassword']);
-            $newpassword = htmlspecialchars($_POST['newpassword']);
-
-            $newpassword = password_hash($newpassword, PASSWORD_BCRYPT);
-
-            if (empty($oldpassword)) {
-                echo "<font color='red'>Old password is empty!</font><br/>";
-            } else {
-                $insert = $conn->prepare("UPDATE users SET password = :newpassword WHERE email = :email");
-                $insert->bindValue(':email', $email);
-                $insert->bindValue(':newpassword', $newpassword);
-                $insert->execute();
-                header('Location:profile.php');
-            }
-
-            return $insert;
-        }
-    }
 
     public static function bio(){
+        //include_once(__DIR__ . "/classes/Db.php");
+
         $conn = getConnection();
 
         $statement = $conn->prepare('SELECT bio FROM users WHERE email = :email');
@@ -253,7 +232,30 @@ class User{
  
 
  
+    public static function changePassword()
+    {
+        $conn = Db::getConnection();
 
+        if (isset($_POST['submit'])) {
+            $email = $_SESSION['user'];
+            $oldpassword = htmlspecialchars($_POST['oldpassword']);
+            $newpassword = htmlspecialchars($_POST['newpassword']);
+
+            $newpassword = password_hash($newpassword, PASSWORD_BCRYPT);
+
+            if (empty($oldpassword)) {
+                echo "<font color='red'>Old password is empty!</font><br/>";
+            } else {
+                $insert = $conn->prepare("UPDATE users SET password = :newpassword WHERE email = :email");
+                $insert->bindValue(':email', $email);
+                $insert->bindValue(':newpassword', $newpassword);
+                $insert->execute();
+                header('Location:profile.php');
+            }
+
+            return $insert;
+        }
+    }
   
 }
 
