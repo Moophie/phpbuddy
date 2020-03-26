@@ -102,7 +102,7 @@ if (!empty($_SESSION['user'])) {
                                     ?>
                                 </a>
                                 <div class="dropdown-content">
-                                    <a href="#">Profile</a>
+                                    <a href="profile.php">Profile</a>
                                     <div class="dropdown-divider"></div>
                                     <a href="logout.php">Log out</a>
                                 </div>
