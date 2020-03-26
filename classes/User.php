@@ -210,7 +210,7 @@ class User{
  
     public static function changePassword()
     {
-        //session_start();
+        session_start();
 
        $conn = Db::getConnection();
 
@@ -237,6 +237,8 @@ class User{
 
     
         public static function changeEmail(){
+            session_start();
+
             $conn = Db::getConnection();
     
             if(isset($_POST['submit'])){
@@ -250,8 +252,10 @@ class User{
     
                     $insert = $conn->prepare("UPDATE users SET email = :newemail WHERE email = :email");
                     $insert->bindValue(':email', $email);
-                    $insert->bindValue(':email', $newemail);
+                    $insert->bindValue(':newemail', $newemail);
                     $insert->execute();
+
+                    $_SESSION['user'] = $newemail;
                     header('Location:profile.php');
                 }
                 return $insert;
