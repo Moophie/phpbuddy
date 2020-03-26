@@ -411,8 +411,6 @@ class User
         //Database connection
         $conn = Db::getConnection();
 
-        // Start session
-        session_start();
         $email = $_SESSION['user'];
 
         //Prepare the INSERT query
@@ -442,5 +440,24 @@ class User
 
         //Return the results from the query
         return $result;
+    }
+
+    // Function to check if profile is complete
+
+    public static function checkProfileComplete(){
+        $conn = Db::getConnection();
+
+        $statement = $conn->prepare("SELECT profileImg, bio, location, games, music, films, books, study_pref, hobby FROM users WHERE email = :email");
+        $statement->bindValue(":email", $_SESSION['user']);
+        $statement->execute();
+
+        $result = $statement->fetch(PDO::FETCH_OBJ);
+        
+        if(!empty($result->profileImg) && !empty($result->bio) && !empty($result->location) && !empty($result->games) && !empty($result->music) && !empty($result->films) && !empty($result->books) && !empty($result->study_pref) && !empty($result->hobby)){
+            return true;
+        } else {
+            return false;
+        }
+
     }
 }

@@ -1,4 +1,6 @@
 <?php
+include_once(__DIR__ . "/classes/User.php");
+
 session_start();
 
 // If there's an active session, put the session variable into $username for easier access
@@ -122,7 +124,11 @@ if (!empty($_SESSION['user'])) {
                     <h1>IMD Buddy</h1>
                     <h3>Where Students Help Eachother</h3>
                     <hr>
-                    <button class="btn-default btn-lg">Get Started</button>
+                    <?php if(!(User::checkProfileComplete())): ?>
+                    <form action="profile.php">
+                        <input type="submit" class="btn-default btn-lg" Value="Complete your profile!">
+                    </form>
+                    <?php endif; ?>
                 </div>
             </div>
 

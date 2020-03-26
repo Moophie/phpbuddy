@@ -33,14 +33,12 @@ if (!empty($_POST)) {
 
     if (canLogin($email, $password)) {
 
-      // Fetches the user's full name to use as user
-
-
       // Start the session, fill in session variables
       // Redirect to the logged in page
       session_start();
       $_SESSION["user"] = $email;
       header("Location: indexLoggedIn.php");
+
     } else {
       $error = "Sorry, we couldn't log you in.";
     }
