@@ -19,7 +19,7 @@ User::updateBio();
 
   <!------------------------PROFIELFOTO--------------------------->
   <h1>Profile Image</h1>
-      <img src="<?php echo $profileImg; ?>"/>
+      <img src="uploads/<?php echo $profileImg; ?>"/>
 
     <form enctype="multipart/form-data" action="uploadProfileImg.php" method="POST">
         <input type="file" name="profileImg" capture="camera" required/><br>
