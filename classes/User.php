@@ -216,8 +216,8 @@ class User{
 
         if (isset($_POST['submit'])) {
             $email = $_SESSION['user'];
-            $oldpassword = htmlspecialchars($_POST['oldpassword']);
-            $newpassword = htmlspecialchars($_POST['newpassword']);
+            $oldpassword = ($_POST['oldpassword']);
+            $newpassword = ($_POST['newpassword']);
 
             $new = password_hash($newpassword, PASSWORD_BCRYPT);
 
@@ -240,15 +240,17 @@ class User{
             $conn = Db::getConnection();
     
             if(isset($_POST['submit'])){
+                $newemail = strtolower($_POST['email']);
                 $email = $_SESSION['user'];
-                $password = htmlspecialchars($_POST['password']);
+                $password = ($_POST['password']);
     
                 if(empty($password)){
                     echo "<font color='red'>Password field is empty!</font><br/>";
                 }else{
     
-                    $insert = $conn->prepare("UPDATE users SET email = ('".$_POST['email']."') WHERE email = :email");
+                    $insert = $conn->prepare("UPDATE users SET email = :newemail WHERE email = :email");
                     $insert->bindValue(':email', $email);
+                    $insert->bindValue(':email', $newemail);
                     $insert->execute();
                     header('Location:profile.php');
                 }
