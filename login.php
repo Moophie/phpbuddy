@@ -12,10 +12,12 @@ function canLogin($email, $password)
   $result = $statement->fetch(PDO::FETCH_ASSOC);
 
   // Check if the password is correct
-  if (password_verify($password, $result['password'])) {
-    return true;
-  } else {
-    return false;
+  if (isset($result['password'])) {
+    if (password_verify($password, $result['password'])) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }
 
@@ -32,14 +34,13 @@ if (!empty($_POST)) {
     if (canLogin($email, $password)) {
 
       // Fetches the user's full name to use as user
-  
+
 
       // Start the session, fill in session variables
       // Redirect to the logged in page
       session_start();
-      $_SESSION["user"] =$email;
+      $_SESSION["user"] = $email;
       header("Location: indexLoggedIn.php");
-
     } else {
       $error = "Sorry, we couldn't log you in.";
     }
@@ -47,7 +48,6 @@ if (!empty($_POST)) {
 
     // If one of the fields is empty, generate an error
     $error = "Email and password are required.";
-    
   }
 }
 ?>
