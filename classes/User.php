@@ -197,7 +197,7 @@ class User{
     public static function bio(){
         //include_once(__DIR__ . "/classes/Db.php");
 
-        $conn = getConnection();
+        $conn = Db::getConnection();
 
         $statement = $conn->prepare('SELECT bio FROM users WHERE email = :email');
         $email = $_SESSION['user'];

@@ -2,8 +2,8 @@
 include_once(__DIR__ . "/classes/Db.php");
 include_once(__DIR__ . "/classes/User.php");
 $profileImg = User::profileImg();
-//$bio = User::bio();
-//User::updateBio();
+$bio = User::bio();
+User::updateBio();
 
 
 ?>
@@ -29,7 +29,7 @@ $profileImg = User::profileImg();
   <!------------------------PROFIELTEKST--------------------------->
   <h1>About me</h1>
 
-  <p><?php //echo $bio; ?></p>
+  <p><?php echo $bio; ?></p>
   <form action="" method="post">
     <textarea name="bio" id="bio" cols="30" rows="10"></textarea>
     <input type="submit" name="submit" value="submit">
