@@ -1,3 +1,14 @@
+<?php
+
+session_start();
+
+// If a session is active, send the user on to the logged in index
+if(!empty($_SESSION['user'])){
+    header("Location: indexLoggedIn.php");
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
