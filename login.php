@@ -1,25 +1,7 @@
 <?php
 
 include_once(__DIR__ . "/classes/Db.php");
-
-function canLogin($email, $password)
-{
-  // Prepared PDO statement that fetches the password corresponding to the inputted email
-  $conn = Db::getConnection();
-  $statement = $conn->prepare("SELECT password FROM users WHERE email = :email");
-  $statement->bindValue(":email", $email);
-  $statement->execute();
-  $result = $statement->fetch(PDO::FETCH_ASSOC);
-
-  // Check if the password is correct
-  if (isset($result['password'])) {
-    if (password_verify($password, $result['password'])) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-}
+include_once(__DIR__ . "/classes/User.php");
 
 // Detect submit
 if (!empty($_POST)) {
@@ -31,7 +13,7 @@ if (!empty($_POST)) {
   if (!empty($email) && !empty($password)) {
     // If both fields are filled in, check if the login is correct
 
-    if (canLogin($email, $password)) {
+    if (User::checkPassword($email, $password)) {
 
       // Start the session, fill in session variables
       // Redirect to the logged in page
@@ -90,7 +72,7 @@ if (!empty($_POST)) {
               <a class="nav-link active" href="login.php"><i class="fas fa-user"></i> Log in</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#"><i class="fas fa-user-plus"></i> Sign up</a>
+              <a class="nav-link" href="register.php"><i class="fas fa-user-plus"></i> Sign up</a>
             </li>
           </ul>
         </span>

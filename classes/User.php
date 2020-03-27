@@ -301,8 +301,7 @@ class User
     }
 
 
-    /************PROFILE IMAGE SEARCH*************/
-
+    // Get profile image from database
     public static function profileImg()
     {
         session_start();
@@ -317,9 +316,9 @@ class User
         return $profileImg;
     }
 
-
-
-    public static function bio(){
+    // Get bio from database
+    public static function bio()
+    {
         $conn = Db::getConnection();
 
         $statement = $conn->prepare('SELECT bio FROM users WHERE email = :email');
@@ -331,83 +330,35 @@ class User
         return $bio;
     }
 
-    public static function updateBio()
+
+    public static function changePassword($newpassword)
     {
         $conn = Db::getConnection();
 
-        if (isset($_POST['submit'])) {
-            $bio = htmlspecialchars($_POST['bio']);
+        $email = $_SESSION['user'];
+        $newpassword = password_hash($_POST['newpassword'], PASSWORD_BCRYPT);
 
-            if (empty($bio)) {
-                echo '<p Write something nice! (or not)</p><br/>';
-            } else {
-
-                $insert = $conn->prepare('UPDATE users SET bio = :bio WHERE email = :email');
-                $email = $_SESSION['user'];
-                $insert->bindValue(':bio', $bio);
-                $insert->bindValue(':email', $email);
-                $insert->execute();
-            }
-
-            return $insert;
-        }
+        $insert = $conn->prepare("UPDATE users SET password = :newpassword WHERE email = :email");
+        $insert->bindValue(':email', $email);
+        $insert->bindValue(':newpassword', $newpassword);
+        $insert->execute();
     }
 
 
-
-    public static function changePassword()
+    public static function changeEmail($newemail)
     {
-        session_start();
+        $conn = Db::getConnection();
 
-       $conn = Db::getConnection();
+        $email = $_SESSION['user'];
+        $newemail = strtolower($newemail);
 
-        if (isset($_POST['submit'])) {
-            $email = $_SESSION['user'];
-            $oldpassword = ($_POST['oldpassword']);
-            $newpassword = ($_POST['newpassword']);
+        $insert = $conn->prepare("UPDATE users SET email = :newemail WHERE email = :email");
+        $insert->bindValue(':email', $email);
+        $insert->bindValue(':newemail', $newemail);
+        $insert->execute();
 
-            $new = password_hash($newpassword, PASSWORD_BCRYPT);
-
-            if (empty($oldpassword)) {
-                echo "<font color='red'>Old password is empty!</font><br/>";
-            } else {
-                $insert = $conn->prepare("UPDATE users SET password = :newpassword WHERE email = :email");
-                $insert->bindValue(':email', $email);
-                $insert->bindValue(':newpassword', $new);
-                $insert->execute();
-                header('Location:profile.php');
-            }
-
-            return $insert;
-        }
+        $_SESSION['user'] = $newemail;
     }
-
-    
-        public static function changeEmail(){
-            session_start();
-
-            $conn = Db::getConnection();
-    
-            if(isset($_POST['submit'])){
-                $newemail = strtolower($_POST['email']);
-                $email = $_SESSION['user'];
-                $password = ($_POST['password']);
-    
-                if(empty($password)){
-                    echo "<font color='red'>Password field is empty!</font><br/>";
-                }else{
-    
-                    $insert = $conn->prepare("UPDATE users SET email = :newemail WHERE email = :email");
-                    $insert->bindValue(':email', $email);
-                    $insert->bindValue(':newemail', $newemail);
-                    $insert->execute();
-
-                    $_SESSION['user'] = $newemail;
-                    header('Location:profile.php');
-                }
-                return $insert;
-            }
-        }
 
     //Function that updates profile in the database
     public function completeProfile()
@@ -418,9 +369,10 @@ class User
         $email = $_SESSION['user'];
 
         //Prepare the INSERT query
-        $statement = $conn->prepare("UPDATE users SET location = :location, games = :games, music = :music, films = :films, books = :books, study_pref = :study_pref, hobby = :hobby WHERE email = :email");
+        $statement = $conn->prepare("UPDATE users SET bio = :bio, location = :location, games = :games, music = :music, films = :films, books = :books, study_pref = :study_pref, hobby = :hobby WHERE email = :email");
 
         //Put object values into variables
+        $bio = $this->getBio();
         $location = $this->getLocation();
         $games = $this->getGames();
         $music = $this->getMusic();
@@ -430,6 +382,7 @@ class User
         $hobby = $this->getHobby();
 
         //Bind variables to parameters from prepared query
+        $statement->bindValue(":bio", $bio);
         $statement->bindValue(":location", $location);
         $statement->bindValue(":games", $games);
         $statement->bindValue(":music", $music);
@@ -448,7 +401,8 @@ class User
 
     // Function to check if profile is complete
 
-    public static function checkProfileComplete(){
+    public static function checkProfileComplete()
+    {
         $conn = Db::getConnection();
 
         $statement = $conn->prepare("SELECT profileImg, bio, location, games, music, films, books, study_pref, hobby FROM users WHERE email = :email");
@@ -456,12 +410,32 @@ class User
         $statement->execute();
 
         $result = $statement->fetch(PDO::FETCH_OBJ);
-        
-        if(!empty($result->profileImg) && !empty($result->bio) && !empty($result->location) && !empty($result->games) && !empty($result->music) && !empty($result->films) && !empty($result->books) && !empty($result->study_pref) && !empty($result->hobby)){
+
+        if (!empty($result->profileImg) && !empty($result->bio) && !empty($result->location) && !empty($result->games) && !empty($result->music) && !empty($result->films) && !empty($result->books) && !empty($result->study_pref) && !empty($result->hobby)) {
             return true;
         } else {
             return false;
         }
+    }
 
+    public static function checkPassword($email, $password)
+    {
+        // Prepared PDO statement that fetches the password corresponding to the inputted email
+        $conn = Db::getConnection();
+        $statement = $conn->prepare("SELECT password FROM users WHERE email = :email");
+        $statement->bindValue(":email", $email);
+        $statement->execute();
+        $result = $statement->fetch(PDO::FETCH_ASSOC);
+
+        // Check if the password is correct
+        if (isset($result['password'])) {
+            if (password_verify($password, $result['password'])) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
     }
 }
