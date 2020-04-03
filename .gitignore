@@ -1,2 +1,5 @@
-settings
-uploads/
+settings/*
+uploads/*
+
+!settings/.gitkeep
+!uploads/.gitkeep
