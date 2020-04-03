@@ -64,8 +64,6 @@ if(!empty($_SESSION['user'])){
                 <div id="HeaderContent">
                     <h1>IMD Buddy</h1>
                     <h3>Where Students Help Eachother</h3>
-                    <hr>
-                    <button class="btn-default btn-lg">Get Started</button>
                 </div>
             </div>
 

@@ -4,6 +4,7 @@ include_once(__DIR__ . "/Db.php");
 
 class User
 {
+    private $buddyStatus;
     private $fullname;
     private $email;
     private $password;
@@ -298,6 +299,32 @@ class User
 
         //Return the result from the query
         return $users;
+    }
+
+    public function __construct()
+    {
+        if (!empty($_SESSION['user'])) {
+
+            $conn = Db::getConnection();
+            $statement = $conn->prepare('SELECT * FROM users WHERE email = :email');
+            $statement->bindValue(':email', $_SESSION['user']);
+            $statement->execute();
+            $user = $statement->fetch(PDO::FETCH_OBJ);
+
+            $this->buddyStatus = $user->buddy_status;
+            $this->fullname= $user->fullname;
+            $this->email = $user->email;
+            $this->password = $user->password;
+            $this->profileImg = $user->profileImg;
+            $this->bio = $user->bio;
+            $this->location = $user->location;
+            $this->games = $user->games;
+            $this->music = $user->music;
+            $this->films = $user->films;
+            $this->books = $user->books;
+            $this->study_pref = $user->study_pref;
+            $this->hobby = $user->hobby;
+        }
     }
 
 

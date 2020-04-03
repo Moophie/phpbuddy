@@ -124,6 +124,8 @@ if (!empty($_SESSION['user'])) {
                     <h1>IMD Buddy</h1>
                     <h3>Where Students Help Eachother</h3>
                     <hr>
+
+                    <!-- Show message with link if the user's profile is incomplete --> 
                     <?php if(!(User::checkProfileComplete())): ?>
                     <form action="profile.php">
                         <input type="submit" class="btn-default btn-lg" Value="Complete your profile!">
