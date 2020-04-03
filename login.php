@@ -19,7 +19,7 @@ if (!empty($_POST)) {
       // Redirect to the logged in page
       session_start();
       $_SESSION["user"] = $email;
-      header("Location: indexLoggedIn.php");
+      header("Location: index.php");
 
     } else {
       $error = "Sorry, we couldn't log you in.";

@@ -1,13 +1,20 @@
 <?php
+include_once(__DIR__ . "/classes/User.php");
 
 session_start();
+$user = new User();
 
-// If a session is active, send the user on to the logged in index
-if(!empty($_SESSION['user'])){
-    header("Location: indexLoggedIn.php");
+// If there's an active session, put the session variable into $username for easier access
+if (!empty($_SESSION['user'])) {
+    $username = $_SESSION['user'];
+} else {
+
+    // If there's no active session, redirect to login.php
+    header("Location: login.php");
 }
 
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -20,6 +27,48 @@ if(!empty($_SESSION['user'])){
     <link rel="stylesheet" href="css/phpbuddy.css">
     <link href="https://fonts.googleapis.com/css?family=Lato:400,700&display=swap" rel="stylesheet">
     <title>IMD Buddy</title>
+    <style>
+        .dropbtn {
+            color: white;
+            padding: 16px;
+            font-size: 16px;
+            border: none;
+        }
+
+        .dropbtn i {
+            margin-right: 5px;
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #343A40;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+        }
+
+        .dropdown-content a {
+            color: white;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #68717a;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+    </style>
+
 </head>
 
 <body>
@@ -46,10 +95,21 @@ if(!empty($_SESSION['user'])){
                 <span class="navbar-text">
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="login.php"><i class="fas fa-user"></i> Log in</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="register.php"><i class="fas fa-user-plus"></i> Sign up</a>
+                            <div class="dropdown">
+
+                                <a class="dropbtn">
+                                    <i class="fas fa-user"></i>
+                                    <?php
+                                    // Don't forget to htmlspecialchars() when using inputted variables in your code
+                                    echo htmlspecialchars($username);
+                                    ?>
+                                </a>
+                                <div class="dropdown-content">
+                                    <a href="profile.php">Profile</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a href="logout.php">Log out</a>
+                                </div>
+                            </div>
                         </li>
                     </ul>
                 </span>
@@ -64,6 +124,14 @@ if(!empty($_SESSION['user'])){
                 <div id="HeaderContent">
                     <h1>IMD Buddy</h1>
                     <h3>Where Students Help Eachother</h3>
+                    <hr>
+
+                    <!-- Show message with link if the user's profile is incomplete --> 
+                    <?php if(!($user->checkProfileComplete())): ?>
+                    <form action="profile.php">
+                        <input type="submit" class="btn-default btn-lg" Value="Complete your profile!">
+                    </form>
+                    <?php endif; ?>
                 </div>
             </div>
 

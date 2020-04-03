@@ -5,7 +5,12 @@ include_once(__DIR__ . "/classes/Db.php");
 include_once(__DIR__ . "/classes/User.php");
 
 $user = new User;
-$email = strtolower($_SESSION['user']);
+
+if (!empty($_SESSION['user'])) {
+    $email = $_SESSION['user'];
+} else {
+    header("Location: login.php");
+}
 
 if (!empty($_POST['changePassword'])) {
 

@@ -3,6 +3,11 @@ session_start();
 
 include_once(__DIR__ . "../classes/Db.php");
 
+if (!empty($_SESSION['user'])) {
+    $email = $_SESSION['user'];
+} else {
+    header("Location: login.php");
+}
 
 // connectie met de databank
 $conn = Db::getConnection();
