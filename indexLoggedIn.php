@@ -2,6 +2,7 @@
 include_once(__DIR__ . "/classes/User.php");
 
 session_start();
+$user = new User();
 
 // If there's an active session, put the session variable into $username for easier access
 if (!empty($_SESSION['user'])) {
@@ -126,7 +127,7 @@ if (!empty($_SESSION['user'])) {
                     <hr>
 
                     <!-- Show message with link if the user's profile is incomplete --> 
-                    <?php if(!(User::checkProfileComplete())): ?>
+                    <?php if(!($user->checkProfileComplete())): ?>
                     <form action="profile.php">
                         <input type="submit" class="btn-default btn-lg" Value="Complete your profile!">
                     </form>

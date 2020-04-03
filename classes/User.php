@@ -67,6 +67,7 @@ class User
         return $this->email;
     }
 
+
     /**
      * Set the value of email
      *
@@ -74,9 +75,20 @@ class User
      */
     public function setEmail($email)
     {
-        $this->email = $email;
+        $conn = Db::getConnection();
+        $statement = $conn->prepare("SELECT id FROM users WHERE email = :email");
+        $statement->bindValue(":email", $email);
+        $statement->execute();
+        $existingEmails = $statement->rowCount();
 
-        return $this;
+        if ($existingEmails > 0) {
+            return $error = "Email already in use";
+        } elseif (!(substr($email, -22) === "@student.thomasmore.be")) {
+            return $error = "Not a valid Thomas More email";
+        } else {
+            $this->email = $email;
+            return $this;
+        }
     }
 
     /**
@@ -347,43 +359,37 @@ class User
         }
     }
 
-    public static function changePassword($newpassword)
+    public function changePassword($newpassword)
     {
         $conn = Db::getConnection();
-
-        $email = $_SESSION['user'];
         $newpassword = password_hash($_POST['newpassword'], PASSWORD_BCRYPT);
 
         $insert = $conn->prepare("UPDATE users SET password = :newpassword WHERE email = :email");
-        $insert->bindValue(':email', $email);
+        $insert->bindValue(':email', $this->getEmail());
         $insert->bindValue(':newpassword', $newpassword);
         $insert->execute();
     }
 
 
-    public static function changeEmail($newemail)
+    public function changeEmail($newemail)
     {
         $conn = Db::getConnection();
-
-        $email = $_SESSION['user'];
         $newemail = strtolower($newemail);
 
         $insert = $conn->prepare("UPDATE users SET email = :newemail WHERE email = :email");
-        $insert->bindValue(':email', $email);
+        $insert->bindValue(':email', $this->getEmail());
         $insert->bindValue(':newemail', $newemail);
         $insert->execute();
 
         $_SESSION['user'] = $newemail;
     }
 
-    public static function changeBuddyStatus($newstatus)
+    public function changeBuddyStatus($newstatus)
     {
         $conn = Db::getConnection();
 
-        $email = $_SESSION['user'];
-
         $insert = $conn->prepare("UPDATE users SET buddy_status = :newstatus WHERE email = :email");
-        $insert->bindValue(':email', $email);
+        $insert->bindValue(':email', $this->getEmail());
         $insert->bindValue(':newstatus', $newstatus);
         $insert->execute();
     }
@@ -429,17 +435,9 @@ class User
 
     // Function to check if profile is complete
 
-    public static function checkProfileComplete()
+    public function checkProfileComplete()
     {
-        $conn = Db::getConnection();
-
-        $statement = $conn->prepare("SELECT profileImg, bio, location, games, music, films, books, study_pref, hobby FROM users WHERE email = :email");
-        $statement->bindValue(":email", $_SESSION['user']);
-        $statement->execute();
-
-        $result = $statement->fetch(PDO::FETCH_OBJ);
-
-        if (!empty($result->profileImg) && !empty($result->bio) && !empty($result->location) && !empty($result->games) && !empty($result->music) && !empty($result->films) && !empty($result->books) && !empty($result->study_pref) && !empty($result->hobby)) {
+        if (!empty($this->profileImg) && !empty($this->getBio()) && !empty($this->getLocation()) && !empty($this->getGames()) && !empty($this->getMusic()) && !empty($this->getFilms()) && !empty($this->getBooks()) && !empty($this->getStudy_pref()) && !empty($this->getHobby())) {
             return true;
         } else {
             return false;

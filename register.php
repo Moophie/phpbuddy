@@ -3,18 +3,6 @@
 include_once(__DIR__ . "/classes/User.php");
 include_once(__DIR__ . "/classes/Db.php");
 
-// Function that checks if a string ends with a specific text
-function endsWith($string, $endString)
-{
-	$len = strlen($endString);
-
-	if ($len == 0) {
-		return true;
-	}
-
-	return (substr($string, -$len) === $endString);
-}
-
 // Check if values have been sent
 if (!empty($_POST)) {
 
@@ -27,33 +15,17 @@ if (!empty($_POST)) {
 	// Encrypt the password
 	$hash = password_hash($_POST['password'], PASSWORD_BCRYPT);
 
-
-	// SQL to check if the email address is already in the database
-	// Returns the amount of similar emails in the database
-	$conn = Db::getConnection();
-	$statement = $conn->prepare("SELECT id FROM users WHERE email = :email");
-	$statement->bindValue(":email", $email);
-	$statement->execute();
-	$existingEmails = $statement->rowCount();
-
-	if ($existingEmails > 0) {
-		// Give an error if there is already a similar email in the database
-		$error = "Email already in use";
-
-	} elseif (!endsWith($email, "student.thomasmore.be")) {
-		// Give another error if the email does not end on student.thomasmore.be
-		$error = "Not a valid Thomas More email.";
-
+	// If the email is unique, create a new user and save him
+	// Create a session
+	// Redirect user to the homepage
+	$user = new User();
+	$validEmail = $user->setEmail($email);
+	$user->setFullname($fullname);
+	$user->setPassword($hash);
+	if (gettype($validEmail) == "string") {
+		$error = $validEmail;
 	} else {
-		// If the email is unique, create a new user and save him
-		// Create a session
-		// Redirect user to the homepage
-		$user = new User();
-		$user->setEmail($email);
-		$user->setFullname($fullname);
-		$user->setPassword($hash);
 		$user->save();
-
 		session_start();
 		$_SESSION['user'] = $email;
 		header("Location: indexLoggedIn.php");
