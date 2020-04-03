@@ -9,6 +9,8 @@ $profileImg = $user->getProfileImg();
 $bio = $user->getBio();
 $email = strtolower($_SESSION['user']);
 
+var_dump($user->getStudy_pref());
+
 function endsWith($string, $endString)
 {
   $len = strlen($endString);
@@ -122,15 +124,15 @@ if (!empty($_POST['changeStatus'])) {
       <div class="form-group">
         <p>Study Preference</p>
         <div class="form-check">
-          <input type="radio" id="design" name="study_pref" class="form-check-input" value="design" <?php if($user->getBuddyStatus() == "design"){echo "checked";}?>>
+          <input type="radio" id="design" name="study_pref" class="form-check-input" value="design" <?php if($user->getStudy_pref() == "design"): ?>checked="checked"<?php endif; ?>>
           <label for="design" class="form-check-label">Design</label>
         </div>
         <div class="form-check">
-          <input type="radio" id="development" name="study_pref" class="form-check-input" value="development" <?php if($user->getBuddyStatus() == "development"){echo "checked";}?>>
+          <input type="radio" id="development" name="study_pref" class="form-check-input" value="development" <?php if($user->getStudy_pref() == "development"): ?>checked="checked"<?php endif; ?>>
           <label for="development" class="form-check-label">Development</label>
         </div>
         <div class="form-check">
-          <input type="radio" id="undecided" name="study_pref" class="form-check-input" value="undecided" <?php if($user->getBuddyStatus() == "undecided"){echo "checked";}?>>
+<input type="radio" id="undecided" name="study_pref" class="form-check-input" value="undecided" <?php if(empty($user->getStudy_pref())): ?>checked="checked"<?php endif; ?>>
           <label for="undecided" class="form-check-label">Undecided</label>
         </div>
       </div>
@@ -152,11 +154,11 @@ if (!empty($_POST['changeStatus'])) {
     <form action="" method="POST" class="border rounded" style="padding:20px; width:500px;">
       <div class="form-group">
         <div class="form-check">
-          <input type="radio" id="firstyear" name="buddyStatus" class="form-check-input" value="firstyear">
+          <input type="radio" id="firstyear" name="buddyStatus" class="form-check-input" value="firstyear" <?php if($user->getBuddyStatus() == "firstyear"): ?>checked="checked"<?php endif; ?>>
           <label for="firstyear" class="form-check-label">I'm a first year student looking for a buddy.</label>
         </div>
         <div class="form-check">
-          <input type="radio" id="mentor" name="buddyStatus" class="form-check-input" value="mentor">
+          <input type="radio" id="mentor" name="buddyStatus" class="form-check-input" value="mentor" <?php if($user->getBuddyStatus() == "mentor"): ?>checked="checked"<?php endif; ?>>
           <label for="mentor" class="form-check-label">I'm a second or third year student looking to mentor someone.</label>
         </div>
       </div>
