@@ -1,8 +1,12 @@
 <?php
+session_start();
+
 include_once(__DIR__ . "/classes/Db.php");
 include_once(__DIR__ . "/classes/User.php");
-$profileImg = User::profileImg();
-$bio = User::bio();
+
+$user = new User;
+$profileImg = $user->getProfileImg();
+$bio = $user->getBio();
 $email = strtolower($_SESSION['user']);
 
 function endsWith($string, $endString)
@@ -89,44 +93,44 @@ if (!empty($_POST['changeStatus'])) {
       <h1>About me</h1>
       <div class="form-group">
         <label for="bio">Biography</label>
-        <textarea name="bio" id="bio" cols="30" rows="10" class="form-control"></textarea>
+        <textarea name="bio" id="bio" cols="30" rows="10" class="form-control"><?= htmlspecialchars($user->getBio())?></textarea>
       </div>
       <div class="form-group">
         <label for="location">Location</label>
-        <input type="text" id="location" name="location" class="form-control">
+        <input type="text" id="location" name="location" class="form-control" value ="<?= htmlspecialchars($user->getLocation())?>">
       </div>
       <div class="form-group">
         <label for="games">Games</label>
-        <input type="text" id="games" name="games" class="form-control">
+        <input type="text" id="games" name="games" class="form-control" value ="<?= htmlspecialchars($user->getGames())?>">
       </div>
       <div class="form-group">
         <label for="music">Music</label>
-        <input type="text" id="music" name="music" class="form-control">
+        <input type="text" id="music" name="music" class="form-control" value ="<?= htmlspecialchars($user->getMusic())?>">
       </div>
       <div class="form-group">
         <label for="films">Films</label>
-        <input type="text" id="films" name="films" class="form-control">
+        <input type="text" id="films" name="films" class="form-control" value ="<?= htmlspecialchars($user->getFilms())?>">
       </div>
       <div class="form-group">
         <label for="books">Books</label>
-        <input type="text" id="books" name="books" class="form-control">
+        <input type="text" id="books" name="books" class="form-control" value ="<?= htmlspecialchars($user->getBooks())?>">
       </div>
       <div class="form-group">
         <label for="hobby">Hobby</label>
-        <input type="text" id="hobby" name="hobby" class="form-control">
+        <input type="text" id="hobby" name="hobby" class="form-control" value ="<?= htmlspecialchars($user->getHobby())?>">
       </div>
       <div class="form-group">
         <p>Study Preference</p>
         <div class="form-check">
-          <input type="radio" id="design" name="study_pref" class="form-check-input" value="design">
+          <input type="radio" id="design" name="study_pref" class="form-check-input" value="design" <?php if($user->getBuddyStatus() == "design"){echo "checked";}?>>
           <label for="design" class="form-check-label">Design</label>
         </div>
         <div class="form-check">
-          <input type="radio" id="development" name="study_pref" class="form-check-input" value="development">
+          <input type="radio" id="development" name="study_pref" class="form-check-input" value="development" <?php if($user->getBuddyStatus() == "development"){echo "checked";}?>>
           <label for="development" class="form-check-label">Development</label>
         </div>
         <div class="form-check">
-          <input type="radio" id="undecided" name="study_pref" class="form-check-input" value="undecided" checked>
+          <input type="radio" id="undecided" name="study_pref" class="form-check-input" value="undecided" <?php if($user->getBuddyStatus() == "undecided"){echo "checked";}?>>
           <label for="undecided" class="form-check-label">Undecided</label>
         </div>
       </div>

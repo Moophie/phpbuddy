@@ -20,6 +20,26 @@ class User
 
 
     /**
+     * Get the value of buddyStatus
+     */
+    public function getBuddyStatus()
+    {
+        return $this->buddyStatus;
+    }
+
+    /**
+     * Set the value of buddyStatus
+     *
+     * @return  self
+     */
+    public function setBuddyStatus($buddyStatus)
+    {
+        $this->buddyStatus = $buddyStatus;
+
+        return $this;
+    }
+
+    /**
      * Get the value of fullname
      */
     public function getFullname()
@@ -312,7 +332,7 @@ class User
             $user = $statement->fetch(PDO::FETCH_OBJ);
 
             $this->buddyStatus = $user->buddy_status;
-            $this->fullname= $user->fullname;
+            $this->fullname = $user->fullname;
             $this->email = $user->email;
             $this->password = $user->password;
             $this->profileImg = $user->profileImg;
@@ -326,37 +346,6 @@ class User
             $this->hobby = $user->hobby;
         }
     }
-
-
-    // Get profile image from database
-    public static function profileImg()
-    {
-        session_start();
-        $conn = Db::getConnection();
-
-        $statement = $conn->prepare('SELECT profileImg FROM users WHERE email = :email');
-        $email = $_SESSION['user'];
-        $statement->bindValue(':email', $email);
-        $statement->execute();
-        $profileImg = $statement->fetch(PDO::FETCH_COLUMN);
-
-        return $profileImg;
-    }
-
-    // Get bio from database
-    public static function bio()
-    {
-        $conn = Db::getConnection();
-
-        $statement = $conn->prepare('SELECT bio FROM users WHERE email = :email');
-        $email = $_SESSION['user'];
-        $statement->bindValue(':email', $email);
-        $statement->execute();
-        $bio = $statement->fetch(PDO::FETCH_COLUMN);
-
-        return $bio;
-    }
-
 
     public static function changePassword($newpassword)
     {
