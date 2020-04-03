@@ -360,6 +360,18 @@ class User
         $_SESSION['user'] = $newemail;
     }
 
+    public static function changeBuddyStatus($newstatus)
+    {
+        $conn = Db::getConnection();
+
+        $email = $_SESSION['user'];
+
+        $insert = $conn->prepare("UPDATE users SET buddy_status = :newstatus WHERE email = :email");
+        $insert->bindValue(':email', $email);
+        $insert->bindValue(':newstatus', $newstatus);
+        $insert->execute();
+    }
+
     //Function that updates profile in the database
     public function completeProfile()
     {

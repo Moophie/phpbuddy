@@ -67,6 +67,10 @@ if (!empty($_POST['updateProfile'])) {
   $user->completeProfile();
 }
 
+if (!empty($_POST['changeStatus'])) {
+  User::changeBuddyStatus($_POST['buddyStatus']);
+}
+
 
 ?>
 <!DOCTYPE html>
@@ -139,6 +143,20 @@ if (!empty($_POST['updateProfile'])) {
     <form enctype="multipart/form-data" action="uploadProfileImg.php" method="POST">
       <input type="file" name="profileImg" capture="camera" required /><br>
       <input type="submit" value="upload" name="uploadPicture" />
+    </form>
+
+    <form action="" method="POST" class="border rounded" style="padding:20px; width:500px;">
+      <div class="form-group">
+        <div class="form-check">
+          <input type="radio" id="firstyear" name="buddyStatus" class="form-check-input" value="firstyear">
+          <label for="firstyear" class="form-check-label">I'm a first year student looking for a buddy.</label>
+        </div>
+        <div class="form-check">
+          <input type="radio" id="mentor" name="buddyStatus" class="form-check-input" value="mentor">
+          <label for="mentor" class="form-check-label">I'm a second or third year student looking to mentor someone.</label>
+        </div>
+      </div>
+      <input type="submit" value="Save" name="changeStatus">
     </form>
   </div>
 
