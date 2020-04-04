@@ -105,6 +105,8 @@ if (!empty($_SESSION['user'])) {
                                     ?>
                                 </a>
                                 <div class="dropdown-content">
+                                    <a href="search.php">Search</a>
+                                    <div class="dropdown-divider"></div>
                                     <a href="profile.php">Profile</a>
                                     <div class="dropdown-divider"></div>
                                     <a href="logout.php">Log out</a>
@@ -126,11 +128,11 @@ if (!empty($_SESSION['user'])) {
                     <h3>Where Students Help Eachother</h3>
                     <hr>
 
-                    <!-- Show message with link if the user's profile is incomplete --> 
-                    <?php if(!($user->checkProfileComplete())): ?>
-                    <form action="profile.php">
-                        <input type="submit" class="btn-default btn-lg" Value="Complete your profile!">
-                    </form>
+                    <!-- Show message with link if the user's profile is incomplete -->
+                    <?php if (!($user->checkProfileComplete())) : ?>
+                        <form action="profile.php">
+                            <input type="submit" class="btn-default btn-lg" Value="Complete your profile!">
+                        </form>
                     <?php endif; ?>
                 </div>
             </div>

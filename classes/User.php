@@ -464,4 +464,31 @@ class User
             return false;
         }
     }
+
+    public static function searchUsers($filters){
+
+        $sql = "SELECT * FROM users WHERE 1=1";
+
+        foreach($filters as $key => $filter){
+            if(!empty($filter)){
+                $parameter = ":" . $key;
+                $sql .= " AND $key = $parameter";
+            }
+        }
+
+        $conn = Db::getConnection();
+        $statement = $conn->prepare($sql);
+
+        foreach($filters as $key => $filter){
+            if(!empty($filter)){
+                $parameter = ":" . $key;
+                $statement->bindValue($parameter, $filter);
+            }
+        }
+
+        $statement->execute();
+        $result = $statement->fetchAll(PDO::FETCH_OBJ);
+
+        return $result;
+    }
 }
