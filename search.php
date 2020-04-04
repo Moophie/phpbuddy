@@ -77,6 +77,7 @@ if (!empty($_POST)) {
 
 
     <div class="float-left">
+        <?php if(!empty($foundUsers)): ?>
         <?php foreach ($foundUsers as $foundUser) : ?>
             <div class="float-left" style="margin-right: 10px; border: 1px solid black; padding: 10px;">
                 <ul style="list-style:none; margin:0px; padding:0px;">
@@ -91,6 +92,7 @@ if (!empty($_POST)) {
                 </ul>
             </div>
         <?php endforeach; ?>
+        <?php endif; ?>
     </div>
 </body>
 
