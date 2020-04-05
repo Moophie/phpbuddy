@@ -4,6 +4,19 @@ include_once(__DIR__ . "/classes/User.php");
 session_start();
 $user = new User();
 
+function getMessages()
+{
+    $user = new User();
+
+    $conn = Db::getConnection();
+    $statement = $conn->prepare("SELECT messages.content, users.fullname FROM messages, users WHERE messages.sender_id = users.id AND receiver_id = :receiver_id");
+    $statement->bindValue(":receiver_id", $user->getId());
+    $statement->execute();
+    $result = $statement->fetchAll(PDO::FETCH_OBJ);
+
+    return $result;
+}
+
 // If there's an active session, put the session variable into $username for easier access
 if (!empty($_SESSION['user'])) {
     $username = $_SESSION['user'];
@@ -11,6 +24,24 @@ if (!empty($_SESSION['user'])) {
 
     // If there's no active session, redirect to login.php
     header("Location: login.php");
+}
+
+if (isset($_POST['sendMessage'])) {
+
+    $user = new User();
+
+    $sender = $user->getId();
+    $receiver = $user->getBuddy_id();
+    $content = $_POST['content'];
+
+    $conn = Db::getConnection();
+    $statement = $conn->prepare("INSERT INTO messages (sender_id, receiver_id, content) VALUES (:sender_id, :receiver_id, :content)");
+    $statement->bindValue(":sender_id", $sender);
+    $statement->bindValue(":receiver_id", $receiver);
+    $statement->bindValue(":content", $content);
+    $result = $statement->execute();
+
+    header("Location: index.php");
 }
 
 ?>
@@ -127,11 +158,11 @@ if (!empty($_SESSION['user'])) {
                     <h3>Where Students Help Eachother</h3>
                     <hr>
 
-                    <!-- Show message with link if the user's profile is incomplete --> 
-                    <?php if(!($user->checkProfileComplete())): ?>
-                    <form action="profile.php">
-                        <input type="submit" class="btn-default btn-lg" Value="Complete your profile!">
-                    </form>
+                    <!-- Show message with link if the user's profile is incomplete -->
+                    <?php if (!($user->checkProfileComplete())) : ?>
+                        <form action="profile.php">
+                            <input type="submit" class="btn-default btn-lg" Value="Complete your profile!">
+                        </form>
                     <?php endif; ?>
                 </div>
             </div>
@@ -139,7 +170,21 @@ if (!empty($_SESSION['user'])) {
         </div>
     </div>
 
-<p>Hier komt uw boodschap</p>
+    <p>
+        <?php
+        $messages = getMessages();
+        foreach ($messages as $message) {
+            echo $message->fullname;
+            echo "<br>";
+            echo $message->content;
+        }
+        ?>
+    </p>
+
+    <form action="" method="POST">
+        <textarea name="content" id="" cols="30" rows="10"></textarea>
+        <input type="submit" value="Send message" name="sendMessage">
+    </form>
 
 
     <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"> </script>

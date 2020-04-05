@@ -4,6 +4,7 @@ include_once(__DIR__ . "/Db.php");
 
 class User
 {
+    private $id;
     private $buddyStatus;
     private $fullname;
     private $email;
@@ -17,8 +18,27 @@ class User
     private $books;
     private $study_pref;
     private $hobby;
+    private $buddy_id;
 
+    /**
+     * Get the value of id
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
 
+    /**
+     * Set the value of id
+     *
+     * @return  self
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+
+        return $this;
+    }
     /**
      * Get the value of buddyStatus
      */
@@ -290,6 +310,26 @@ class User
         return $this;
     }
 
+        /**
+     * Get the value of buddy_id
+     */ 
+    public function getBuddy_id()
+    {
+        return $this->buddy_id;
+    }
+
+    /**
+     * Set the value of buddy_id
+     *
+     * @return  self
+     */ 
+    public function setBuddy_id($buddy_id)
+    {
+        $this->buddy_id = $buddy_id;
+
+        return $this;
+    }
+
     //Function that inserts users into the database
     public function save()
     {
@@ -343,6 +383,7 @@ class User
             $statement->execute();
             $user = $statement->fetch(PDO::FETCH_OBJ);
 
+            $this->id = $user->id;
             $this->buddyStatus = $user->buddy_status;
             $this->fullname = $user->fullname;
             $this->email = $user->email;
@@ -356,6 +397,7 @@ class User
             $this->books = $user->books;
             $this->study_pref = $user->study_pref;
             $this->hobby = $user->hobby;
+            $this->buddy_id = $user->buddy_id;
         }
     }
 
