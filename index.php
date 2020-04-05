@@ -118,6 +118,7 @@ if (!empty($_SESSION['user'])) {
     </nav>
 
 
+
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
@@ -138,6 +139,7 @@ if (!empty($_SESSION['user'])) {
         </div>
     </div>
 
+<p>Hier komt uw boodschap</p>
 
 
     <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"> </script>
