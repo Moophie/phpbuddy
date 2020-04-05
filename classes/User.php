@@ -464,4 +464,14 @@ class User
             return false;
         }
     }
+
+    public function getBuddies(){
+        $conn = Db::getConnection();
+        $statement = $conn->prepare("SELECT * FROM users WHERE study_pref = :study_pref");
+        $study_pref = $this->getStudy_pref();
+        $statement->bindValue(":study_pref", $study_pref);
+        $statement->execute();
+        $match = $statement->fetchAll(PDO::FETCH_ASSOC);
+        return $match;
+    }
 }

@@ -3,6 +3,7 @@ include_once(__DIR__ . "/classes/User.php");
 
 session_start();
 $user = new User();
+$match = $user->getBuddies();
 
 // If there's an active session, put the session variable into $username for easier access
 if (!empty($_SESSION['user'])) {
@@ -12,6 +13,7 @@ if (!empty($_SESSION['user'])) {
     // If there's no active session, redirect to login.php
     header("Location: login.php");
 }
+
 
 ?>
 
@@ -117,7 +119,7 @@ if (!empty($_SESSION['user'])) {
         </div>
     </nav>
 
-
+<!---
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
@@ -126,7 +128,7 @@ if (!empty($_SESSION['user'])) {
                     <h3>Where Students Help Eachother</h3>
                     <hr>
 
-                    <!-- Show message with link if the user's profile is incomplete --> 
+                    <!-- Show message with link if the user's profile is incomplete --> <!--
                     <?php if(!($user->checkProfileComplete())): ?>
                     <form action="profile.php">
                         <input type="submit" class="btn-default btn-lg" Value="Complete your profile!">
@@ -137,7 +139,13 @@ if (!empty($_SESSION['user'])) {
 
         </div>
     </div>
+    --->
 
+<div>
+    <?php foreach ($match as $m): ?>
+    <p><?php echo $m['fullname']; ?> is interested in <?php echo $m['study_pref']; ?> </p>
+    <?php endforeach; ?>
+</div>
 
 
     <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"> </script>
