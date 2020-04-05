@@ -290,6 +290,21 @@ class User
         return $this;
     }
 
+    public static function getAll(){
+        //Database connection
+        $conn = Db::getConnection();
+
+        //Prepare and executestatement
+        $statement = $conn->prepare("SELECT email, fullname, profileImg from users");
+        $statement->execute();
+
+        //Fetch all rows as an array indexed by column name
+        $users = $statement->fetchAll(PDO::FETCH_OBJ);
+
+        //Return the result from the query
+        return $users;
+    }
+
     //Function that inserts users into the database
     public function save()
     {
@@ -314,23 +329,6 @@ class User
 
         //Return the results from the query
         return $result;
-    }
-
-    //Function that fetches all users from the database
-    public static function getAll()
-    {
-        //Database connection
-        $conn = Db::getConnection();
-
-        //Prepare and executestatement
-        $statement = $conn->prepare("select * from users");
-        $statement->execute();
-
-        //Fetch all rows as an array indexed by column name
-        $users = $statement->fetchAll(PDO::FETCH_ASSOC);
-
-        //Return the result from the query
-        return $users;
     }
 
     public function __construct()
@@ -463,5 +461,22 @@ class User
         } else {
             return false;
         }
+    }
+
+    public static function findBuddy($email){
+
+        $conn = Db::getConnection();
+        $statement = $conn->prepare("SELECT buddy_id FROM users WHERE email = :email");
+        $statement->bindValue(":email", $email);
+        $statement->execute();
+        $result = $statement->fetch(PDO::FETCH_OBJ);
+
+        $statement = $conn->prepare("SELECT fullname, profileImg FROM users WHERE id = :buddy_id");
+        $statement->bindValue(":buddy_id", $result->buddy_id);
+        $statement->execute();
+        $result = $statement->fetch(PDO::FETCH_OBJ);
+
+        return $result;
+
     }
 }

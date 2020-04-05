@@ -12,6 +12,9 @@ if (!empty($_SESSION['user'])) {
     // If there's no active session, redirect to login.php
     header("Location: login.php");
 }
+
+$users = User::getAll();
+
 ?>
 
 <!DOCTYPE html>
@@ -69,14 +72,13 @@ if (!empty($_SESSION['user'])) {
             width: 50%;
         }
 
-        .listA{
+        .listA {
             float: left;
         }
 
-        .listB{
+        .listB {
             float: right;
         }
-
     </style>
 
 </head>
@@ -131,8 +133,31 @@ if (!empty($_SESSION['user'])) {
         <div class="jumbotron">
             <h1>Buddy list</h1>
             <p>Find out who are buddies</p>
+            <p><?= $buddy->fullname ?></p>
         </div>
 
+        <ul>
+            <?php foreach ($users as $user) : ?>
+                <li>
+                    <?php
+                    echo $user->fullname;
+                    ?>
+
+                    &nbsp;
+
+                    <?php
+                    $buddy = User::findBuddy($user->email);
+                    if(!empty($buddy)){
+                        echo $buddy->fullname;
+                    }
+                    ?>
+                </li>
+                <br>
+                <br>
+            <?php endforeach ?>
+        </ul>
+
+        <!--
         <ul class="list-group listA">
             <li class="list-group-item">	   
                 <div class="col-md-12">
@@ -222,8 +247,9 @@ if (!empty($_SESSION['user'])) {
 		        </div>
             </li>
         </ul>
+        -->
     </div>
-    
+
     <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"> </script>
     <script src="../js/bootstrap.js"></script>
     <script src="https://kit.fontawesome.com/2b908491a1.js" crossorigin="anonymous"></script>
