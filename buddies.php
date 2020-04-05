@@ -94,14 +94,14 @@ $users = User::getAll();
             </button>
             <div class="collapse navbar-collapse" id="navbarText">
                 <ul class="navbar-nav mr-auto">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="index.php">Home <span class="sr-only">(current)</span></a>
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.php">Home </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">Information</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Buddies</a>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#">Buddies</a><span class="sr-only">(current)</span>
                     </li>
                 </ul>
                 <span class="navbar-text">
@@ -132,18 +132,25 @@ $users = User::getAll();
     <div class="container">
         <div class="jumbotron">
             <h1>Buddy list</h1>
-            <p>Find out who are buddies</p>
-            <p><?= $buddy->fullname ?></p>
+                <p>Find out who are buddies</p>
         </div>
 
         <ul>
             <?php foreach ($users as $user) : ?>
-                <li>
-                    <?php
-                    echo $user->fullname;
-                    ?>
-
-                    &nbsp;
+                <li class="list-group-item">	   
+                <div class="col-md-12">
+			        <div class="d-flex flex-row border rounded">
+	  			        <div class="p-0 w-25">
+	  				        <img src= <?php echo $user->profileImg; ?> class="img-thumbnail border-0" />
+	  			        </div>
+	  			            <div class="pl-3 pt-2 pr-2 pb-2 w-75 border-left">
+	  					        <h4 class="text-primary"><?php echo $user->fullname; ?></h4>
+	  					        <h5 class="text-info">IMD 3</h5>
+						        <p class="text-right m-0"><a href="#" class="btn btn-primary"><i class="far fa-user"></i> View Profile</a></p>
+				            </div>
+			            </div>
+		            </div>
+                </li>
 
                     <?php
                     $buddy = User::findBuddy($user->email);
