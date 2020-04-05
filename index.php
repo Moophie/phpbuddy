@@ -9,13 +9,14 @@ function getMessages()
     $user = new User();
 
     $conn = Db::getConnection();
-    $statement = $conn->prepare("SELECT messages.content, users.fullname FROM messages, users WHERE messages.sender_id = users.id AND receiver_id = :receiver_id");
-    $statement->bindValue(":receiver_id", $user->getId());
+    $statement = $conn->prepare("SELECT messages.content, users.fullname FROM messages, users WHERE messages.sender_id =  users.id ORDER BY messages.id ASC");
+    $statement->bindValue(":sender_id", $user->getId());
     $statement->execute();
     $result = $statement->fetchAll(PDO::FETCH_OBJ);
 
     return $result;
 }
+
 
 // If there's an active session, put the session variable into $username for easier access
 if (!empty($_SESSION['user'])) {
@@ -174,6 +175,7 @@ if (isset($_POST['sendMessage'])) {
         <?php
         $messages = getMessages();
         foreach ($messages as $message) {
+            echo "<br>";
             echo $message->fullname;
             echo "<br>";
             echo $message->content;
