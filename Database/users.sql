@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Gegenereerd op: 26 mrt 2020 om 15:29
+-- Gegenereerd op: 05 apr 2020 om 14:51
 -- Serverversie: 10.4.11-MariaDB
 -- PHP-versie: 7.4.2
 
@@ -30,6 +30,7 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `users` (
   `id` int(11) NOT NULL,
+  `buddy_status` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `fullname` varchar(300) COLLATE utf8mb4_unicode_ci NOT NULL,
   `email` varchar(300) COLLATE utf8mb4_unicode_ci NOT NULL,
   `password` varchar(300) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -41,15 +42,17 @@ CREATE TABLE `users` (
   `films` varchar(300) COLLATE utf8mb4_unicode_ci NOT NULL,
   `books` varchar(300) COLLATE utf8mb4_unicode_ci NOT NULL,
   `study_pref` varchar(300) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `hobby` varchar(300) COLLATE utf8mb4_unicode_ci NOT NULL
+  `hobby` varchar(300) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `buddy_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Gegevens worden geëxporteerd voor tabel `users`
 --
 
-INSERT INTO `users` (`id`, `fullname`, `email`, `password`, `profileImg`, `bio`, `location`, `games`, `music`, `films`, `books`, `study_pref`, `hobby`) VALUES
-(1, 'Michael Van Lierde', 'r0469612@student.thomasmore.be', '$2y$10$ws6cq9ZEXttycNB/PRq.cOV/Illt3ZS7t52QkYY8BDij4XnKE.sl2', '', '', '', '', '', '', '', '', '');
+INSERT INTO `users` (`id`, `buddy_status`, `fullname`, `email`, `password`, `profileImg`, `bio`, `location`, `games`, `music`, `films`, `books`, `study_pref`, `hobby`, `buddy_id`) VALUES
+(4, 'mentor', 'Michael Van Lierde', 'r0469610@student.thomasmore.be', '$2y$10$JxIjM33SmEe/PdsI5gHFv.Ed.AGLi2vozIfVYDv/EwAxe2b2xjqTW', 'wizardmichael.png', 'Hello I\'m Michael!', 'Beigem', 'League of Legends', 'Rock', 'Lord of the Rings', '', 'design', 'Ice Skating', 0),
+(5, 'firstyear', 'Michael Van Lierde', 'r0469611@student.thomasmore.be', '$2y$10$oj20DlC/hkGRWDJ7QaEScOjDyKrgkXutfoC6B9niYpUS2e7hCKXze', '', '', '', '', '', '', '', 'design', '', 0);
 
 --
 -- Indexen voor geëxporteerde tabellen
@@ -69,7 +72,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT voor een tabel `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
