@@ -67,6 +67,10 @@ if (!empty($_SESSION['user'])) {
         .dropdown:hover .dropdown-content {
             display: block;
         }
+
+        .center {
+            text-align: center;
+        }
     </style>
 
 </head>
@@ -89,7 +93,7 @@ if (!empty($_SESSION['user'])) {
                         <a class="nav-link" href="#">Information</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Contact</a>
+                        <a class="nav-link" href="buddies.php">Buddies</a>
                     </li>
                 </ul>
                 <span class="navbar-text">
@@ -119,19 +123,27 @@ if (!empty($_SESSION['user'])) {
 
 
     <div class="container">
+
+    <div class="container">
+        <div class="jumbotron">
+            <h2>Welcome back, <?php echo htmlspecialchars($username)?></h2>
+                <div class="center">
+            <!-- Show message with link if the user's profile is incomplete --> 
+                    <?php if(!($user->checkProfileComplete())): ?>
+                        <p>It seems your profile is not completed yet.</p>
+                        <form action="profile.php">
+                            <input type="submit" class="btn-default btn-lg" Value="Complete your profile!">
+                        </form>
+                    <?php endif; ?>
+                </div>
+        </div>
+
         <div class="row">
             <div class="col-lg-12">
                 <div id="HeaderContent">
                     <h1>IMD Buddy</h1>
                     <h3>Where Students Help Eachother</h3>
                     <hr>
-
-                    <!-- Show message with link if the user's profile is incomplete --> 
-                    <?php if(!($user->checkProfileComplete())): ?>
-                    <form action="profile.php">
-                        <input type="submit" class="btn-default btn-lg" Value="Complete your profile!">
-                    </form>
-                    <?php endif; ?>
                 </div>
             </div>
 
