@@ -10,13 +10,33 @@ if (!empty($_SESSION['user'])) {
     $email = $_SESSION['user'];
     $user = new User($email);
 
-
     $potMatches = $user->getAllExceptUser();
     foreach($potMatches as $potMatch):
         $match = $user->getMatch($potMatch);
         if(!empty($match)){
+
             echo $match->fullname;
             echo "<br>";
+            if($match->hobby == $user->getHobby()){
+                echo "Jullie hebben dezelfde hobby, namelijk: $match->hobby";
+                echo "<br>";
+            }
+            if($match->films == $user->getFilms()){
+                echo "Jullie hebben dezelfde dezelfde filmsmaak, namelijk: $match->films";
+                echo "<br>";
+            }
+            if($match->games == $user->getGames()){
+                echo "Jullie spelen dezelfde games, namelijk: $match->games";
+                echo "<br>";
+            }
+            if($match->books == $user->getBooks()){
+                echo "Jullie hebben dezelfde boekensmaak, namelijk: $match->books";
+                echo "<br>";
+            }
+            if($match->study_pref == $user->getStudy_pref()){
+                echo "Jullie hebben dezelfde studievoorkeur, namelijk: $match->study_pref";
+                echo "<br>";
+            }
         }
     endforeach;
 
@@ -151,7 +171,6 @@ if (!empty($_SESSION['user'])) {
         </div>
     </div>
     --->
-
 
 
     <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"> </script>
