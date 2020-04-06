@@ -3,10 +3,10 @@ include_once(__DIR__ . "/classes/User.php");
 include_once(__DIR__ . "/classes/Db.php");
 
 session_start();
-$user = new User();
+$user = new User($$_SESSION['user']);
 
 if (!empty($_SESSION['user'])) {
-    $username = $_SESSION['user'];
+    $email = $_SESSION['user'];
 } else {
 
     // If there's no active session, redirect to login.php
@@ -16,7 +16,7 @@ if (!empty($_SESSION['user'])) {
 
 function getbuddy()
 {
-    $user = new User();
+    $user = new User($_SESSION['user']);
 
     $conn = Db::getConnection();
     $statement = $conn->prepare("SELECT id, email, buddy_status, fullname, profileImg, buddy_id FROM users");
@@ -28,7 +28,7 @@ function getbuddy()
 
 
 if (!empty($_POST['getBuddy'])) {
-    $user = new User();
+    $user = new User($_SESSION['user']);
 
     $conn = Db::getConnection();
     $statement = $conn->prepare("UPDATE users SET buddy_id = :buddy_id WHERE email = :email");
@@ -40,7 +40,7 @@ if (!empty($_POST['getBuddy'])) {
 
 function getMessages()
 {
-    $user = new User();
+    $user = new User($_SESSION['user']);
 
     $conn = Db::getConnection();
     $statement = $conn->prepare("SELECT messages.content, users.fullname FROM messages, users WHERE messages.sender_id =  users.id ORDER BY messages.id ASC");
@@ -52,7 +52,7 @@ function getMessages()
 }
 
 if (!empty($_POST['sendMessage'])) :
-    $user = new User();
+    $user = new User($_SESSION['user']);
 
     $sender = $user->getId();
     $receiver = $user->getBuddy_id();

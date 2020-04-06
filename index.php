@@ -7,11 +7,18 @@ session_start();
 
 // If there's an active session, put the session variable into $username for easier access
 if (!empty($_SESSION['user'])) {
-    $username = $_SESSION['user'];
-    $user = new User();
-    /*$buddies = $user->getBuddies($username);*/
-    $match = $user->getMatch();
+    $email = $_SESSION['user'];
+    $user = new User($email);
 
+
+    $potMatches = $user->getAllExceptUser();
+    foreach($potMatches as $potMatch):
+        $match = $user->getMatch($potMatch);
+        if(!empty($match)){
+            echo $match->fullname;
+            echo "<br>";
+        }
+    endforeach;
 
 } else {
 
@@ -108,7 +115,7 @@ if (!empty($_SESSION['user'])) {
                                     <i class="fas fa-user"></i>
                                     <?php
                                     // Don't forget to htmlspecialchars() when using inputted variables in your code
-                                    echo htmlspecialchars($username);
+                                    echo htmlspecialchars($email);
                                     ?>
                                 </a>
                                 <div class="dropdown-content">
@@ -145,11 +152,7 @@ if (!empty($_SESSION['user'])) {
     </div>
     --->
 
-<div>
-    <?php foreach ($match as $m): ?>
-    <p><?php echo $m['fullname']; ?> is matched because <?php echo "he/she studies " . $m['study_pref']/** ." ". $m['location']." and plays ". $m['games']*/;?> </p>
-    <?php endforeach; ?>
-</div>
+
 
     <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"> </script>
     <script src="../js/bootstrap.js"></script>

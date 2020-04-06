@@ -310,9 +310,9 @@ class User
         return $this;
     }
 
-        /**
+    /**
      * Get the value of buddy_id
-     */ 
+     */
     public function getBuddy_id()
     {
         return $this->buddy_id;
@@ -322,7 +322,7 @@ class User
      * Set the value of buddy_id
      *
      * @return  self
-     */ 
+     */
     public function setBuddy_id($buddy_id)
     {
         $this->buddy_id = $buddy_id;
@@ -363,7 +363,7 @@ class User
         $conn = Db::getConnection();
 
         //Prepare and executestatement
-        $statement = $conn->prepare("select * from users");
+        $statement = $conn->prepare("SELECT * from users");
         $statement->execute();
 
         //Fetch all rows as an array indexed by column name
@@ -373,32 +373,47 @@ class User
         return $users;
     }
 
-    public function __construct()
+    //Function that fetches all users from the database
+    public function getAllExceptUser()
     {
-        if (!empty($_SESSION['user'])) {
+        //Database connection
+        $conn = Db::getConnection();
 
-            $conn = Db::getConnection();
-            $statement = $conn->prepare('SELECT * FROM users WHERE email = :email');
-            $statement->bindValue(':email', $_SESSION['user']);
-            $statement->execute();
-            $user = $statement->fetch(PDO::FETCH_OBJ);
+        //Prepare and executestatement
+        $statement = $conn->prepare("SELECT * FROM users WHERE email <> :email");
+        $statement->bindValue(':email', $this->getEmail());
+        $statement->execute();
 
-            $this->id = $user->id;
-            $this->buddyStatus = $user->buddy_status;
-            $this->fullname = $user->fullname;
-            $this->email = $user->email;
-            $this->password = $user->password;
-            $this->profileImg = $user->profileImg;
-            $this->bio = $user->bio;
-            $this->location = $user->location;
-            $this->games = $user->games;
-            $this->music = $user->music;
-            $this->films = $user->films;
-            $this->books = $user->books;
-            $this->study_pref = $user->study_pref;
-            $this->hobby = $user->hobby;
-            $this->buddy_id = $user->buddy_id;
-        }
+        //Fetch all rows as an array indexed by column name
+        $users = $statement->fetchAll(PDO::FETCH_OBJ);
+
+        //Return the result from the query
+        return $users;
+    }
+
+    public function __construct($email)
+    {
+        $conn = Db::getConnection();
+        $statement = $conn->prepare('SELECT * FROM users WHERE email = :email');
+        $statement->bindValue(':email', $email);
+        $statement->execute();
+        $user = $statement->fetch(PDO::FETCH_OBJ);
+
+        $this->id = $user->id;
+        $this->buddyStatus = $user->buddy_status;
+        $this->fullname = $user->fullname;
+        $this->email = $user->email;
+        $this->password = $user->password;
+        $this->profileImg = $user->profileImg;
+        $this->bio = $user->bio;
+        $this->location = $user->location;
+        $this->games = $user->games;
+        $this->music = $user->music;
+        $this->films = $user->films;
+        $this->books = $user->books;
+        $this->study_pref = $user->study_pref;
+        $this->hobby = $user->hobby;
+        $this->buddy_id = $user->buddy_id;
     }
 
     public function changePassword($newpassword)
@@ -507,18 +522,40 @@ class User
         }
     }
 
-    public function getMatch($match){
-
-
+    public function getMatch($potMatch)
+    {
         $score = 0;
 
-        if($this->getLocation() == $match->location)
+        if ($this->getLocation() == $potMatch->location){
+            $score += 10;
+        }
 
-        $conn = Db::getConnection();
+        if ($this->getGames() == $potMatch->games){
+            $score += 10;
+        }
 
+        if ($this->getMusic() == $potMatch->music){
+            $score += 10;
+        }
 
+        if ($this->getFilms() == $potMatch->films){
+            $score += 10;
+        }
 
+        if ($this->getBooks() == $potMatch->books){
+            $score += 10;
+        }
 
-        return $match;
+        if ($this->getHobby() == $potMatch->hobby){
+            $score += 10;
+        }
+
+        if ($this->getStudy_pref() == $potMatch->study_pref){
+            $score += 10;
+        }
+
+        if($score >= 20){
+            return $potMatch;
+        }
     }
 }
