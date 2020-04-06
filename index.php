@@ -4,18 +4,6 @@ include_once(__DIR__ . "/classes/User.php");
 session_start();
 $user = new User();
 
-function getMessages()
-{
-    $user = new User();
-
-    $conn = Db::getConnection();
-    $statement = $conn->prepare("SELECT messages.content, users.fullname FROM messages, users WHERE messages.sender_id =  users.id ORDER BY messages.id ASC");
-    $statement->bindValue(":sender_id", $user->getId());
-    $statement->execute();
-    $result = $statement->fetchAll(PDO::FETCH_OBJ);
-
-    return $result;
-}
 
 
 // If there's an active session, put the session variable into $username for easier access
@@ -26,25 +14,6 @@ if (!empty($_SESSION['user'])) {
     // If there's no active session, redirect to login.php
     header("Location: login.php");
 }
-
-if (isset($_POST['sendMessage'])) {
-
-    $user = new User();
-
-    $sender = $user->getId();
-    $receiver = $user->getBuddy_id();
-    $content = $_POST['content'];
-
-    $conn = Db::getConnection();
-    $statement = $conn->prepare("INSERT INTO messages (sender_id, receiver_id, content) VALUES (:sender_id, :receiver_id, :content)");
-    $statement->bindValue(":sender_id", $sender);
-    $statement->bindValue(":receiver_id", $receiver);
-    $statement->bindValue(":content", $content);
-    $result = $statement->execute();
-
-    header("Location: index.php");
-}
-
 ?>
 
 
@@ -171,23 +140,7 @@ if (isset($_POST['sendMessage'])) {
         </div>
     </div>
 
-    <p>
-        <?php
-        $messages = getMessages();
-        foreach ($messages as $message) {
-            echo "<br>";
-            echo $message->fullname;
-            echo "<br>";
-            echo $message->content;
-        }
-        ?>
-    </p>
-
-    <form action="" method="POST">
-        <textarea name="content" id="" cols="30" rows="10"></textarea>
-        <input type="submit" value="Send message" name="sendMessage">
-    </form>
-
+ 
 
     <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"> </script>
     <script src="../js/bootstrap.js"></script>
