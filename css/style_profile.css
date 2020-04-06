@@ -8,7 +8,20 @@ body{
     border-radius: 0.5rem;
     background: #fff;
 }
+.profile-img{
+    text-align: center;
+}
+.profile-img img{
+    width: 70%;
+    height: 100%;
+}
 
+.profile-img .file input {
+    position: absolute;
+    opacity: 0;
+    right: 0;
+    top: 0;
+}
 .profile-head h5{
     color: #333;
 }

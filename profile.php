@@ -63,8 +63,6 @@ if (!empty($_POST['changeStatus'])) {
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <link href="style.css" rel="stylesheet" id="bootstrap-css">
 
-    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <!------ Include the above in your HEAD tag ---------->
 
     <head>
@@ -246,84 +244,62 @@ if (!empty($_POST['changeStatus'])) {
 
                     </div>
                 </div>
+                
+    <form action="" method="POST"  style="padding:20px; width:500px; display:inline-block;">
                 <div class="col-md-7">
                     <div class="tab-content profile-tab" id="myTabContent">
                             <div class="row">
- 
-
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <label for="bio">Biography</label>
-                                        <textarea name="bio" id="bio" cols="30" rows="10" class="form-control">
-                                            <?= htmlspecialchars($user->getBio()) ?>
-                                        </textarea>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <label for="location">Location</label>
-                                            <input type="text" id="location" name="location" class="form-control" value="<?= htmlspecialchars($user->getLocation()) ?>">
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <label for="games">Games</label>
-                                            <input type="text" id="games" name="games" class="form-control" value="<?= htmlspecialchars($user->getGames()) ?>">
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <label for="music">Music</label>
-                                            <input type="text" id="music" name="music" class="form-control" value="<?= htmlspecialchars($user->getMusic()) ?>">
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <label for="films">Films</label>
-                                            <input type="text" id="films" name="films" class="form-control" value="<?= htmlspecialchars($user->getFilms()) ?>">
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <label for="books">Books</label>
-                                            <input type="text" id="books" name="books" class="form-control" value="<?= htmlspecialchars($user->getBooks()) ?>">
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <label for="hobby">Hobby</label>
-                                            <input type="text" id="hobby" name="hobby" class="form-control" value="<?= htmlspecialchars($user->getHobby()) ?>">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                             <div class="form-group">
-                                <p>Study Preference</p>
-                                <div class="form-check">
-                                    <input type="radio" id="design" name="study_pref" class="form-check-input" value="design" <?php if ($user->getStudy_pref() == "design") : ?>checked="checked"
-                                    <?php endif; ?>>
-                                        <label for="design" class="form-check-label">Design</label>
-                                </div>
-                                <div class="form-check">
-                                    <input type="radio" id="development" name="study_pref" class="form-check-input" value="development" <?php if ($user->getStudy_pref() == "development") : ?>checked="checked"
-                                    <?php endif; ?>>
-                                        <label for="development" class="form-check-label">Development</label>
-                                </div>
-                                <div class="form-check">
-                                    <input type="radio" id="undecided" name="study_pref" class="form-check-input" value="undecided" <?php if (empty($user->getStudy_pref())) : ?>checked="checked"
-                                    <?php endif; ?>>
-                                        <label for="undecided" class="form-check-label">Undecided</label>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <input type="submit" value="Submit" name="updateProfile">
-                            </div>
-        </form>
+       <h1> <label for="bio">Biography</label></h1>
+        <textarea name="bio" id="bio" cols="30" rows="10" class="form-control"><?= htmlspecialchars($user->getBio()) ?></textarea>
+      </div>
+      <div class="form-group">
+        <label for="location">Location</label>
+        <input type="text" id="location" name="location" class="form-control" value="<?= htmlspecialchars($user->getLocation()) ?>">
+      </div>
+      <div class="form-group">
+        <label for="games">Games</label>
+        <input type="text" id="games" name="games" class="form-control" value="<?= htmlspecialchars($user->getGames()) ?>">
+      </div>
+      <div class="form-group">
+        <label for="music">Music</label>
+        <input type="text" id="music" name="music" class="form-control" value="<?= htmlspecialchars($user->getMusic()) ?>">
+      </div>
+      <div class="form-group">
+        <label for="films">Films</label>
+        <input type="text" id="films" name="films" class="form-control" value="<?= htmlspecialchars($user->getFilms()) ?>">
+      </div>
+      <div class="form-group">
+        <label for="books">Books</label>
+        <input type="text" id="books" name="books" class="form-control" value="<?= htmlspecialchars($user->getBooks()) ?>">
+      </div>
+      <div class="form-group">
+        <label for="hobby">Hobby</label>
+        <input type="text" id="hobby" name="hobby" class="form-control" value="<?= htmlspecialchars($user->getHobby()) ?>">
+      </div>
+      <div class="form-group">
+        <p>Study Preference</p>
+        <div class="form-check">
+          <input type="radio" id="design" name="study_pref" class="form-check-input" value="design" <?php if ($user->getStudy_pref() == "design") : ?>checked="checked" <?php endif; ?>>
+          <label for="design" class="form-check-label">Design</label>
         </div>
-
-        </form>
+        <div class="form-check">
+          <input type="radio" id="development" name="study_pref" class="form-check-input" value="development" <?php if ($user->getStudy_pref() == "development") : ?>checked="checked" <?php endif; ?>>
+          <label for="development" class="form-check-label">Development</label>
         </div>
+        <div class="form-check">
+          <input type="radio" id="undecided" name="study_pref" class="form-check-input" value="undecided" <?php if (empty($user->getStudy_pref())) : ?>checked="checked" <?php endif; ?>>
+          <label for="undecided" class="form-check-label">Undecided</label>
         </div>
-        </div>
-    </div>
+      </div>
+      <div class="form-group">
+        <input type="submit" value="Submit" name="updateProfile">
+      </div>
     </form>
-    </div>
+  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </body>
