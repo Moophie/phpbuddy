@@ -2,17 +2,16 @@
 include_once(__DIR__ . "/classes/User.php");
 
 session_start();
-$user = new User();
 
 // If there's an active session, put the session variable into $username for easier access
 if (!empty($_SESSION['user'])) {
-    $username = $_SESSION['user'];
+    $email = $_SESSION['user'];
 } else {
-
     // If there's no active session, redirect to login.php
     header("Location: login.php");
 }
 
+$user = new User($email);
 $users = User::getAll();
 
 ?>
@@ -98,7 +97,7 @@ $users = User::getAll();
                         <a class="nav-link" href="index.php">Home </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Information</a>
+                        <a class="nav-link" href="chat.php">Chat</a>
                     </li>
                     <li class="nav-item active">
                         <a class="nav-link" href="#">Buddies</a><span class="sr-only">(current)</span>
@@ -113,7 +112,7 @@ $users = User::getAll();
                                     <i class="fas fa-user"></i>
                                     <?php
                                     // Don't forget to htmlspecialchars() when using inputted variables in your code
-                                    echo htmlspecialchars($username);
+                                    echo htmlspecialchars($email);
                                     ?>
                                 </a>
                                 <div class="dropdown-content">
@@ -132,129 +131,35 @@ $users = User::getAll();
     <div class="container">
         <div class="jumbotron">
             <h1>Buddy list</h1>
-                <p>Find out who are buddies</p>
+            <p>Find out who are buddies</p>
         </div>
 
         <ul>
             <?php foreach ($users as $user) : ?>
-                <li class="list-group-item">	   
-                <div class="col-md-12">
-			        <div class="d-flex flex-row border rounded">
-	  			        <div class="p-0 w-25">
-	  				        <img src= <?php echo $user->profileImg; ?> class="img-thumbnail border-0" />
-	  			        </div>
-	  			            <div class="pl-3 pt-2 pr-2 pb-2 w-75 border-left">
-	  					        <h4 class="text-primary"><?php echo $user->fullname; ?></h4>
-	  					        <h5 class="text-info">IMD 3</h5>
-						        <p class="text-right m-0"><a href="#" class="btn btn-primary"><i class="far fa-user"></i> View Profile</a></p>
-				            </div>
-			            </div>
-		            </div>
-                </li>
-
-                    <?php
-                    $buddy = User::findBuddy($user->email);
-                    if(!empty($buddy)){
-                        echo $buddy->fullname;
-                    }
-                    ?>
-                </li>
-                <br>
-                <br>
-            <?php endforeach ?>
+                <li class="list-group-item">
+                    <div class="col-md-12">
+                        <div class="d-flex flex-row border rounded">
+                            <div class="p-0 w-25">
+                                <img src=<?php echo $user->profileImg; ?> class="img-thumbnail border-0" />
+                            </div>
+                            <div class="pl-3 pt-2 pr-2 pb-2 w-75 border-left">
+                                <h4 class="text-primary"><?php echo $user->fullname; ?></h4>
+                                <h5 class="text-info">IMD 3</h5>
+                                <p class="text-right m-0"><a href="#" class="btn btn-primary"><i class="far fa-user"></i> View Profile</a></p>
+                            </div>
+                        </div>
+                        <?php
+                        $buddy = User::findBuddy($user->email);
+                        if (!empty($buddy)) : ?>
+                        <div class = "border rounded">
+                            <p><strong>My buddy is: </strong> <?= $buddy->fullname ?></p>
+                        </div>
+                        <?php endif; ?>
+                        <br>
+                        <br>
+                    <?php endforeach ?>
+                    </div>
         </ul>
-
-        <!--
-        <ul class="list-group listA">
-            <li class="list-group-item">	   
-                <div class="col-md-12">
-			        <div class="d-flex flex-row border rounded">
-	  			        <div class="p-0 w-25">
-	  				        <img src="https://randomuser.me/api/portraits/women/85.jpg" class="img-thumbnail border-0" />
-	  			        </div>
-	  			        <div class="pl-3 pt-2 pr-2 pb-2 w-75 border-left">
-	  					    <h4 class="text-primary">Marie</h4>
-	  					    <h5 class="text-info">IMD 3</h5>
-						<p class="text-right m-0"><a href="#" class="btn btn-primary"><i class="far fa-user"></i> View Profile</a></p>
-				        </div>
-			        </div>
-		        </div>
-        </li>
-            <li class="list-group-item">
-                <div class="col-md-12">
-			        <div class="d-flex flex-row border rounded">
-	  			        <div class="p-0 w-25">
-	  				        <img src="https://randomuser.me/api/portraits/women/72.jpg" class="img-thumbnail border-0" />
-	  			        </div>
-	  			        <div class="pl-3 pt-2 pr-2 pb-2 w-75 border-left">
-	  					    <h4 class="text-primary">Evelyne</h4>
-	  					    <h5 class="text-info">IMD 2</h5>
-						<p class="text-right m-0"><a href="#" class="btn btn-primary"><i class="far fa-user"></i> View Profile</a></p>
-				        </div>
-			        </div>
-		        </div>
-            </li>
-            <li class="list-group-item">
-                <div class="col-md-12">
-			        <div class="d-flex flex-row border rounded">
-	  			        <div class="p-0 w-25">
-	  				        <img src="https://randomuser.me/api/portraits/men/62.jpg" class="img-thumbnail border-0" />
-	  			        </div>
-	  			        <div class="pl-3 pt-2 pr-2 pb-2 w-75 border-left">
-	  					    <h4 class="text-primary">Thomas</h4>
-	  					    <h5 class="text-info">IMD 3</h5>
-						<p class="text-right m-0"><a href="#" class="btn btn-primary"><i class="far fa-user"></i> View Profile</a></p>
-				        </div>
-			        </div>
-		        </div>
-            </li>
-        </ul>
-
-        <ul class="list-group listB">
-        <li class="list-group-item">	   
-                <div class="col-md-12">
-			        <div class="d-flex flex-row border rounded">
-	  			        <div class="p-0 w-25">
-	  				        <img src="https://randomuser.me/api/portraits/women/20.jpg" class="img-thumbnail border-0" />
-	  			        </div>
-	  			        <div class="pl-3 pt-2 pr-2 pb-2 w-75 border-left">
-	  					    <h4 class="text-primary">Evi</h4>
-	  					    <h5 class="text-info">IMD 1</h5>
-						<p class="text-right m-0"><a href="#" class="btn btn-primary"><i class="far fa-user"></i> View Profile</a></p>
-				        </div>
-			        </div>
-		        </div>
-        </li>
-            <li class="list-group-item">
-                <div class="col-md-12">
-			        <div class="d-flex flex-row border rounded">
-	  			        <div class="p-0 w-25">
-	  				        <img src="https://randomuser.me/api/portraits/men/10.jpg" class="img-thumbnail border-0" />
-	  			        </div>
-	  			        <div class="pl-3 pt-2 pr-2 pb-2 w-75 border-left">
-	  					    <h4 class="text-primary">Ruben</h4>
-	  					    <h5 class="text-info">IMD 1</h5>
-						<p class="text-right m-0"><a href="#" class="btn btn-primary"><i class="far fa-user"></i> View Profile</a></p>
-				        </div>
-			        </div>
-		        </div>
-            </li>
-            <li class="list-group-item">
-                <div class="col-md-12">
-			        <div class="d-flex flex-row border rounded">
-	  			        <div class="p-0 w-25">
-	  				        <img src="https://randomuser.me/api/portraits/men/42.jpg" class="img-thumbnail border-0" />
-	  			        </div>
-	  			        <div class="pl-3 pt-2 pr-2 pb-2 w-75 border-left">
-	  					    <h4 class="text-primary">Michiel</h4>
-	  					    <h5 class="text-info">IMD 1</h5>
-						<p class="text-right m-0"><a href="#" class="btn btn-primary"><i class="far fa-user"></i> View Profile</a></p>
-				        </div>
-			        </div>
-		        </div>
-            </li>
-        </ul>
-        -->
     </div>
 
     <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"> </script>

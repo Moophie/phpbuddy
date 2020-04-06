@@ -378,8 +378,9 @@ class User
         $statement->bindValue(':email', $email);
         $statement->execute();
         $user = $statement->fetch(PDO::FETCH_OBJ);
-
-        $this->id = $user->id;
+        
+        if(!empty($user)){
+            $this->id = $user->id;
         $this->buddyStatus = $user->buddy_status;
         $this->fullname = $user->fullname;
         $this->email = $user->email;
@@ -394,6 +395,7 @@ class User
         $this->study_pref = $user->study_pref;
         $this->hobby = $user->hobby;
         $this->buddy_id = $user->buddy_id;
+        }
     }
 
     public function changePassword($newpassword)

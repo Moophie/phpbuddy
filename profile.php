@@ -4,7 +4,7 @@ session_start();
 include_once(__DIR__ . "/classes/User.php");
 include_once(__DIR__ . "/classes/Db.php");
 
-$user = new User;
+$user = new User($_SESSION['user']);
 
 if (!empty($_SESSION['user'])) {
     $email = $_SESSION['user'];
@@ -42,7 +42,7 @@ if (!empty($_POST['changeEmail'])) {
 }
 
 if (!empty($_POST['updateProfile'])) {
-  $user = new User();
+  $user = new User($_SESSION['user']);
   $user->setBio($_POST['bio']);
   $user->setLocation($_POST['location']);
   $user->setGames($_POST['games']);

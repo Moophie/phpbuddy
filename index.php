@@ -3,20 +3,26 @@ include_once(__DIR__ . "/classes/User.php");
 
 session_start();
 
-// If there's an active session, put the session variable into $username for easier access
-if (!empty($_SESSION['user'])) {
-    $email = $_SESSION['user'];
-    $user = new User($email);
-    $potMatches = $user->getAllExceptUser();
-} else {
-
-    // If there's no active session, redirect to login.php
+// If there's no active session, redirect to login.php
+if (empty($_SESSION['user'])) {
     header("Location: login.php");
 }
 
+$email = $_SESSION['user'];
+$user = new User($email);
+$potMatches = $user->getAllExceptUser();
+
+if (!empty($_POST['getBuddy'])) {
+    $conn = Db::getConnection();
+    $statement = $conn->prepare("UPDATE users SET buddy_id = :buddy_id WHERE email = :email");
+    $statement->bindValue(":buddy_id", $_POST['buddy_id']);
+    $statement->bindValue(":email", $user->getEmail());
+    $statement->execute();
+
+    header("Location: chat.php");
+}
 
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -73,6 +79,13 @@ if (!empty($_SESSION['user'])) {
         .center {
             text-align: center;
         }
+
+        .matches {
+            max-width: 250px;
+            margin: 5px 20px;
+            padding: 10px;
+            border: solid black 1px;
+        }
     </style>
 
 </head>
@@ -92,7 +105,7 @@ if (!empty($_SESSION['user'])) {
                         <a class="nav-link" href="index.php">Home <span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Information</a>
+                        <a class="nav-link" href="chat.php">Chat</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="buddies.php">Buddies</a>
@@ -125,73 +138,67 @@ if (!empty($_SESSION['user'])) {
         </div>
     </nav>
 
-    <?php foreach($potMatches as $potMatch):
-        $match = $user->getMatch($potMatch);
-        if(!empty($match)):?>
-
-        <div><?= $match->fullname ?></div>
-
-        <?php if($match->hobby == $user->getHobby()):?>
-        <div><?=  $match->hobby ?></div>
-        <?php endif; ?>
-
-        <?php if($match->films == $user->getFilms()):?>
-        <div><?=  $match->films ?></div>
-        <?php endif; ?>
-
-        <?php if($match->games == $user->getGames()):?>
-        <div><?=  $match->games ?></div>
-        <?php endif; ?>
-
-        <?php if($match->books == $user->getBooks()):?>
-        <div><?=  $match->books ?></div>
-        <?php endif; ?>
-
-        <?php if($match->study_pref == $user->getStudy_pref()):?>
-        <div><?php echo "Jullie hebben gemeenschappelijk studiekeuze $match->study_pref"; ?></div>
-        <?php endif; ?>
-
-        <?php if($match->location == $user->getLocation()):?>
-        <div><?=  $match->location ?></div>
-        <?php endif; ?></br>
-
-        <?php endif; endforeach; ?></br>
-
-<!---
-    <div class="container">
-
     <div class="container">
         <div class="jumbotron">
-            <h2>Welcome back, <?php echo htmlspecialchars($username)?></h2>
-                <div class="center">
-            <!-- Show message with link if the user's profile is incomplete --> 
-                    <?php if(!($user->checkProfileComplete())): ?>
-                        <p>It seems your profile is not completed yet.</p>
-                        <form action="profile.php">
-                            <input type="submit" class="btn-default btn-lg" Value="Complete your profile!">
-                        </form>
-                    <?php endif; ?>
-                </div>
-        </div>
-<!--
-        <div class="row">
-            <div class="col-lg-12">
-                <div id="HeaderContent">
-                    <h1>IMD Buddy</h1>
-                    <h3>Where Students Help Eachother</h3>
-                    <hr>
-                    Show message with link if the user's profile is incomplete
-                    <?php if(!($user->checkProfileComplete())): ?>
+            <h2>Welcome back, <?php echo htmlspecialchars($user->getFullname()) ?></h2>
+            <div class="center">
+                <?php if (!($user->checkProfileComplete())) : ?>
+                    <p>It seems your profile is not completed yet.</p>
                     <form action="profile.php">
                         <input type="submit" class="btn-default btn-lg" Value="Complete your profile!">
                     </form>
-                    <?php endif; ?>
-                </div>
+                <?php endif; ?>
             </div>
-
         </div>
     </div>
--->
+    <div class="container">
+        <div class="jumbotron">
+            <div class="center" style="height:400px;">
+                <h2>Potential Buddies</h2>
+                <?php foreach ($potMatches as $potMatch) :
+                    $match = $user->getMatch($potMatch);
+
+                    if (!empty($match)) : ?>
+                        <div class = "matches float-left" style="display:block">
+                            <h4><?= $match->fullname ?></h4>
+                            <img src="./uploads/<?= htmlspecialchars($match->profileImg) ?>" width="100px;" height="100px;" />
+                            <br>
+                            <br>
+                            <h6>Things you have in common:</h6>
+                            <?php if ($match->location == $user->getLocation()) : ?>
+                                <p> <?= "Location: " . htmlspecialchars($match->location); ?><p>
+                                    <?php endif; ?>
+                                    <?php if ($match->games == $user->getGames()) : ?>
+                                        <p><?= "Video games: " . htmlspecialchars($match->games); ?></p>
+                                    <?php endif; ?>
+                                    <?php if ($match->music == $user->getMusic()) : ?>
+                                        <p><?= "Music: " . htmlspecialchars($match->music); ?></p>
+                                    <?php endif; ?>
+                                    <?php if ($match->films == $user->getFilms()) : ?>
+                                        <p><?= "Movies: " . htmlspecialchars($match->films); ?></p>
+                                    <?php endif; ?>
+                                    <?php if ($match->books == $user->getBooks()) : ?>
+                                        <p><?= "Books: " . htmlspecialchars($match->books); ?></p>
+                                    <?php endif; ?>
+                                    <?php if ($match->study_pref == $user->getStudy_pref()) : ?>
+                                        <p><?= "Same study preferences: " . htmlspecialchars($match->study_pref); ?></p>
+                                    <?php endif; ?>
+                                    <?php if ($match->hobby == $user->getHobby()) : ?>
+                                        <p><?= "Hobby: " . htmlspecialchars($match->hobby); ?></p>
+                                    <?php endif; ?>
+                                    <form action="" method="POST">
+                                        <input type="text" name="buddy_id" value="<?= htmlspecialchars($match->id)?>" hidden>
+                                        <input type="submit" name="getBuddy" value="Accept buddy!">
+                                    </form>
+                        </div>
+                <?php
+                    endif;
+                endforeach;
+                ?>
+            </div>
+        </div>
+    </div>
+
 
 
     <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"> </script>
