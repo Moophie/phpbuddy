@@ -1,5 +1,6 @@
 <?php
 include_once(__DIR__ . "/classes/User.php");
+include_once(__DIR__ . "/classes/Db.php");
 
 session_start();
 $user = new User();
@@ -13,40 +14,29 @@ if (!empty($_SESSION['user'])) {
 }
 
 
-function getbuddy(){
+function getbuddy()
+{
     $user = new User();
 
     $conn = Db::getConnection();
-    $statement = $conn->prepare("SELECT id, buddy_status, fullname, profileImg FROM users");
+    $statement = $conn->prepare("SELECT id, email, buddy_status, fullname, profileImg, buddy_id FROM users");
     $statement->execute();
     $result = $statement->fetchAll(PDO::FETCH_OBJ);
 
     return $result;
-
 }
 
 
-/*$submitbutton= $_POST['submitbutton'];
+if (!empty($_POST['getBuddy'])) {
+    $user = new User();
 
-if (!empty($submitbutton)){
-    function foundbuddy(){
-        $user = new User();
-
-        $conn = Db::getConnection();
-        $statement = $conn->prepare("UPDATE users SET buddy_id = id");
-        $statement->execute();
-        $result = $statement->fetchAll(PDO::FETCH_OBJ);
-    
-        return $result;
-
-    }
-
-}
-else {
-
+    $conn = Db::getConnection();
+    $statement = $conn->prepare("UPDATE users SET buddy_id = :buddy_id WHERE email = :email");
+    $statement->bindValue(":buddy_id", $_POST['buddyId']);
+    $statement->bindValue(":email", $user->getEmail());
+    $statement->execute();
 }
 
-*/
 
 function getMessages()
 {
@@ -61,14 +51,7 @@ function getMessages()
     return $result;
 }
 
-if (isset($_POST['sendMessage'])) {
-    ?> 
-    <script>
-    alert("you got a message");
-  </script>
-  <?php
-
-
+if (!empty($_POST['sendMessage'])) :
     $user = new User();
 
     $sender = $user->getId();
@@ -83,9 +66,9 @@ if (isset($_POST['sendMessage'])) {
     $result = $statement->execute();
 
     header("Location: buddy.php");
-}
 
-?>
+endif; ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -139,8 +122,9 @@ if (isset($_POST['sendMessage'])) {
         }
     </style>
 </head>
+
 <body>
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
             <a class="navbar-brand" href="#">IMD Buddy</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
@@ -184,54 +168,51 @@ if (isset($_POST['sendMessage'])) {
     </nav>
 
 
-<div id="buddy" style="background-color: white; display: inline-block;margin-left: 10%">
-    <?php
-            $users = getbuddy();
-            foreach ($users as $user) {
-                echo "<br>";
-                echo $user->fullname;
-                echo "<br>";
-                ?>   <img src=  "uploads/<?php echo $user->profileImg; ?>" alt="profileImg" style="width: 200px">  <?php
-                
-                echo "<br>";
-                echo $user->buddy_status;
-                echo "<br>";
-                ?> <form action="" method="POST">
-                <input type="submit" name="submitbutton" value="get buddy"/>
-                </form> <?php
-                echo "<br>";
-
-            }
-    ?>
-
-</div>
-    
-<div id="messages" style="background-color: white;  width:300px; display: inline-block; margin-left: 30%; margin-top: 10%;" >
-    <h2>Messages</h2>
-    <p>
+    <div id="buddy" style="background-color: white; display: inline-block;margin-left: 10%">
         <?php
-        $messages = getMessages();
-        foreach ($messages as $message) {
-            echo "<br>";
-            echo $message->fullname;
-            echo "<br>";
-            echo $message->content;
+        $users = getbuddy();
+        foreach ($users as $user) :
+            if (empty($user->buddy_id) && !($user->email == $_SESSION['user'])) : ?>
+                <br>
+                <?= htmlspecialchars($user->fullname); ?>
+                <br>
+                <img src="uploads/<?= htmlspecialchars($user->profileImg); ?>" alt="profileImg" style="width: 200px">
+                <br>
+                <?= htmlspecialchars($user->buddy_status); ?>
+                <br>
 
-        }
+                <form action="" method="POST">
+                    <input type="text" name="buddyId" value="<?= $user->id ?>" hidden ?>
+                    <input type="submit" name="getBuddy" value="Get Buddy" />
+                </form>
+                <br>
+        <?php
+            endif;
+        endforeach;
         ?>
-    </p>
 
-    <form action="" method="POST">
-        <textarea name="content" id="" cols="30" rows="10"></textarea>
-        <input type="submit" value="Send message" name="sendMessage">
-
-    </form>
     </div>
 
+    <div id="messages" style="background-color: white;  width:300px; display: inline-block; margin-left: 30%; margin-top: 10%;">
+        <h2>Messages</h2>
+        <p>
+            <?php
+            $messages = getMessages();
+            foreach ($messages as $message) {
+                echo "<br>";
+                echo $message->fullname;
+                echo "<br>";
+                echo $message->content;
+            }
+            ?>
+        </p>
 
+        <form action="" method="POST">
+            <textarea name="content" id="" cols="30" rows="10"></textarea>
+            <input type="submit" value="Send message" name="sendMessage">
 
-
-
+        </form>
+    </div>
 </body>
-</html>
 
+</html>

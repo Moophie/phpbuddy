@@ -90,7 +90,7 @@ if (!empty($_SESSION['user'])) {
                         <a class="nav-link" href="#">Information</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Contact</a>
+                        <a class="nav-link" href="buddy.php">Buddy</a>
                     </li>
                 </ul>
                 <span class="navbar-text">
