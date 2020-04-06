@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Gegenereerd op: 05 apr 2020 om 17:02
+-- Gegenereerd op: 06 apr 2020 om 21:19
 -- Serverversie: 10.4.11-MariaDB
 -- PHP-versie: 7.4.2
 
@@ -77,10 +77,16 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `buddy_status`, `fullname`, `email`, `password`, `profileImg`, `bio`, `location`, `games`, `music`, `films`, `books`, `study_pref`, `hobby`, `buddy_id`) VALUES
-(4, 'mentor', 'Michael Van Lierde', 'r0469610@student.thomasmore.be', '$2y$10$JxIjM33SmEe/PdsI5gHFv.Ed.AGLi2vozIfVYDv/EwAxe2b2xjqTW', 'wizardmichael.png', 'Hello I\'m Michael!', 'Beigem', 'League of Legends', 'Rock', 'Lord of the Rings', '', 'design', 'Ice Skating', 6),
-(6, '', 'tommy', 'tommay@student.thomasmore.be', '$2y$10$bw8mGxnQOD4WOQ6lnrSXM.ll5CXHQYfEPJqGQL19Do5biRmAoBcK2', '', '', '', '', '', '', '', '', '', 4),
-(7, '', 'Jasper', 'jasper@student.thomasmore.be', '$2y$10$805ejZ/R6WxZXppviKsOgufcwGSznKzn13G4g2wcnE7SpMbLZt/vG', '', '', '', '', '', '', '', '', '', 8),
-(8, '', 'Serafima', 'sera@student.thomasmore.be', '$2y$10$EG.32pWnLY2AKIzzPn91A.pojSJ.nxAnVltg1LiOVXpXOeaz3jII2', '', '', '', '', '', '', '', '', '', 7);
+(1, 'mentor', 'Michael Van Lierde', 'michael@student.thomasmore.be', '$2y$10$Fb4BKktLG/oZFiPVQi2RWuHitbfbTJrsYWvSd6z/yBiNXdHZJGngG', 'channing.jpg', 'Hallo, ik ben Michael!', 'Beigem', 'League of Legends', 'Rap', 'Inception', 'World War Z', 'Development', 'Skating', 0),
+(2, 'firstyear', 'Jasper Peeters', 'jasper@student.thomasmore.be', '$2y$10$WCT4XCccfLANWuUWYz/dd.w/k.IDMp6F8oKWUfc47UFxt5SSvR1tm', 'koencrucke.jpg', 'Hey ik ben een Jasper!', 'Antwerpen', 'Call Of Duty', 'Pop', 'Harry Potter', 'Narnia', 'Design', 'Soccer', 0),
+(3, 'mentor', 'Serafima Yavarouskaya', 'serafima@student.thomasmore.be', '$2y$10$HM1aT7b8lpINWOv0MWf/N.k39CcGca66XpqJbfEC8iZ121PeHYVR6', 'katewinslet.jpg', 'Hey ik ben Serafima!', 'Antwerpen', 'League of Legends', 'Rap', 'World War Z', 'Harry Potter', 'Development', 'Skating', 0),
+(4, 'mentor', 'Tommy Den Hollander', 'tommy@student.thomasmore.be', '$2y$10$ELiDd4DP7AD8GzwCigvEJOWbFEowSNgEXmBnw1npzBO9XUPml1UP2', 'elonmusk.jpg', 'Hey ik ben tommy', 'Londerzeel', 'Call Of Duty', 'Pop', 'Wolf Of Wall Street', 'Ender\'s Game', 'Undecided', 'Fitness', 0),
+(5, 'firstyear', 'Tareq Tahtah', 'tareq@student.thomasmore.be', '$2y$10$6.3OP57jKbGbb.2IGBjkmu5c7hfXpBzR/PHGmdr3opLbV2q1AZjVa', 'robertdowneyjr.jpg', 'Hey ik Tareq', 'Gent', 'Tetris', 'Rock', 'Lord Of The Rings', 'Grote Vriendelijke Reus', 'Design', 'Soccer', 0),
+(6, 'mentor', 'Timothy Koenig', 'timothy@student.thomasmore.be', '$2y$10$n7fdwdDHjbejf0HUR3D.Tu8YBpqiLhvubsDCPd01XuT4h9ff5gJJe', 'chrisevans.jpg', 'Hallo ik ben Timothy', 'Gent', 'League of Legends', 'Rock', 'Wolf Of Wall Street', 'The Witcher', 'Design', 'Piano', 0),
+(7, 'firstyear', 'Luka Culibrk', 'luka@student.thomasmore.be', '$2y$10$R4hKf3WezhSdSHRs0fzSQuO3W2QvqNjiWgv4QHohxVWHiYNcPVsAG', 'chrishemsworth.jpg', 'Hallo ik ben Luka', 'Aalst', 'Fortnite', 'Jazz', 'Harry Potter', 'Harry Potter', 'Development', 'Soccer', 0),
+(8, 'firstyear', 'Lieselotte Philips', 'lieselotte@student.thomasmore.be', '$2y$10$mgdsalkNV3n4oqYUIgjacOUMOCFVdafidrWU83QyXf0x7bNSpXYx6', 'scarlettjohansson.jpg', 'Hi, I\'m Lieselotte', 'Brugge', 'Fortnite', 'Techno', 'Inception', 'The Witcher', 'Undecided', 'Volleyball', 0),
+(9, 'firstyear', 'Sam Verdaet', 'sam@student.thomasmore.be', '$2y$10$tcjLC.a9UPzexBbg/R3E6.SAuzJGwlW/OgXpuRE/g0m9c38gVNMfO', 'keiraknightley.jpg', 'Hey, met Sam hier', 'Antwerpen', 'Tetris', 'House', 'Harry Potter', 'Harry Potter', 'Undecided', 'Soccer', 0),
+(10, 'mentor', 'Leander Nelissen', 'leander@student.thomasmore.be', '$2y$10$0.Hj8ePbGNY28UntxpdqVuwPYLUUA4zcs0P.xM609qjBskT1SbXPa', 'pewdiepie.jpg', 'Welkom op Leander zijn profiel boys and girls!', 'Hasselt', 'Call Of Duty', 'House', 'Lord Of The Rings', 'The Wheel Of Time', 'Design', 'Fitness', 0);
 
 --
 -- Indexen voor geëxporteerde tabellen
@@ -118,13 +124,13 @@ ALTER TABLE `chats`
 -- AUTO_INCREMENT voor een tabel `messages`
 --
 ALTER TABLE `messages`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT voor een tabel `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
