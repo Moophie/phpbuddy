@@ -87,7 +87,8 @@ if (isset($_POST['sendMessage'])) {
                 echo "<br>";
                 echo $user->fullname;
                 echo "<br>";
-                echo $user->profileImg;
+                ?>   <img src=  "uploads/<?php echo $user->profileImg; ?>" alt="profileImg" style="width: 200px">  <?php
+                
                 echo "<br>";
                 echo $user->buddy_status;
                 echo "<br>";
