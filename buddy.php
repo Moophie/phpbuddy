@@ -1,13 +1,12 @@
 <?php
 include_once(__DIR__ . "/classes/User.php");
+include_once(__DIR__ . "/classes/Db.php");
 
 session_start();
+$user = new User($$_SESSION['user']);
 
-// If there's an active session, put the session variable into $username for easier access
 if (!empty($_SESSION['user'])) {
     $email = $_SESSION['user'];
-    $user = new User($email);
-    $potMatches = $user->getAllExceptUser();
 } else {
 
     // If there's no active session, redirect to login.php
@@ -15,8 +14,60 @@ if (!empty($_SESSION['user'])) {
 }
 
 
-?>
+function getbuddy()
+{
+    $user = new User($_SESSION['user']);
 
+    $conn = Db::getConnection();
+    $statement = $conn->prepare("SELECT id, email, buddy_status, fullname, profileImg, buddy_id FROM users");
+    $statement->execute();
+    $result = $statement->fetchAll(PDO::FETCH_OBJ);
+
+    return $result;
+}
+
+
+if (!empty($_POST['getBuddy'])) {
+    $user = new User($_SESSION['user']);
+
+    $conn = Db::getConnection();
+    $statement = $conn->prepare("UPDATE users SET buddy_id = :buddy_id WHERE email = :email");
+    $statement->bindValue(":buddy_id", $_POST['buddyId']);
+    $statement->bindValue(":email", $user->getEmail());
+    $statement->execute();
+}
+
+
+function getMessages()
+{
+    $user = new User($_SESSION['user']);
+
+    $conn = Db::getConnection();
+    $statement = $conn->prepare("SELECT messages.content, users.fullname FROM messages, users WHERE messages.sender_id =  users.id ORDER BY messages.id ASC");
+    $statement->bindValue(":sender_id", $user->getId());
+    $statement->execute();
+    $result = $statement->fetchAll(PDO::FETCH_OBJ);
+
+    return $result;
+}
+
+if (!empty($_POST['sendMessage'])) :
+    $user = new User($_SESSION['user']);
+
+    $sender = $user->getId();
+    $receiver = $user->getBuddy_id();
+    $content = $_POST['content'];
+
+    $conn = Db::getConnection();
+    $statement = $conn->prepare("INSERT INTO messages (sender_id, receiver_id, content) VALUES (:sender_id, :receiver_id, :content)");
+    $statement->bindValue(":sender_id", $sender);
+    $statement->bindValue(":receiver_id", $receiver);
+    $statement->bindValue(":content", $content);
+    $result = $statement->execute();
+
+    header("Location: buddy.php");
+
+endif; ?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -70,12 +121,9 @@ if (!empty($_SESSION['user'])) {
             display: block;
         }
     </style>
-
 </head>
 
 <body>
-
-
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
             <a class="navbar-brand" href="#">IMD Buddy</a>
@@ -91,7 +139,7 @@ if (!empty($_SESSION['user'])) {
                         <a class="nav-link" href="#">Information</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="buddy.php">Buddy</a>
+                        <a class="nav-link" href="#">Contact</a>
                     </li>
                 </ul>
                 <span class="navbar-text">
@@ -103,12 +151,10 @@ if (!empty($_SESSION['user'])) {
                                     <i class="fas fa-user"></i>
                                     <?php
                                     // Don't forget to htmlspecialchars() when using inputted variables in your code
-                                    echo htmlspecialchars($email);
+                                    echo htmlspecialchars($username);
                                     ?>
                                 </a>
                                 <div class="dropdown-content">
-                                    <a href="search.php">Search</a>
-                                    <div class="dropdown-divider"></div>
                                     <a href="profile.php">Profile</a>
                                     <div class="dropdown-divider"></div>
                                     <a href="logout.php">Log out</a>
@@ -121,63 +167,52 @@ if (!empty($_SESSION['user'])) {
         </div>
     </nav>
 
-    <?php foreach($potMatches as $potMatch):
-        $match = $user->getMatch($potMatch);
-        if(!empty($match)):?>
 
-        <div><?= $match->fullname ?></div>
+    <div id="buddy" style="background-color: white; display: inline-block;margin-left: 10%">
+        <?php
+        $users = getbuddy();
+        foreach ($users as $user) :
+            if (empty($user->buddy_id) && !($user->email == $_SESSION['user'])) : ?>
+                <br>
+                <?= htmlspecialchars($user->fullname); ?>
+                <br>
+                <img src="uploads/<?= htmlspecialchars($user->profileImg); ?>" alt="profileImg" style="width: 200px">
+                <br>
+                <?= htmlspecialchars($user->buddy_status); ?>
+                <br>
 
-        <?php if($match->hobby == $user->getHobby()):?>
-        <div><?=  $match->hobby ?></div>
-        <?php endif; ?>
+                <form action="" method="POST">
+                    <input type="text" name="buddyId" value="<?= $user->id ?>" hidden ?>
+                    <input type="submit" name="getBuddy" value="Get Buddy" />
+                </form>
+                <br>
+        <?php
+            endif;
+        endforeach;
+        ?>
 
-        <?php if($match->films == $user->getFilms()):?>
-        <div><?=  $match->films ?></div>
-        <?php endif; ?>
-
-        <?php if($match->games == $user->getGames()):?>
-        <div><?=  $match->games ?></div>
-        <?php endif; ?>
-
-        <?php if($match->books == $user->getBooks()):?>
-        <div><?=  $match->books ?></div>
-        <?php endif; ?>
-
-        <?php if($match->study_pref == $user->getStudy_pref()):?>
-        <div><?php echo "Jullie hebben gemeenschappelijk studiekeuze $match->study_pref"; ?></div>
-        <?php endif; ?>
-
-        <?php if($match->location == $user->getLocation()):?>
-        <div><?=  $match->location ?></div>
-        <?php endif; ?></br>
-
-        <?php endif; endforeach; ?></br>
-
-<!---
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12">
-                <div id="HeaderContent">
-                    <h1>IMD Buddy</h1>
-                    <h3>Where Students Help Eachother</h3>
-                    <hr>
-                    Show message with link if the user's profile is incomplete --> <!--
-                    <?php if(!($user->checkProfileComplete())): ?>
-                    <form action="profile.php">
-                        <input type="submit" class="btn-default btn-lg" Value="Complete your profile!">
-                    </form>
-                    <?php endif; ?>
-                </div>
-            </div>
-
-        </div>
     </div>
-    --->
 
+    <div id="messages" style="background-color: white;  width:300px; display: inline-block; margin-left: 30%; margin-top: 10%;">
+        <h2>Messages</h2>
+        <p>
+            <?php
+            $messages = getMessages();
+            foreach ($messages as $message) {
+                echo "<br>";
+                echo $message->fullname;
+                echo "<br>";
+                echo $message->content;
+            }
+            ?>
+        </p>
 
-    <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"> </script>
-    <script src="../js/bootstrap.js"></script>
-    <script src="https://kit.fontawesome.com/2b908491a1.js" crossorigin="anonymous"></script>
+        <form action="" method="POST">
+            <textarea name="content" id="" cols="30" rows="10"></textarea>
+            <input type="submit" value="Send message" name="sendMessage">
+
+        </form>
+    </div>
 </body>
 
 </html>
