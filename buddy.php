@@ -21,7 +21,7 @@ function getbuddy(){
 $submitbutton= $_POST['submitbutton'];
 
 if (!empty($submitbutton)){
-    function fountbuddy(){
+    function foundbuddy(){
         $user = new User();
 
         $conn = Db::getConnection();
@@ -53,6 +53,12 @@ function getMessages()
 }
 
 if (isset($_POST['sendMessage'])) {
+    ?> 
+    <script>
+    alert("you got a message");
+  </script>
+  <?php
+
 
     $user = new User();
 
@@ -112,6 +118,7 @@ if (isset($_POST['sendMessage'])) {
             echo $message->fullname;
             echo "<br>";
             echo $message->content;
+
         }
         ?>
     </p>
@@ -120,6 +127,7 @@ if (isset($_POST['sendMessage'])) {
     <form action="" method="POST">
         <textarea name="content" id="" cols="30" rows="10"></textarea>
         <input type="submit" value="Send message" name="sendMessage">
+
     </form>
 
 
