@@ -3,43 +3,11 @@ include_once(__DIR__ . "/classes/User.php");
 
 session_start();
 
-
-
 // If there's an active session, put the session variable into $username for easier access
 if (!empty($_SESSION['user'])) {
     $email = $_SESSION['user'];
     $user = new User($email);
-
     $potMatches = $user->getAllExceptUser();
-    foreach($potMatches as $potMatch):
-        $match = $user->getMatch($potMatch);
-        if(!empty($match)){
-
-            echo $match->fullname;
-            echo "<br>";
-            if($match->hobby == $user->getHobby()){
-                echo "Jullie hebben dezelfde hobby, namelijk: $match->hobby";
-                echo "<br>";
-            }
-            if($match->films == $user->getFilms()){
-                echo "Jullie hebben dezelfde dezelfde filmsmaak, namelijk: $match->films";
-                echo "<br>";
-            }
-            if($match->games == $user->getGames()){
-                echo "Jullie spelen dezelfde games, namelijk: $match->games";
-                echo "<br>";
-            }
-            if($match->books == $user->getBooks()){
-                echo "Jullie hebben dezelfde boekensmaak, namelijk: $match->books";
-                echo "<br>";
-            }
-            if($match->study_pref == $user->getStudy_pref()){
-                echo "Jullie hebben dezelfde studievoorkeur, namelijk: $match->study_pref";
-                echo "<br>";
-            }
-        }
-    endforeach;
-
 } else {
 
     // If there's no active session, redirect to login.php
@@ -150,6 +118,38 @@ if (!empty($_SESSION['user'])) {
             </div>
         </div>
     </nav>
+
+    <?php foreach($potMatches as $potMatch):
+        $match = $user->getMatch($potMatch);
+        if(!empty($match)):?>
+
+        <div><?= $match->fullname ?></div>
+
+        <?php if($match->hobby == $user->getHobby()):?>
+        <div><?=  $match->hobby ?></div>
+        <?php endif; ?>
+
+        <?php if($match->films == $user->getFilms()):?>
+        <div><?=  $match->films ?></div>
+        <?php endif; ?>
+
+        <?php if($match->games == $user->getGames()):?>
+        <div><?=  $match->games ?></div>
+        <?php endif; ?>
+
+        <?php if($match->books == $user->getBooks()):?>
+        <div><?=  $match->books ?></div>
+        <?php endif; ?>
+
+        <?php if($match->study_pref == $user->getStudy_pref()):?>
+        <div><?php echo "Jullie hebben gemeenschappelijk studiekeuze $match->study_pref"; ?></div>
+        <?php endif; ?>
+
+        <?php if($match->location == $user->getLocation()):?>
+        <div><?=  $match->location ?></div>
+        <?php endif; ?></br>
+
+        <?php endif; endforeach; ?></br>
 
 <!---
     <div class="container">

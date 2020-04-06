@@ -373,23 +373,6 @@ class User
         return $users;
     }
 
-    //Function that fetches all users from the database
-    public function getAllExceptUser()
-    {
-        //Database connection
-        $conn = Db::getConnection();
-
-        //Prepare and executestatement
-        $statement = $conn->prepare("SELECT * FROM users WHERE email <> :email");
-        $statement->bindValue(':email', $this->getEmail());
-        $statement->execute();
-
-        //Fetch all rows as an array indexed by column name
-        $users = $statement->fetchAll(PDO::FETCH_OBJ);
-
-        //Return the result from the query
-        return $users;
-    }
 
     public function __construct($email)
     {
@@ -521,6 +504,23 @@ class User
             return false;
         }
     }
+       //Function that fetches all users from the database
+       public function getAllExceptUser()
+       {
+           //Database connection
+           $conn = Db::getConnection();
+   
+           //Prepare and executestatement
+           $statement = $conn->prepare("SELECT * FROM users WHERE email <> :email");
+           $statement->bindValue(':email', $this->getEmail());
+           $statement->execute();
+   
+           //Fetch all rows as an array indexed by column name
+           $users = $statement->fetchAll(PDO::FETCH_OBJ);
+   
+           //Return the result from the query
+           return $users;
+       }
 
     public function getMatch($potMatch)
     {
