@@ -2,12 +2,15 @@
 include_once(__DIR__ . "/classes/User.php");
 
 session_start();
-$user = new User();
-$match = $user->getBuddies();
 
 // If there's an active session, put the session variable into $username for easier access
 if (!empty($_SESSION['user'])) {
     $username = $_SESSION['user'];
+    $user = new User();
+    /*$buddies = $user->getBuddies($username);*/
+    $match = $user->getMatch();
+
+
 } else {
 
     // If there's no active session, redirect to login.php
@@ -143,10 +146,9 @@ if (!empty($_SESSION['user'])) {
 
 <div>
     <?php foreach ($match as $m): ?>
-    <p><?php echo $m['fullname']; ?> is interested in <?php echo $m['study_pref']; ?> </p>
+    <p><?php echo $m['fullname']; ?> is matched because <?php echo "he/she studies " . $m['study_pref']/** ." ". $m['location']." and plays ". $m['games']*/;?> </p>
     <?php endforeach; ?>
 </div>
-
 
     <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"> </script>
     <script src="../js/bootstrap.js"></script>

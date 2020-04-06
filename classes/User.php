@@ -465,11 +465,26 @@ class User
         }
     }
 
-    public function getBuddies(){
+    /*public function getBuddies($email){
         $conn = Db::getConnection();
-        $statement = $conn->prepare("SELECT * FROM users WHERE study_pref = :study_pref");
+        $statement = $conn->prepare("SELECT email FROM users WHERE email != :email");
+        $statement->bindValue(":email", $email);
+        $statement->execute();
+        $buddies = $statement->fetchAll(PDO::FETCH_ASSOC);
+        return $buddies;
+    }*/
+
+    public function getMatch(){
+        $conn = Db::getConnection();
+        $statement = $conn->prepare("SELECT * FROM users WHERE study_pref = :study_pref AND email != :email; /* AND location = :location AND games = :games*/");
         $study_pref = $this->getStudy_pref();
+        $email = $_SESSION['user'];
+       /* $location = $this->getLocation();
+        $games = $this->getGames();*/
         $statement->bindValue(":study_pref", $study_pref);
+        $statement->bindValue(":email", $email);
+        /*$statement->bindValue(":location", $location);
+        $statement->bindValue(":games", $games);*/
         $statement->execute();
         $match = $statement->fetchAll(PDO::FETCH_ASSOC);
         return $match;
