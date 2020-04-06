@@ -3,9 +3,16 @@ html{
 }
 
 body{
+<<<<<<< HEAD
 /*background-image: url(https://images.pexels.com/photos/1454360/pexels-photo-1454360.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940);
 background-size: cover;
 background-position: top;*/
+||||||| merged common ancestors
+background: url(https://images.pexels.com/photos/1454360/pexels-photo-1454360.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940);
+background-size: cover;
+background-position: top;
+=======
+>>>>>>> feature-9
 font-family: 'Lato', sans-serif;
 }
 
