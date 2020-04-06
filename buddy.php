@@ -26,7 +26,7 @@ function getbuddy(){
 }
 
 
-$submitbutton= $_POST['submitbutton'];
+/*$submitbutton= $_POST['submitbutton'];
 
 if (!empty($submitbutton)){
     function foundbuddy(){
@@ -46,6 +46,7 @@ else {
 
 }
 
+*/
 
 function getMessages()
 {
