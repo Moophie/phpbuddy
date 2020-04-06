@@ -164,7 +164,7 @@ if (!empty($_POST['changeStatus'])) {
             <div class="row">
 
     <div class="float-left" style="margin-left:20px;">
-                            <img src="./uploads/<?= htmlspecialchars($user->getProfileImg()) ?>" width="200px;" height="200px;" />
+                            <img src="./uploads/<?= htmlspecialchars($user->getProfileImg()) ?>" width="250px;" height="250px;" />
                             
 
                             <form enctype="multipart/form-data" action="uploadProfileImg.php" method="POST">
@@ -245,14 +245,13 @@ if (!empty($_POST['changeStatus'])) {
                     </div>
                 </div>
                 
-    <form action="" method="POST"  style="padding:20px; width:500px; display:inline-block;">
+                
+    <form action="" method="POST"  style="padding:20px; width:500px;">
                 <div class="col-md-7">
-                    <div class="tab-content profile-tab" id="myTabContent">
-                            <div class="row">
-                            <div class="form-group">
        <h1> <label for="bio">Biography</label></h1>
-        <textarea name="bio" id="bio" cols="30" rows="10" class="form-control"><?= htmlspecialchars($user->getBio()) ?></textarea>
+        <textarea name="bio" id="bio" cols="10" rows="10" class="form-control"><?= htmlspecialchars($user->getBio()) ?></textarea>
       </div>
+     <br> 
       <div class="form-group">
         <label for="location">Location</label>
         <input type="text" id="location" name="location" class="form-control" value="<?= htmlspecialchars($user->getLocation()) ?>">
@@ -295,8 +294,24 @@ if (!empty($_POST['changeStatus'])) {
       <div class="form-group">
         <input type="submit" value="Submit" name="updateProfile">
       </div>
+      
+    </form>
+    <form action="" method="POST" class="border rounded" style="margin-left: 32%; width:500px;">
+      <div class="form-group">
+        <div class="form-check">
+          <input type="radio" id="firstyear" name="buddyStatus" class="form-check-input" value="firstyear" <?php if ($user->getBuddyStatus() == "firstyear") : ?>checked="checked" <?php endif; ?>>
+          <label for="firstyear" class="form-check-label">I'm a first year student looking for a buddy.</label>
+        </div>
+        <div class="form-check">
+          <input type="radio" id="mentor" name="buddyStatus" class="form-check-input" value="mentor" <?php if ($user->getBuddyStatus() == "mentor") : ?>checked="checked" <?php endif; ?>>
+          <label for="mentor" class="form-check-label">I'm a second or third year student looking to mentor someone.</label>
+        </div>
+      </div>
+      <input type="submit" value="Save" name="changeStatus">
     </form>
   </div>
+  </div>
+  
                 </div>
               </form>
             </div>

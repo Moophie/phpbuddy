@@ -142,7 +142,7 @@ body {
 .form-detail i {
     font-size: 14px;
     color: #999;
-    right: 15px;
+    right: 35px;
     top: 50%;
     transform: translateX(-50%);
     position: absolute;
