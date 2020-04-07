@@ -2,13 +2,18 @@
 
 session_start();
 
-// Remove session variables
+//If there's no active session, redirect to login.php
+if (empty($_SESSION['user'])) {
+    header("Location: login.php");
+}
+
+//Remove session variables
 unset($_SESSION["user"]);
 
-// Destroy session
+//Destroy session
 session_destroy();
 
-// Redirect to homepage
+//Redirect to homepage
 header("Location: index.php");
 
 ?>

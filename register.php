@@ -3,28 +3,32 @@
 include_once(__DIR__ . "/classes/User.php");
 include_once(__DIR__ . "/classes/Db.php");
 
-// Check if values have been sent
+//Check if values have been sent
 if (!empty($_POST)) {
 
-	// Put $_POST variables into variables
-	// Convert the email string to lowercase, case sensitivity does not matter here
+	//Put $_POST variables into variables
+	//Convert the email string to lowercase, case sensitivity does not matter here
 	$fullname = $_POST['fullname'];
 	$password = $_POST['password'];
 	$email = strtolower($_POST['email']);
 
-	// Encrypt the password
+	//Encrypt the password
 	$hash = password_hash($_POST['password'], PASSWORD_BCRYPT);
 
-	// If the email is unique, create a new user and save him
-	// Create a session
-	// Redirect user to the homepage
 	$user = new User($email);
+
+	//Set the user's properties
+	//setEmail returns an error message if the email is not a valid email or if it's not unique
 	$validEmail = $user->setEmail($email);
 	$user->setFullname($fullname);
 	$user->setPassword($hash);
+
+	//If setEmail returns a string, show the error message
 	if (gettype($validEmail) == "string") {
 		$error = $validEmail;
+
 	} else {
+		//Otherwise, sae the user, start the session and redirect to the index
 		$user->save();
 		session_start();
 		$_SESSION['user'] = $email;

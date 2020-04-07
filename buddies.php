@@ -1,17 +1,15 @@
 <?php
+
 include_once(__DIR__ . "/classes/User.php");
 
 session_start();
 
-// If there's an active session, put the session variable into $username for easier access
-if (!empty($_SESSION['user'])) {
-    $email = $_SESSION['user'];
-} else {
-    // If there's no active session, redirect to login.php
+//If there's no active session, redirect to login.php
+if (empty($_SESSION['user'])) {
     header("Location: login.php");
 }
 
-$user = new User($email);
+//Get all users from the database
 $users = User::getAll();
 
 ?>
@@ -27,20 +25,6 @@ $users = User::getAll();
     <link rel="stylesheet" href="css/phpbuddy.css">
     <link href="https://fonts.googleapis.com/css?family=Lato:400,700&display=swap" rel="stylesheet">
     <title>IMD Buddy</title>
-    <style>
-        .list-group {
-            width: 50%;
-        }
-
-        .listA {
-            float: left;
-        }
-
-        .listB {
-            float: right;
-        }
-    </style>
-
 </head>
 
 <body>
@@ -59,19 +43,23 @@ $users = User::getAll();
                     <div class="col-md-12">
                         <div class="d-flex flex-row border rounded">
                             <div class="p-0 w-25">
-                                <img src="./uploads/<?php echo $user->profileImg; ?>" class="img-thumbnail border-0" />
+                                <img src="./uploads/<?= htmlspecialchars($user->profileImg); ?>" class="img-thumbnail border-0" />
                             </div>
                             <div class="pl-3 pt-2 pr-2 pb-2 w-75 border-left">
-                                <h4 class="text-primary"><?php echo $user->fullname; ?></h4>
+                                <h4 class="text-primary"><?= htmlspecialchars($user->fullname); ?></h4>
                                 <h5 class="text-info">IMD 3</h5>
                                 <p class="text-right m-0"><a href="#" class="btn btn-primary"><i class="far fa-user"></i> View Profile</a></p>
                             </div>
                         </div>
                         <?php
+
+                        //Select the user's buddy
                         $buddy = User::findBuddy($user->email);
+
+                        //Check if there is a buddy, then print out the buddy's fullname
                         if (!empty($buddy)) : ?>
                             <div class="border rounded">
-                                <p><strong>My buddy is: </strong> <?= $buddy->fullname ?></p>
+                                <p><strong>My buddy is: </strong> <?= htmlspecialchars($buddy->fullname) ?></p>
                             </div>
                         <?php endif; ?>
                         <br>

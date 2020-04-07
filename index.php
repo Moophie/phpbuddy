@@ -1,24 +1,31 @@
 <?php
+
 include_once(__DIR__ . "/classes/User.php");
 
 session_start();
 
-// If there's no active session, redirect to login.php
+//If there's no active session, redirect to login.php
 if (empty($_SESSION['user'])) {
     header("Location: login.php");
 }
 
 $email = $_SESSION['user'];
 $user = new User($email);
+
+//Get all the users from the database except for the active user
 $potMatches = $user->getAllExceptUser();
 
+//If someone accepts a buddy
 if (!empty($_POST['getBuddy'])) {
+
+    //Update the buddy_id in the database
     $conn = Db::getConnection();
     $statement = $conn->prepare("UPDATE users SET buddy_id = :buddy_id WHERE email = :email");
     $statement->bindValue(":buddy_id", $_POST['buddy_id']);
     $statement->bindValue(":email", $user->getEmail());
     $statement->execute();
 
+    //Then redirect them to their chatwindow
     header("Location: chat.php");
 }
 
@@ -46,7 +53,7 @@ if (!empty($_POST['getBuddy'])) {
 </head>
 
 <body>
-    
+
     <?php include_once("nav.include.php"); ?>
 
     <div class="container">
@@ -66,9 +73,14 @@ if (!empty($_POST['getBuddy'])) {
         <div class="jumbotron">
             <div class="center" style="height:400px;">
                 <h2>Potential Buddies</h2>
+
+                <!-- Loop over all the other users -->
                 <?php foreach ($potMatches as $potMatch) :
+
+                    //Check each user for a match
                     $match = $user->getMatch($potMatch);
 
+                    //If the function returns a match, print it out
                     if (!empty($match)) : ?>
                         <div class="matches float-left" style="display:block">
                             <h4><?= $match->fullname ?></h4>
@@ -76,6 +88,8 @@ if (!empty($_POST['getBuddy'])) {
                             <br>
                             <br>
                             <h6>Things you have in common:</h6>
+
+                            <!-- Check all attributes for common ones and then print them out -->
                             <?php if ($match->location == $user->getLocation()) : ?>
                                 <p> <?= "Location: " . htmlspecialchars($match->location); ?><p>
                                     <?php endif; ?>
@@ -97,7 +111,9 @@ if (!empty($_POST['getBuddy'])) {
                                     <?php if ($match->hobby == $user->getHobby()) : ?>
                                         <p><?= "Hobby: " . htmlspecialchars($match->hobby); ?></p>
                                     <?php endif; ?>
+
                                     <form action="" method="POST">
+                                        <!-- Send the buddy_id of the match via POST (hidden), so it can be used in the SQL -->
                                         <input type="text" name="buddy_id" value="<?= htmlspecialchars($match->id) ?>" hidden>
                                         <input type="submit" name="getBuddy" value="Accept buddy!">
                                     </form>

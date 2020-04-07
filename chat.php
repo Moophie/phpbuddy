@@ -1,11 +1,16 @@
 <?php
+
 include_once(__DIR__ . "/classes/User.php");
 include_once(__DIR__ . "/classes/Db.php");
 
 session_start();
-$user = new User($_SESSION['user']);
 
+//If there's no active session, redirect to login.php
+if (empty($_SESSION['user'])) {
+    header("Location: login.php");
+}
 
+//Function that gets all messages from the database where the current user is either the sender or the receiver)
 function getMessages()
 {
     $user = new User($_SESSION['user']);
@@ -19,6 +24,7 @@ function getMessages()
     return $result;
 }
 
+//If a message has been submitted, save it in the database
 if (!empty($_POST['sendMessage'])) {
 
     $user = new User($_SESSION['user']);
@@ -65,6 +71,8 @@ if (!empty($_POST['sendMessage'])) {
         <div class="messagebox">
             <?php
             $messages = getMessages();
+
+            //Print out all messages
             foreach ($messages as $message) : ?>
                 <p><strong><?= htmlspecialchars($message->fullname) ?></strong></p>
                 <p><?= htmlspecialchars($message->content) ?></p>

@@ -1,39 +1,52 @@
 <?php
-session_start();
 
 include_once(__DIR__ . "/classes/User.php");
 include_once(__DIR__ . "/classes/Db.php");
 
-$user = new User($_SESSION['user']);
+session_start();
 
-if (!empty($_SESSION['user'])) {
-  $email = $_SESSION['user'];
-} else {
+//If there's no active session, redirect to login.php
+if (empty($_SESSION['user'])) {
   header("Location: login.php");
 }
 
+//Create a new user based on the active user's email
+$user = new User($_SESSION['user']);
+
+//Detect a submit to change the password
 if (!empty($_POST['changePassword'])) {
 
   $newpassword = $_POST['newpassword'];
   $oldpassword = $_POST['oldpassword'];
 
+  //Check if the user has the correct password
   if (User::checkPassword($user->getEmail(), $oldpassword)) {
+
+    //Change it to the new password
     $user->changePassword($newpassword);
   } else {
     $errorPass = "We couldn't change the password.";
   }
 }
 
+//Detect a submit to change the email
 if (!empty($_POST['changeEmail'])) {
 
   $oldpassword = $_POST['emailpassword'];
   $newemail = $_POST['newemail'];
 
+  //Check if the user has the correct password
   if (User::checkPassword($user->getEmail(), $oldpassword)) {
+
+    //Use the setter with conditions to set the new email
     $validEmail = $user->setEmail($newemail);
+
+    //If the setter returns an error string, show the error
     if (gettype($validEmail) == "string") {
       $errorMail = $validEmail;
     } else {
+
+      //If the setter returns an object, change the email in the database
       $user->changeEmail($newemail);
     }
   } else {
@@ -41,8 +54,11 @@ if (!empty($_POST['changeEmail'])) {
   }
 }
 
+//Detect a submit to update your profile
 if (!empty($_POST['updateProfile'])) {
   $user = new User($_SESSION['user']);
+
+  //Fill in the user's properties
   $user->setBio($_POST['bio']);
   $user->setLocation($_POST['location']);
   $user->setGames($_POST['games']);
@@ -51,19 +67,19 @@ if (!empty($_POST['updateProfile'])) {
   $user->setBooks($_POST['books']);
   $user->setStudy_pref($_POST['study_pref']);
   $user->setHobby($_POST['hobby']);
+
+  //Save those properties to the database
   $user->completeProfile();
 }
 
+//Detect a submit to change your status firstyear/mentor
 if (!empty($_POST['changeStatus'])) {
+
+  //Change the user's status
   $user->changeBuddyStatus($_POST['buddyStatus']);
 }
 
 ?>
-
-<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-<link href="style.css" rel="stylesheet" id="bootstrap-css">
-
-<!------ Include the above in your HEAD tag ---------->
 
 <head>
   <meta charset="UTF-8">
@@ -85,8 +101,6 @@ if (!empty($_POST['changeStatus'])) {
 
       <div class="float-left" style="margin-left:20px;">
         <img src="./uploads/<?= htmlspecialchars($user->getProfileImg()) ?>" width="250px;" height="250px;" />
-
-
         <form enctype="multipart/form-data" action="uploadProfileImg.php" method="POST">
           <input type="file" name="profileImg" capture="camera" required />
           <br>
@@ -103,35 +117,26 @@ if (!empty($_POST['changeStatus'])) {
 
         <div class="col-md-5">
           <div class="profile-head">
-            <h5>
-              <?= htmlspecialchars($email); ?>
-
-            </h5>
-            <h6>
-              Web Developer and Designer
-            </h6>
+            <h5><?= htmlspecialchars($user->getFullname()); ?></h5>
+            <h6> Web Developer and Designer </h6>
             <ul class="nav nav-tabs" id="myTab" role="tablist">
               <li class="nav-item">
                 <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">About</a>
               </li>
-
             </ul>
           </div>
         </div>
-
       </div>
 
       <div class="row">
         <div class="col-md-4">
-
           <div class="float-left" style="margin-left:20; ">
             <h1>Settings</h1>
-
             <form method="POST" action="">
               <p style="color:red">
-                <?php if (!empty($errorMail)) {
+                <?php if (!empty($errorMail)) :
                   echo $errorMail;
-                } ?>
+                endif; ?>
               </p>
               <div class="form-group">
                 <label for="emailpassword">Current password</label>
@@ -146,9 +151,9 @@ if (!empty($_POST['changeStatus'])) {
               <form method="POST" action="">
                 <div class="form-group">
                   <p style="color:red">
-                    <?php if (!empty($errorPass)) {
+                    <?php if (!empty($errorPass)) :
                       echo $errorPass;
-                    } ?>
+                    endif; ?>
                   </p>
                   <label for="oldpassword">Current password</label>
                   <input type="password" name="oldpassword" id="oldpassword" class="form-control">
@@ -161,12 +166,11 @@ if (!empty($_POST['changeStatus'])) {
               </form>
             </form>
           </div>
-
-
         </div>
 
-
         <form action="" method="POST" style="padding:20px; width:500px;">
+
+          <!-- Fill in the input fields with the data from the database -->
           <div class="col-md-7">
             <h1> <label for="bio">Biography</label></h1>
             <textarea name="bio" id="bio" cols="10" rows="10" class="form-control"><?= htmlspecialchars($user->getBio()) ?></textarea>
