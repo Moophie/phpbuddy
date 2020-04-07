@@ -44,6 +44,9 @@ if (!empty($_POST['sendMessage'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/bootstrap.css">
     <title>Chat</title>
+
+    <?php include_once ("./classes/nav.inc.loggedin.php"); ?>
+
     <style>
         .chat {
             border: solid black 1px;
