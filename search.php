@@ -4,12 +4,12 @@ include_once(__DIR__ . "/classes/User.php");
 
 session_start();
 
-if (!empty($_SESSION['user'])) {
-    $email = $_SESSION['user'];
-} else {
+//If there's no active session, redirect to login.php
+if (empty($_SESSION['user'])) {
     header("Location: login.php");
 }
 
+//If someone clicks search, find the correct users based on the filters in the $_POST
 if (!empty($_POST)) {
     $foundUsers = User::searchUsers($_POST);
 }
@@ -23,10 +23,14 @@ if (!empty($_POST)) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/phpbuddy.css">
     <title>Search</title>
 </head>
 
 <body>
+
+    <?php include_once("nav.include.php"); ?>
+
     <div class="float-left" style="margin-right:40px;">
         <form action="" method="POST" class="border rounded" style="padding:20px; width:500px;">
             <h1>Search</h1>
@@ -77,21 +81,23 @@ if (!empty($_POST)) {
 
 
     <div class="float-left">
-        <?php if(!empty($foundUsers)): ?>
-        <?php foreach ($foundUsers as $foundUser) : ?>
-            <div class="float-left" style="margin-right: 10px; border: 1px solid black; padding: 10px;">
-                <ul style="list-style:none; margin:0px; padding:0px;">
-                    <li><b>Full name:</b> <?= $foundUser->fullname ?></li>
-                    <li><b>Location :</b> <?= $foundUser->location ?></li>
-                    <li><b>Games    :</b> <?= $foundUser->games ?></li>
-                    <li><b>Music    :</b> <?= $foundUser->music ?></li>
-                    <li><b>Films    :</b> <?= $foundUser->films ?></li>
-                    <li><b>Books    :</b> <?= $foundUser->books ?></li>
-                    <li><b>Hobby    :</b> <?= $foundUser->hobby ?></li>
-                    <li><b>Studies  :</b> <?= $foundUser->study_pref ?></li>
-                </ul>
-            </div>
-        <?php endforeach; ?>
+        <?php if (!empty($foundUsers)) : ?>
+
+            <!-- Print out all users and their properties -->
+            <?php foreach ($foundUsers as $foundUser) : ?>
+                <div class="float-left" style="margin-right: 10px; border: 1px solid black; padding: 10px;">
+                    <ul style="list-style:none; margin:0px; padding:0px;">
+                        <li><b>Full name:</b> <?= htmlspecialchars($foundUser->fullname) ?></li>
+                        <li><b>Location :</b> <?= htmlspecialchars($foundUser->location) ?></li>
+                        <li><b>Games :</b> <?= htmlspecialchars($foundUser->games) ?></li>
+                        <li><b>Music :</b> <?= htmlspecialchars($foundUser->music) ?></li>
+                        <li><b>Films :</b> <?= htmlspecialchars($foundUser->films) ?></li>
+                        <li><b>Books :</b> <?= htmlspecialchars($foundUser->books) ?></li>
+                        <li><b>Hobby :</b> <?= htmlspecialchars($foundUser->hobby) ?></li>
+                        <li><b>Studies :</b> <?= htmlspecialchars($foundUser->study_pref) ?></li>
+                    </ul>
+                </div>
+            <?php endforeach; ?>
         <?php endif; ?>
     </div>
 </body>

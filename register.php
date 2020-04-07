@@ -3,28 +3,32 @@
 include_once(__DIR__ . "/classes/User.php");
 include_once(__DIR__ . "/classes/Db.php");
 
-// Check if values have been sent
+//Check if values have been sent
 if (!empty($_POST)) {
 
-	// Put $_POST variables into variables
-	// Convert the email string to lowercase, case sensitivity does not matter here
+	//Put $_POST variables into variables
+	//Convert the email string to lowercase, case sensitivity does not matter here
 	$fullname = $_POST['fullname'];
 	$password = $_POST['password'];
 	$email = strtolower($_POST['email']);
 
-	// Encrypt the password
+	//Encrypt the password
 	$hash = password_hash($_POST['password'], PASSWORD_BCRYPT);
 
-	// If the email is unique, create a new user and save him
-	// Create a session
-	// Redirect user to the homepage
 	$user = new User($email);
+
+	//Set the user's properties
+	//setEmail returns an error message if the email is not a valid email or if it's not unique
 	$validEmail = $user->setEmail($email);
 	$user->setFullname($fullname);
 	$user->setPassword($hash);
+
+	//If setEmail returns a string, show the error message
 	if (gettype($validEmail) == "string") {
 		$error = $validEmail;
+
 	} else {
+		//Otherwise, sae the user, start the session and redirect to the index
 		$user->save();
 		session_start();
 		$_SESSION['user'] = $email;
@@ -41,62 +45,26 @@ if (!empty($_POST)) {
 	<meta charset="utf-8">
 	<title>Register</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-	<!-- Font-->
-	<link rel="stylesheet" type="text/css" href="css/roboto-font.css">
-	<link rel="stylesheet" type="text/css" href="fonts/font-awesome-5/css/fontawesome-all.min.css">
-	<!-- Main Style Css -->
-	<link rel="stylesheet" href="css/style_register.css" />
 	<link rel="stylesheet" href="css/bootstrap.css">
-	<link rel="stylesheet" href="css/login.css">
+	<link rel="stylesheet" type="text/css" href="fonts/font-awesome-5/css/fontawesome-all.min.css">
+	<link rel="stylesheet" href="css/style_register.css" />
 	<link href="https://fonts.googleapis.com/css?family=Lato:400,700&display=swap" rel="stylesheet">
-	<title>IMD Buddy: login</title>
 </head>
 
 <body>
 
-	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-		<div class="container">
-			<a class="navbar-brand" href="#">IMD Buddy</a>
-			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-				<span class="navbar-toggler-icon"></span>
-			</button>
-			<div class="collapse navbar-collapse" id="navbarText">
-				<ul class="navbar-nav mr-auto">
-					<li class="nav-item">
-						<a class="nav-link" href="index.php">Home <span class="sr-only">(current)</span></a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="#">Information</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="#">Contact</a>
-					</li>
-				</ul>
-				<span class="navbar-text">
-					<ul class="navbar-nav mr-auto">
-						<li class="nav-item">
-							<a class="nav-link active" href="login.php"><i class="fas fa-user"></i> Log in</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="register.php"><i class="fas fa-user-plus"></i> Sign up</a>
-						</li>
-					</ul>
-				</span>
-			</div>
-		</div>
-	</nav>
+	<?php include_once("nav.include.php") ?>
 
 	<div class="page-content">
 		<div class="form-v5-content">
 			<form class="form-detail" action="" method="post">
 				<h2>Register Account Buddy application</h2>
-				<div class="form-row">
-					<?php if (!empty($error)) : ?>
-						<div style="background-color:#F8D7DA; padding:10px; border-radius:10px;">
-							<?= $error ?>
-						</div>
-						<br>
+				<?php if (!empty($error)) : ?>
+					<div style="background-color:#F8D7DA; padding:10px; border-radius:10px;">
+						<p><?= $error ?></p>
+					</div>
 					<?php endif; ?>
+				<div class="form-row">
 					<label for="fullname">Full Name</label>
 					<input type="text" name="fullname" id="fullname" class="input-text" placeholder="Your Name" required>
 					<i class="fas fa-user"></i>

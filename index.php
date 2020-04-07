@@ -1,24 +1,31 @@
 <?php
+
 include_once(__DIR__ . "/classes/User.php");
 
 session_start();
 
-// If there's no active session, redirect to login.php
+//If there's no active session, redirect to login.php
 if (empty($_SESSION['user'])) {
     header("Location: login.php");
 }
 
 $email = $_SESSION['user'];
 $user = new User($email);
+
+//Get all the users from the database except for the active user
 $potMatches = $user->getAllExceptUser();
 
+//If someone accepts a buddy
 if (!empty($_POST['getBuddy'])) {
+
+    //Update the buddy_id in the database
     $conn = Db::getConnection();
     $statement = $conn->prepare("UPDATE users SET buddy_id = :buddy_id WHERE email = :email");
     $statement->bindValue(":buddy_id", $_POST['buddy_id']);
     $statement->bindValue(":email", $user->getEmail());
     $statement->execute();
 
+    //Then redirect them to their chatwindow
     header("Location: chat.php");
 }
 
@@ -36,50 +43,6 @@ if (!empty($_POST['getBuddy'])) {
     <link href="https://fonts.googleapis.com/css?family=Lato:400,700&display=swap" rel="stylesheet">
     <title>IMD Buddy</title>
     <style>
-        .dropbtn {
-            color: white;
-            padding: 16px;
-            font-size: 16px;
-            border: none;
-        }
-
-        .dropbtn i {
-            margin-right: 5px;
-        }
-
-        .dropdown {
-            position: relative;
-            display: inline-block;
-        }
-
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            background-color: #343A40;
-            min-width: 160px;
-            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-            z-index: 1;
-        }
-
-        .dropdown-content a {
-            color: white;
-            padding: 12px 16px;
-            text-decoration: none;
-            display: block;
-        }
-
-        .dropdown-content a:hover {
-            background-color: #68717a;
-        }
-
-        .dropdown:hover .dropdown-content {
-            display: block;
-        }
-
-        .center {
-            text-align: center;
-        }
-
         .matches {
             max-width: 250px;
             margin: 5px 20px;
@@ -87,56 +50,11 @@ if (!empty($_POST['getBuddy'])) {
             border: solid black 1px;
         }
     </style>
-
 </head>
 
 <body>
 
-
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container">
-            <a class="navbar-brand" href="#">IMD Buddy</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarText">
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="index.php">Home <span class="sr-only">(current)</span></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="chat.php">Chat</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="buddies.php">Buddies</a>
-                    </li>
-                </ul>
-                <span class="navbar-text">
-                    <ul class="navbar-nav mr-auto">
-                        <li class="nav-item">
-                            <div class="dropdown">
-
-                                <a class="dropbtn">
-                                    <i class="fas fa-user"></i>
-                                    <?php
-                                    // Don't forget to htmlspecialchars() when using inputted variables in your code
-                                    echo htmlspecialchars($email);
-                                    ?>
-                                </a>
-                                <div class="dropdown-content">
-                                    <a href="search.php">Search</a>
-                                    <div class="dropdown-divider"></div>
-                                    <a href="profile.php">Profile</a>
-                                    <div class="dropdown-divider"></div>
-                                    <a href="logout.php">Log out</a>
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
-                </span>
-            </div>
-        </div>
-    </nav>
+    <?php include_once("nav.include.php"); ?>
 
     <div class="container">
         <div class="jumbotron">
@@ -155,16 +73,23 @@ if (!empty($_POST['getBuddy'])) {
         <div class="jumbotron">
             <div class="center" style="height:400px;">
                 <h2>Potential Buddies</h2>
+
+                <!-- Loop over all the other users -->
                 <?php foreach ($potMatches as $potMatch) :
+
+                    //Check each user for a match
                     $match = $user->getMatch($potMatch);
 
+                    //If the function returns a match, print it out
                     if (!empty($match)) : ?>
-                        <div class = "matches float-left" style="display:block">
+                        <div class="matches float-left" style="display:block">
                             <h4><?= $match->fullname ?></h4>
                             <img src="./uploads/<?= htmlspecialchars($match->profileImg) ?>" width="100px;" height="100px;" />
                             <br>
                             <br>
                             <h6>Things you have in common:</h6>
+
+                            <!-- Check all attributes for common ones and then print them out -->
                             <?php if ($match->location == $user->getLocation()) : ?>
                                 <p> <?= "Location: " . htmlspecialchars($match->location); ?><p>
                                     <?php endif; ?>
@@ -186,8 +111,10 @@ if (!empty($_POST['getBuddy'])) {
                                     <?php if ($match->hobby == $user->getHobby()) : ?>
                                         <p><?= "Hobby: " . htmlspecialchars($match->hobby); ?></p>
                                     <?php endif; ?>
+
                                     <form action="" method="POST">
-                                        <input type="text" name="buddy_id" value="<?= htmlspecialchars($match->id)?>" hidden>
+                                        <!-- Send the buddy_id of the match via POST (hidden), so it can be used in the SQL -->
+                                        <input type="text" name="buddy_id" value="<?= htmlspecialchars($match->id) ?>" hidden>
                                         <input type="submit" name="getBuddy" value="Accept buddy!">
                                     </form>
                         </div>
