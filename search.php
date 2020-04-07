@@ -26,9 +26,6 @@ if (!empty($_POST)) {
     <title>Search</title>
 </head>
 
-<?php include_once ("./classes/nav.inc.loggedin.php"); ?>
-
-
 <body>
     <div class="float-left" style="margin-right:40px;">
         <form action="" method="POST" class="border rounded" style="padding:20px; width:500px;">
