@@ -4,6 +4,7 @@ include_once(__DIR__ . "/Db.php");
 
 class User
 {
+    //Declare all the class variables
     private $id;
     private $buddyStatus;
     private $fullname;
@@ -19,6 +20,8 @@ class User
     private $study_pref;
     private $hobby;
     private $buddy_id;
+
+    //Generate all the setters
 
     /**
      * Get the value of id
@@ -101,11 +104,16 @@ class User
         $statement->execute();
         $existingEmails = $statement->rowCount();
 
+        //Check if the email is unique
         if ($existingEmails > 0) {
             return $error = "Email already in use";
+
+            //Check if the email ends on student.thomasmore.be 
         } elseif (!(substr($email, -22) === "@student.thomasmore.be")) {
             return $error = "Not a valid Thomas More email";
         } else {
+
+            //If it's unique and ends on student.thomasmore.be, save the property
             $this->email = $email;
             return $this;
         }
@@ -330,7 +338,8 @@ class User
         return $this;
     }
 
-    public static function getAll(){
+    public static function getAll()
+    {
         //Database connection
         $conn = Db::getConnection();
 
@@ -371,36 +380,44 @@ class User
         return $result;
     }
 
+    //Magic function __construct that gets called every time a new User() is made
+    //Takes one argument: $email which is used to determine what user is taken from the database
     public function __construct($email)
     {
+
+        //Select all of the user's data from the database
         $conn = Db::getConnection();
         $statement = $conn->prepare('SELECT * FROM users WHERE email = :email');
         $statement->bindValue(':email', $email);
         $statement->execute();
         $user = $statement->fetch(PDO::FETCH_OBJ);
-        
-        if(!empty($user)){
+
+        //If the search returns a result, set all the objects properties to the properties taken from the database
+        if (!empty($user)) {
             $this->id = $user->id;
-        $this->buddyStatus = $user->buddy_status;
-        $this->fullname = $user->fullname;
-        $this->email = $user->email;
-        $this->password = $user->password;
-        $this->profileImg = $user->profileImg;
-        $this->bio = $user->bio;
-        $this->location = $user->location;
-        $this->games = $user->games;
-        $this->music = $user->music;
-        $this->films = $user->films;
-        $this->books = $user->books;
-        $this->study_pref = $user->study_pref;
-        $this->hobby = $user->hobby;
-        $this->buddy_id = $user->buddy_id;
+            $this->buddyStatus = $user->buddy_status;
+            $this->fullname = $user->fullname;
+            $this->email = $user->email;
+            $this->password = $user->password;
+            $this->profileImg = $user->profileImg;
+            $this->bio = $user->bio;
+            $this->location = $user->location;
+            $this->games = $user->games;
+            $this->music = $user->music;
+            $this->films = $user->films;
+            $this->books = $user->books;
+            $this->study_pref = $user->study_pref;
+            $this->hobby = $user->hobby;
+            $this->buddy_id = $user->buddy_id;
         }
     }
 
+    //Function that changes the password
     public function changePassword($newpassword)
     {
         $conn = Db::getConnection();
+
+        //Encrypt the password
         $newpassword = password_hash($_POST['newpassword'], PASSWORD_BCRYPT);
 
         $insert = $conn->prepare("UPDATE users SET password = :newpassword WHERE email = :email");
@@ -409,10 +426,12 @@ class User
         $insert->execute();
     }
 
-
+    //Function that changes the email
     public function changeEmail($newemail)
     {
         $conn = Db::getConnection();
+
+        //Make email case insensitive
         $newemail = strtolower($newemail);
 
         $insert = $conn->prepare("UPDATE users SET email = :newemail WHERE email = :email");
@@ -420,9 +439,11 @@ class User
         $insert->bindValue(':newemail', $newemail);
         $insert->execute();
 
+        //Set the $_SESSION['user'] to the new email, otherwise everything breaks
         $_SESSION['user'] = $newemail;
     }
 
+    //Function that changes the buddy_status
     public function changeBuddyStatus($newstatus)
     {
         $conn = Db::getConnection();
@@ -472,10 +493,10 @@ class User
         return $result;
     }
 
-    // Function to check if profile is complete
-
+    //Function to check if profile is complete
     public function checkProfileComplete()
     {
+        //If nothing is empty, return true
         if (!empty($this->profileImg) && !empty($this->getBio()) && !empty($this->getLocation()) && !empty($this->getGames()) && !empty($this->getMusic()) && !empty($this->getFilms()) && !empty($this->getBooks()) && !empty($this->getStudy_pref()) && !empty($this->getHobby())) {
             return true;
         } else {
@@ -485,14 +506,14 @@ class User
 
     public static function checkPassword($email, $password)
     {
-        // Prepared PDO statement that fetches the password corresponding to the inputted email
+        //Prepared PDO statement that fetches the password corresponding to the inputted email
         $conn = Db::getConnection();
         $statement = $conn->prepare("SELECT password FROM users WHERE email = :email");
         $statement->bindValue(":email", $email);
         $statement->execute();
         $result = $statement->fetch(PDO::FETCH_ASSOC);
 
-        // Check if the password is correct
+        //Check if the password is correct
         if (isset($result['password'])) {
             if (password_verify($password, $result['password'])) {
                 return true;
@@ -504,22 +525,34 @@ class User
         }
     }
 
-    public static function searchUsers($filters){
+    //Function that searches the database based on filters
+    public static function searchUsers($filters)
+    {
 
+        //The base SQL query if no filters are inputted
         $sql = "SELECT * FROM users WHERE 1=1";
 
-        foreach($filters as $key => $filter){
-            if(!empty($filter)){
+        //Add each $filter that is found in the $filters array (based on $_POST values)
+        foreach ($filters as $key => $filter) {
+            if (!empty($filter)) {
+
+                //Construct the parameter
                 $parameter = ":" . $key;
+
+                //Add the filter and the parameter to the SQL query string
                 $sql .= " AND $key = $parameter";
             }
         }
 
         $conn = Db::getConnection();
+
+        //Prepare the constructed SQL string
         $statement = $conn->prepare($sql);
 
-        foreach($filters as $key => $filter){
-            if(!empty($filter)){
+        //For each $filter, bind the value to the parameter
+        //Can't be merged with other foreach, because this happens after the prepare(), while the string construction has to happen before the prepare()
+        foreach ($filters as $key => $filter) {
+            if (!empty($filter)) {
                 $parameter = ":" . $key;
                 $statement->bindValue($parameter, $filter);
             }
@@ -530,75 +563,82 @@ class User
 
         return $result;
     }
-       //Function that fetches all users from the database
-       public function getAllExceptUser()
-       {
-           //Database connection
-           $conn = Db::getConnection();
-   
-           //Prepare and executestatement
-           $statement = $conn->prepare("SELECT * FROM users WHERE email <> :email");
-           $statement->bindValue(':email', $this->getEmail());
-           $statement->execute();
-   
-           //Fetch all rows as an array indexed by column name
-           $users = $statement->fetchAll(PDO::FETCH_OBJ);
-   
-           //Return the result from the query
-           return $users;
-       }
 
+    //Function that fetches all users from the database except for the active user
+    public function getAllExceptUser()
+    {
+        $conn = Db::getConnection();
+
+        //<> is the same as !=
+        $statement = $conn->prepare("SELECT * FROM users WHERE email <> :email");
+        $statement->bindValue(':email', $this->getEmail());
+        $statement->execute();
+        $users = $statement->fetchAll(PDO::FETCH_OBJ);
+
+        return $users;
+    }
+
+    //Function that checks if a user matches the active user
     public function getMatch($potMatch)
     {
         $score = 0;
 
-        if ($this->getLocation() == $potMatch->location){
+        //For every similar property, add to the score
+        //Weight of every similarity can be changed by just adjusting the score added
+
+        if ($this->getLocation() == $potMatch->location) {
             $score += 10;
         }
 
-        if ($this->getGames() == $potMatch->games){
+        if ($this->getGames() == $potMatch->games) {
             $score += 10;
         }
 
-        if ($this->getMusic() == $potMatch->music){
+        if ($this->getMusic() == $potMatch->music) {
             $score += 10;
         }
 
-        if ($this->getFilms() == $potMatch->films){
+        if ($this->getFilms() == $potMatch->films) {
             $score += 10;
         }
 
-        if ($this->getBooks() == $potMatch->books){
+        if ($this->getBooks() == $potMatch->books) {
             $score += 10;
         }
 
-        if ($this->getHobby() == $potMatch->hobby){
+        if ($this->getHobby() == $potMatch->hobby) {
             $score += 10;
         }
 
-        if ($this->getStudy_pref() == $potMatch->study_pref){
+        if ($this->getStudy_pref() == $potMatch->study_pref) {
             $score += 10;
         }
 
-        if($score >= 20){
+        //If the score is above a certain number, return the potential match as an object
+        //The number can be changed according to how similar the matches have to be
+        if ($score >= 20) {
             return $potMatch;
         }
     }
 
-    public static function findBuddy($email){
+    //Function that finds the user's buddy via his email
+    public static function findBuddy($email)
+    {
 
         $conn = Db::getConnection();
+
+        //SQL that selects the user's buddy_id
         $statement = $conn->prepare("SELECT buddy_id FROM users WHERE email = :email");
         $statement->bindValue(":email", $email);
         $statement->execute();
         $result = $statement->fetch(PDO::FETCH_OBJ);
 
+        //SQL that uses that buddy_id to select the name and image of that user's buddy
         $statement = $conn->prepare("SELECT fullname, profileImg FROM users WHERE id = :buddy_id");
         $statement->bindValue(":buddy_id", $result->buddy_id);
         $statement->execute();
         $result = $statement->fetch(PDO::FETCH_OBJ);
 
         return $result;
-
     }
 }
