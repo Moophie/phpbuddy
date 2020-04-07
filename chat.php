@@ -43,33 +43,36 @@ if (!empty($_POST['sendMessage'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/phpbuddy.css">
     <title>Chat</title>
     <style>
         .chat {
             border: solid black 1px;
-            margin-right:30%;
-            margin-left:30%;
+            margin-right: 30%;
+            margin-left: 30%;
             padding: 20px;
-            max-width:500px;
+            max-width: 500px;
         }
     </style>
 </head>
 
 <body>
-        <form action="" method="POST" class="chat">
-            <h2>Chat</h2>
-            <a href="index.php">Back to home</a>
-            <div class="messagebox">
-                <?php
-                $messages = getMessages();
-                foreach ($messages as $message) : ?>
-                    <p><strong><?= htmlspecialchars($message->fullname) ?></strong></p>
-                    <p><?= htmlspecialchars($message->content) ?></p>
-                <?php endforeach; ?>
-            </div>
-            <textarea name="content" id="" cols="30" rows="1"></textarea>
-            <input type="submit" name="sendMessage" value="Send">
-        </form>
+    <?php include_once("nav.include.php"); ?>
+
+    <form action="" method="POST" class="chat">
+        <h2>Chat</h2>
+        <a href="index.php">Back to home</a>
+        <div class="messagebox">
+            <?php
+            $messages = getMessages();
+            foreach ($messages as $message) : ?>
+                <p><strong><?= htmlspecialchars($message->fullname) ?></strong></p>
+                <p><?= htmlspecialchars($message->content) ?></p>
+            <?php endforeach; ?>
+        </div>
+        <textarea name="content" id="" cols="30" rows="1"></textarea>
+        <input type="submit" name="sendMessage" value="Send">
+    </form>
 </body>
 
 </html>

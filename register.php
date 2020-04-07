@@ -41,62 +41,26 @@ if (!empty($_POST)) {
 	<meta charset="utf-8">
 	<title>Register</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-	<!-- Font-->
-	<link rel="stylesheet" type="text/css" href="css/roboto-font.css">
-	<link rel="stylesheet" type="text/css" href="fonts/font-awesome-5/css/fontawesome-all.min.css">
-	<!-- Main Style Css -->
-	<link rel="stylesheet" href="css/style_register.css" />
 	<link rel="stylesheet" href="css/bootstrap.css">
-	<link rel="stylesheet" href="css/login.css">
+	<link rel="stylesheet" type="text/css" href="fonts/font-awesome-5/css/fontawesome-all.min.css">
+	<link rel="stylesheet" href="css/style_register.css" />
 	<link href="https://fonts.googleapis.com/css?family=Lato:400,700&display=swap" rel="stylesheet">
-	<title>IMD Buddy: login</title>
 </head>
 
 <body>
 
-	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-		<div class="container">
-			<a class="navbar-brand" href="#">IMD Buddy</a>
-			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-				<span class="navbar-toggler-icon"></span>
-			</button>
-			<div class="collapse navbar-collapse" id="navbarText">
-				<ul class="navbar-nav mr-auto">
-					<li class="nav-item">
-						<a class="nav-link" href="index.php">Home <span class="sr-only">(current)</span></a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="#">Information</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="#">Contact</a>
-					</li>
-				</ul>
-				<span class="navbar-text">
-					<ul class="navbar-nav mr-auto">
-						<li class="nav-item">
-							<a class="nav-link active" href="login.php"><i class="fas fa-user"></i> Log in</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="register.php"><i class="fas fa-user-plus"></i> Sign up</a>
-						</li>
-					</ul>
-				</span>
-			</div>
-		</div>
-	</nav>
+	<?php include_once("nav.include.php") ?>
 
 	<div class="page-content">
 		<div class="form-v5-content">
 			<form class="form-detail" action="" method="post">
 				<h2>Register Account Buddy application</h2>
-				<div class="form-row">
-					<?php if (!empty($error)) : ?>
-						<div style="background-color:#F8D7DA; padding:10px; border-radius:10px;">
-							<?= $error ?>
-						</div>
-						<br>
+				<?php if (!empty($error)) : ?>
+					<div style="background-color:#F8D7DA; padding:10px; border-radius:10px;">
+						<p><?= $error ?></p>
+					</div>
 					<?php endif; ?>
+				<div class="form-row">
 					<label for="fullname">Full Name</label>
 					<input type="text" name="fullname" id="fullname" class="input-text" placeholder="Your Name" required>
 					<i class="fas fa-user"></i>

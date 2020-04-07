@@ -70,95 +70,15 @@ if (!empty($_POST['changeStatus'])) {
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <link rel="stylesheet" href="css/bootstrap.css">
+  <link rel="stylesheet" href="css/phpbuddy.css">
   <link rel="stylesheet" href="css/style_profile.css">
   <link href="https://fonts.googleapis.com/css?family=Lato:400,700&display=swap" rel="stylesheet">
   <title>IMD Buddy</title>
-  <style>
-    .dropbtn {
-      color: white;
-      padding: 16px;
-      font-size: 16px;
-      border: none;
-    }
-
-    .dropbtn i {
-      margin-right: 5px;
-    }
-
-    .dropdown {
-      position: relative;
-      display: inline-block;
-    }
-
-    .dropdown-content {
-      display: none;
-      position: absolute;
-      background-color: #343A40;
-      min-width: 160px;
-      box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-      z-index: 1;
-    }
-
-    .dropdown-content a {
-      color: white;
-      padding: 12px 16px;
-      text-decoration: none;
-      display: block;
-    }
-
-    .dropdown-content a:hover {
-      background-color: #68717a;
-    }
-
-    .dropdown:hover .dropdown-content {
-      display: block;
-    }
-  </style>
 </head>
 
 <body>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container">
-      <a class="navbar-brand" href="#">IMD Buddy</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarText">
-        <ul class="navbar-nav mr-auto">
-          <li class="nav-item active">
-            <a class="nav-link" href="index.php">Home <span class="sr-only">(current)</span></a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Information</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="buddy.php">Buddy</a>
-          </li>
-        </ul>
-        <span class="navbar-text">
-          <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-              <div class="dropdown">
 
-                <a class="dropbtn">
-                  <i class="fas fa-user"></i>
-                  <?php
-                  // Don't forget to htmlspecialchars() when using inputted variables in your code
-                  echo htmlspecialchars($email);
-                  ?>
-                </a>
-                <div class="dropdown-content">
-                  <a href="profile.php">Profile</a>
-                  <div class="dropdown-divider"></div>
-                  <a href="logout.php">Log out</a>
-                </div>
-              </div>
-            </li>
-          </ul>
-        </span>
-      </div>
-    </div>
-  </nav>
+  <?php include_once("nav.include.php"); ?>
 
   <div class="container emp-profile">
     <div class="row">

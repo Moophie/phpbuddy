@@ -23,10 +23,14 @@ if (!empty($_POST)) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/phpbuddy.css">
     <title>Search</title>
 </head>
 
 <body>
+
+    <?php include_once("nav.include.php"); ?>
+
     <div class="float-left" style="margin-right:40px;">
         <form action="" method="POST" class="border rounded" style="padding:20px; width:500px;">
             <h1>Search</h1>
@@ -77,21 +81,21 @@ if (!empty($_POST)) {
 
 
     <div class="float-left">
-        <?php if(!empty($foundUsers)): ?>
-        <?php foreach ($foundUsers as $foundUser) : ?>
-            <div class="float-left" style="margin-right: 10px; border: 1px solid black; padding: 10px;">
-                <ul style="list-style:none; margin:0px; padding:0px;">
-                    <li><b>Full name:</b> <?= $foundUser->fullname ?></li>
-                    <li><b>Location :</b> <?= $foundUser->location ?></li>
-                    <li><b>Games    :</b> <?= $foundUser->games ?></li>
-                    <li><b>Music    :</b> <?= $foundUser->music ?></li>
-                    <li><b>Films    :</b> <?= $foundUser->films ?></li>
-                    <li><b>Books    :</b> <?= $foundUser->books ?></li>
-                    <li><b>Hobby    :</b> <?= $foundUser->hobby ?></li>
-                    <li><b>Studies  :</b> <?= $foundUser->study_pref ?></li>
-                </ul>
-            </div>
-        <?php endforeach; ?>
+        <?php if (!empty($foundUsers)) : ?>
+            <?php foreach ($foundUsers as $foundUser) : ?>
+                <div class="float-left" style="margin-right: 10px; border: 1px solid black; padding: 10px;">
+                    <ul style="list-style:none; margin:0px; padding:0px;">
+                        <li><b>Full name:</b> <?= $foundUser->fullname ?></li>
+                        <li><b>Location :</b> <?= $foundUser->location ?></li>
+                        <li><b>Games :</b> <?= $foundUser->games ?></li>
+                        <li><b>Music :</b> <?= $foundUser->music ?></li>
+                        <li><b>Films :</b> <?= $foundUser->films ?></li>
+                        <li><b>Books :</b> <?= $foundUser->books ?></li>
+                        <li><b>Hobby :</b> <?= $foundUser->hobby ?></li>
+                        <li><b>Studies :</b> <?= $foundUser->study_pref ?></li>
+                    </ul>
+                </div>
+            <?php endforeach; ?>
         <?php endif; ?>
     </div>
 </body>
