@@ -85,6 +85,10 @@ if (!empty($_POST['sendMessage'])) {
             foreach ($messages as $message) : ?>
                 <p><strong><?= htmlspecialchars($message->fullname) ?></strong></p>
                 <p><?= htmlspecialchars($message->content) ?></p>
+                <div class="container">
+            <div class="header">
+            </div>
+            <div class="main">
 <!-- Reaction system start -->
 <div class="reaction-container"><!-- container div for reaction system -->
 <span class="reaction-btn"> <!-- Default like button -->
