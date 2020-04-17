@@ -16,7 +16,7 @@ function getMessages()
     $user = new User($_SESSION['user']);
 
     $conn = Db::getConnection();
-    $statement = $conn->prepare("SELECT messages.content, users.fullname FROM messages,users WHERE messages.sender_id = users.id AND (messages.receiver_id = :userId OR messages.sender_id = :userId) ORDER BY messages.id ASC");
+    $statement = $conn->prepare("SELECT messages.id, messages.content, users.fullname FROM messages,users WHERE messages.sender_id = users.id AND (messages.receiver_id = :userId OR messages.sender_id = :userId) ORDER BY messages.id ASC");
     $statement->bindValue(":userId", $user->getId());
     $statement->execute();
     $result = $statement->fetchAll(PDO::FETCH_OBJ);
@@ -51,14 +51,13 @@ if (!empty($_POST['sendMessage'])) {
     <link rel="stylesheet" href="css/bootstrap.css">
     <link rel="stylesheet" href="css/phpbuddy.css">
     <!-- bootstrap css -->
-<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
-<link rel="stylesheet" type="text/css" href="css/style.css" />
-<!-- Css for reaction system -->
-<link rel="stylesheet" type="text/css" href="css/reaction.css" />
- 
-<script type="text/javascript" src="js/jquery.min.js"></script>
-<!-- jQuery for Reaction system -->
-<script type="text/javascript" src="js/reaction.js"></script>
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    <!-- Css for reaction system -->
+    <link rel="stylesheet" type="text/css" href="css/reaction.css" />
+
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <!-- jQuery for Reaction system -->
+    <script type="text/javascript" src="js/reaction.js"></script>
     <title>Chat</title>
     <style>
         .chat {
@@ -86,34 +85,38 @@ if (!empty($_POST['sendMessage'])) {
                 <p><strong><?= htmlspecialchars($message->fullname) ?></strong></p>
                 <p><?= htmlspecialchars($message->content) ?></p>
                 <div class="container">
-            <div class="header">
-            </div>
-            <div class="main">
-<!-- Reaction system start -->
-<div class="reaction-container"><!-- container div for reaction system -->
-<span class="reaction-btn"> <!-- Default like button -->
-<span class="reaction-btn-emo like-btn-default"></span> <!-- Default like button emotion-->
-<span class="reaction-btn-text">Like</span> <!-- Default like button text,(Like, wow, sad..) default:Like  -->
-<ul class="emojies-box"> <!-- Reaction buttons container-->
-<li class="emoji emo-like" data-reaction="Like"></li>
-<li class="emoji emo-love" data-reaction="Love"></li>
-<li class="emoji emo-haha" data-reaction="HaHa"></li>
-<li class="emoji emo-wow" data-reaction="Wow"></li>
-<li class="emoji emo-sad" data-reaction="Sad"></li>
-<li class="emoji emo-angry" data-reaction="Angry"></li>
-</ul>
-</span>
-<div class="like-stat"> <!-- Like statistic container-->
-<span class="like-emo"> <!-- like emotions container -->
-<span class="like-btn-like"></span> <!-- given emotions like, wow, sad (default:Like) -->
-</span>
-</div>
-</div>
-<!-- Reaction system end -->
-            <?php endforeach; ?>
-        </div>
-        <textarea name="content" id="" cols="30" rows="1"></textarea>
-        <input type="submit" name="sendMessage" value="Send">
+                    <div class="header">
+                    </div>
+                    <div class="main">
+                        <!-- Reaction system start -->
+                        <div class="reaction-container">
+                            <!-- container div for reaction system -->
+                            <span class="reaction-btn">
+                                <!-- Default like button -->
+                                <span class="reaction-btn-text">Like</span> <!-- Default like button text,(Like, wow, sad..) default:Like  -->
+                                <ul class="emojies-box">
+                                    <!-- Reaction buttons container-->
+                                    <li class="emoji emo-like" data-reaction="Like" message-id="<?= $message->id?>"></li>
+                                    <li class="emoji emo-love" data-reaction="Love" message-id="<?= $message->id?>"></li>
+                                    <li class="emoji emo-haha" data-reaction="HaHa" message-id="<?= $message->id?>"></li>
+                                    <li class="emoji emo-wow" data-reaction="Wow" message-id="<?= $message->id?>"></li>
+                                    <li class="emoji emo-sad" data-reaction="Sad" message-id="<?= $message->id?>"></li>
+                                    <li class="emoji emo-angry" data-reaction="Angry" message-id="<?= $message->id?>"></li>
+                                </ul>
+                            </span>
+                            <div class="like-stat">
+                                <!-- Like statistic container-->
+                                <span class="like-emo">
+                                    <!-- like emotions container -->
+                                    <span class="like-btn-like"></span> <!-- given emotions like, wow, sad (default:Like) -->
+                                </span>
+                            </div>
+                        </div>
+                        <!-- Reaction system end -->
+                    <?php endforeach; ?>
+                    </div>
+                    <textarea name="content" id="" cols="30" rows="1"></textarea>
+                    <input type="submit" name="sendMessage" value="Send">
     </form>
 </body>
 
