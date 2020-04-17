@@ -634,7 +634,7 @@ class User
         $result = $statement->fetch(PDO::FETCH_OBJ);
 
         //SQL that uses that buddy_id to select the name and image of that user's buddy
-        $statement = $conn->prepare("SELECT fullname, profileImg FROM users WHERE id = :buddy_id");
+        $statement = $conn->prepare("SELECT * FROM users WHERE id = :buddy_id");
         $statement->bindValue(":buddy_id", $result->buddy_id);
         $statement->execute();
         $result = $statement->fetch(PDO::FETCH_OBJ);

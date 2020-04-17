@@ -51,6 +51,8 @@ if (!empty($_POST['acceptBuddy'])) {
     }
 }
 
+$userBuddy = User::findBuddy($user->getEmail());
+
 ?>
 
 <!DOCTYPE html>
@@ -93,7 +95,7 @@ if (!empty($_POST['acceptBuddy'])) {
     </div>
     <div class="container">
         <div class="jumbotron">
-            <div class="center" style="height:400px;">
+            <div class="center" style="height:450px;">
                 <!-- If the user has no buddy yet, show suggestions -->
 
                 <?php if (empty($user->getBuddy_id())) : ?>
@@ -106,7 +108,7 @@ if (!empty($_POST['acceptBuddy'])) {
                         $match = $user->getMatch($potMatch);
 
                         //If the function returns a match, print it out
-                        if (!empty($match) && empty($match->buddy_id)) : ?>
+                        if (!empty($match) && (empty($match->buddy_id) || $match->buddy_id == $user->getId())) : ?>
                             <div class="matches float-left" style="display:block">
                                 <h4><?= $match->fullname ?></h4>
                                 <img src="./uploads/<?= htmlspecialchars($match->profileImg) ?>" width="100px;" height="100px;" />
@@ -156,6 +158,44 @@ if (!empty($_POST['acceptBuddy'])) {
                             </div>
                         <?php endif; ?>
                     <?php endforeach; ?>
+                <?php else : ?>
+                    <?php if ($userBuddy->buddy_id == $user->getId()) : ?>
+                        <h2 style="margin-top:-30px; padding-bottom: 20px">Your buddy</h2>
+                    <?php else : ?>
+                        <h2 style="margin-top:-30px; padding-bottom: 20px">You have sent a request to:</h2>
+                    <?php endif; ?>
+                    <div class="d-flex flex-row border rounded">
+                        <div class="p-0 w-25">
+                            <img src="./uploads/<?= htmlspecialchars($userBuddy->profileImg); ?>" class="img-thumbnail border-0" />
+                        </div>
+                        <div class="pl-3 pt-2 pr-2 pb-2 w-75 border-left">
+                            <h4 class="text-primary"><?= htmlspecialchars($userBuddy->fullname); ?></h4>
+                            <h6>Things you have in common:</h6>
+                            <!-- Check all attributes for common ones and then print them out -->
+                            <?php if ($userBuddy->location == $user->getLocation()) : ?>
+                                <p><?= "Location: " . htmlspecialchars($userBuddy->location); ?><p>
+                                    <?php endif; ?>
+                                    <?php if ($userBuddy->games == $user->getGames()) : ?>
+                                        <p><?= "Video games: " . htmlspecialchars($userBuddy->games); ?></p>
+                                    <?php endif; ?>
+                                    <?php if ($userBuddy->music == $user->getMusic()) : ?>
+                                        <p><?= "Music: " . htmlspecialchars($userBuddy->music); ?></p>
+                                    <?php endif; ?>
+                                    <?php if ($userBuddy->films == $user->getFilms()) : ?>
+                                        <p><?= "Movies: " . htmlspecialchars($userBuddy->films); ?></p>
+                                    <?php endif; ?>
+                                    <?php if ($userBuddy->books == $user->getBooks()) : ?>
+                                        <p><?= "Books: " . htmlspecialchars($userBuddy->books); ?></p>
+                                    <?php endif; ?>
+                                    <?php if ($userBuddy->study_pref == $user->getStudy_pref()) : ?>
+                                        <p><?= "Same study preferences: " . htmlspecialchars($userBuddy->study_pref); ?></p>
+                                    <?php endif; ?>
+                                    <?php if ($userBuddy->hobby == $user->getHobby()) : ?>
+                                        <p><?= "Hobby: " . htmlspecialchars($userBuddy->hobby); ?></p>
+                                    <?php endif; ?>
+                                    <p><a href="#" class="btn btn-primary"><i class="far fa-user"></i> View Profile</a></p>
+                        </div>
+                    </div>
                 <?php endif; ?>
             </div>
         </div>
