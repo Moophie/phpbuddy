@@ -174,6 +174,7 @@ $userBuddy = User::findBuddy($user->getEmail());
                                         <?php else : ?>
                                             <form action="" method="POST">
                                                 <input type="text" name="buddy_id" value="<?= htmlspecialchars($match->id) ?>" hidden>
+                                                <input type="text" name="buddy_email" value="<?= htmlspecialchars($match->email) ?>" hidden>
                                                 <input type="submit" name="getBuddy" value="Send buddy request!">
                                             </form>
                                         <?php endif; ?>
@@ -216,13 +217,7 @@ $userBuddy = User::findBuddy($user->getEmail());
                                     <?php if ($userBuddy->hobby == $user->getHobby()) : ?>
                                         <p><?= "Hobby: " . htmlspecialchars($userBuddy->hobby); ?></p>
                                     <?php endif; ?>
-
-                                    <form action="" method="POST">
-                                        <!-- Send the buddy_id of the match via POST (hidden), so it can be used in the SQL -->
-                                        <input type="text" name="buddy_id" value="<?= htmlspecialchars($match->id) ?>" hidden>
-                                        <input type="text" name="buddy_email" value="<?= htmlspecialchars($match->email) ?>" hidden>
-                                        <input type="submit" name="getBuddy" value="Accept buddy!">
-                                    </form>
+                                    <p><a href="#" class="btn btn-primary"><i class="far fa-user"></i> View Profile</a></p>
                         </div>
                     </div>
                 <?php endif; ?>
