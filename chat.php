@@ -101,7 +101,7 @@ if (!empty($_POST['sendMessage'])) {
                             </span>
                             <span class="reaction-btn <?= $message->id ?>">
                                 <!-- Default like button -->
-                                <span class="reaction-btn-text <?= $message->id ?> <?php if(!empty($message->reaction)){ echo "reaction-btn-text-" . strtolower($message->reaction); } ?> message-id="<?= $message->id ?>"><?php if(!empty($message->reaction)){ echo $message->reaction; }?> </span> <!-- Default like button text,(Like, wow, sad..) default:Like  -->
+                                <span class="reaction-btn-text <?= $message->id ?> <?php if(!empty($message->reaction)){ echo "reaction-btn-text-" . strtolower($message->reaction); echo " active"; } ?>" message-id="<?= $message->id ?>"><?php if(!empty($message->reaction)){ echo $message->reaction; }?> </span> <!-- Default like button text,(Like, wow, sad..) default:Like  -->
                                 <ul class="emojies-box">
                                     <!-- Reaction buttons container-->
                                     <li class="emoji emo-like" data-reaction="Like" message-id="<?= $message->id ?>"></li>

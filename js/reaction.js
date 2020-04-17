@@ -20,6 +20,7 @@ $(document).ready(function() {
         if ($(this).hasClass("active")) {
 
             var message_id = $(this).attr("message-id");
+            console.log(message_id);
 
             // Sending Ajax request in handler page to perform the database operations
             $.ajax({
