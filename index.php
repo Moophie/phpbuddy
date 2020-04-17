@@ -15,7 +15,7 @@ $user = new User($email);
 //Get all the users from the database except for the active user
 $potMatches = $user->getAllExceptUser();
 
-//If someone accepts a buddy
+//If someone sends a buddy suggestion
 if (!empty($_POST['getBuddy'])) {
 
     //Update the buddy_id in the database
@@ -27,6 +27,30 @@ if (!empty($_POST['getBuddy'])) {
 
     //Then redirect them to their chatwindow
     header("Location: chat.php");
+}
+
+if (!empty($_POST['acceptBuddy'])) {
+    if ($_POST['acceptBuddy'] == "Accept") {
+
+        //Make the other person your buddy
+        $conn = Db::getConnection();
+        $statement = $conn->prepare("UPDATE users SET buddy_id = :buddy_id WHERE email = :email");
+        $statement->bindValue(":buddy_id", $_POST['buddy_id']);
+        $statement->bindValue(":email", $user->getEmail());
+        $statement->execute();
+
+    } elseif ($_POST['acceptBuddy'] == "Reject"){
+
+        //Remove yourself as buddy
+        $conn = Db::getConnection();
+        $statement = $conn->prepare("UPDATE users SET buddy_id = 0 WHERE email = :email");
+        $statement->bindValue(":email", $_POST['buddy_email']);
+        $statement->execute();
+
+        //Prompt box for rejecting reason
+        echo "<script>var reason = prompt('Would you like telling the reason for this rejection?', 'Write reason here');</script>";
+
+    }
 }
 
 ?>
@@ -91,7 +115,7 @@ if (!empty($_POST['getBuddy'])) {
 
                             <!-- Check all attributes for common ones and then print them out -->
                             <?php if ($match->location == $user->getLocation()) : ?>
-                                <p> <?= "Location: " . htmlspecialchars($match->location); ?><p>
+                                <p><?= "Location: " . htmlspecialchars($match->location); ?><p>
                                     <?php endif; ?>
                                     <?php if ($match->games == $user->getGames()) : ?>
                                         <p><?= "Video games: " . htmlspecialchars($match->games); ?></p>
@@ -112,11 +136,22 @@ if (!empty($_POST['getBuddy'])) {
                                         <p><?= "Hobby: " . htmlspecialchars($match->hobby); ?></p>
                                     <?php endif; ?>
 
-                                    <form action="" method="POST">
-                                        <!-- Send the buddy_id of the match via POST (hidden), so it can be used in the SQL -->
-                                        <input type="text" name="buddy_id" value="<?= htmlspecialchars($match->id) ?>" hidden>
-                                        <input type="submit" name="getBuddy" value="Accept buddy!">
-                                    </form>
+                                    <?php if ($match->buddy_id == $user->getId()) : ?>
+                                        <form action="" method="POST">
+                                            <input type="text" name="buddy_id" value="<?= htmlspecialchars($match->id) ?>" hidden>
+                                            <input type="submit" name="acceptBuddy" value="Accept">
+                                        </form>
+                                        <form action="" method="POST">
+                                            <input type="text" name="buddy_email" value="<?= htmlspecialchars($match->email) ?>" hidden>
+                                            <input type="submit" name="acceptBuddy" value="Reject">
+                                        </form>
+                                    <?php else : ?>
+                                        <form action="" method="POST">
+                                            <input type="text" name="buddy_id" value="<?= htmlspecialchars($match->id) ?>" hidden>
+                                            <input type="submit" name="getBuddy" value="Send buddy request!">
+                                        </form>
+                                    <?php endif; ?>
+
                         </div>
                 <?php
                     endif;
