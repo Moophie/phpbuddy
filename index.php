@@ -27,8 +27,21 @@ if (!empty($_POST['getBuddy'])) {
     $statement->bindValue(":email", $user->getEmail());
     $statement->execute();
 
+    //send email to the buddy
+    $to = $_POST['buddy_email'];
+    $subject = "Buddy request";
+    $message = "Someone wants you as a buddy!";
+    $headers = "From: buddy@thomasmore.be";
+    if(mail($to,$subject,$message,$headers)){
+        echo "<script> window.alert('E-mail successfully Sent!');</script>";
+    }else{
+        echo "<script> window.alert('Error Try Again Please');</script>";
+    }
+
     //Then redirect them to their chatwindow
-    header("Location: chat.php");
+    //header("Location: chat.php");
+
+
 }
 
 if (!empty($_POST['acceptBuddy'])) {
@@ -203,7 +216,13 @@ $userBuddy = User::findBuddy($user->getEmail());
                                     <?php if ($userBuddy->hobby == $user->getHobby()) : ?>
                                         <p><?= "Hobby: " . htmlspecialchars($userBuddy->hobby); ?></p>
                                     <?php endif; ?>
-                                    <p><a href="#" class="btn btn-primary"><i class="far fa-user"></i> View Profile</a></p>
+
+                                    <form action="" method="POST">
+                                        <!-- Send the buddy_id of the match via POST (hidden), so it can be used in the SQL -->
+                                        <input type="text" name="buddy_id" value="<?= htmlspecialchars($match->id) ?>" hidden>
+                                        <input type="text" name="buddy_email" value="<?= htmlspecialchars($match->email) ?>" hidden>
+                                        <input type="submit" name="getBuddy" value="Accept buddy!">
+                                    </form>
                         </div>
                     </div>
                 <?php endif; ?>
