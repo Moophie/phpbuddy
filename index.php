@@ -26,11 +26,10 @@ if (!empty($_POST['getBuddy'])) {
     $statement->execute();
 
     //send email to the buddy
-    $emailUser = $user->getEmail();
-    $to = "serafima.y@hotmail.com";
-    $subject = "Testing php";
-    $message = "This is a test mail";
-    $headers = "From: $emailUser";
+    $to = $_POST['buddy_email'];
+    $subject = "Buddy request";
+    $message = "Someone wants you as a buddy!";
+    $headers = "From: buddy@thomasmore.be";
     if(mail($to,$subject,$message,$headers)){
         echo "<script> window.alert('E-mail successfully Sent!');</script>";
     }else{
@@ -130,6 +129,7 @@ if (!empty($_POST['getBuddy'])) {
                                     <form action="" method="POST">
                                         <!-- Send the buddy_id of the match via POST (hidden), so it can be used in the SQL -->
                                         <input type="text" name="buddy_id" value="<?= htmlspecialchars($match->id) ?>" hidden>
+                                        <input type="text" name="buddy_email" value="<?= htmlspecialchars($match->email) ?>" hidden>
                                         <input type="submit" name="getBuddy" value="Accept buddy!">
                                     </form>
                         </div>
