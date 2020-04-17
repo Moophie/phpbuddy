@@ -214,7 +214,7 @@ $userBuddy = User::findBuddy($user->getEmail());
 
 
     <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"> </script>
-    <script src="../js/bootstrap.js"></script>
+    <script src="js/bootstrap.js"></script>
     <script src="https://kit.fontawesome.com/2b908491a1.js" crossorigin="anonymous"></script>
 </body>
 
