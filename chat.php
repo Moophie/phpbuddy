@@ -16,7 +16,7 @@ function getMessages()
     $user = new User($_SESSION['user']);
 
     $conn = Db::getConnection();
-    $statement = $conn->prepare("SELECT messages.id, messages.content, users.fullname FROM messages,users WHERE messages.sender_id = users.id AND (messages.receiver_id = :userId OR messages.sender_id = :userId) ORDER BY messages.id ASC");
+    $statement = $conn->prepare("SELECT messages.id, messages.content, messages.reaction, users.fullname FROM messages,users WHERE messages.sender_id = users.id AND (messages.receiver_id = :userId OR messages.sender_id = :userId) ORDER BY messages.id ASC");
     $statement->bindValue(":userId", $user->getId());
     $statement->execute();
     $result = $statement->fetchAll(PDO::FETCH_OBJ);
@@ -39,6 +39,8 @@ if (!empty($_POST['sendMessage'])) {
     $statement->bindValue(":content", $content);
     $result = $statement->execute();
 }
+
+
 
 ?>
 
@@ -91,12 +93,15 @@ if (!empty($_POST['sendMessage'])) {
                         <!-- Reaction system start -->
                         <div class="reaction-container">
                             <!-- container div for reaction system -->
-                            <span class="like-emo">
+                            <span class="like-emo <?= $message->id ?> ">
                                 <!-- like emotions container -->
+                                <?php if (!empty($message->reaction)) : ?>
+                                    <span class="like-btn-<?= strtolower($message->reaction) ?>"></span>
+                                <?php endif; ?>
                             </span>
-                            <span class="reaction-btn">
+                            <span class="reaction-btn <?= $message->id ?>">
                                 <!-- Default like button -->
-                                <span class="reaction-btn-text">Like</span> <!-- Default like button text,(Like, wow, sad..) default:Like  -->
+                                <span class="reaction-btn-text <?= $message->id ?> <?php if(!empty($message->reaction)){ echo "reaction-btn-text-" . strtolower($message->reaction); } ?> message-id="<?= $message->id ?>"><?php if(!empty($message->reaction)){ echo $message->reaction; }?> </span> <!-- Default like button text,(Like, wow, sad..) default:Like  -->
                                 <ul class="emojies-box">
                                     <!-- Reaction buttons container-->
                                     <li class="emoji emo-like" data-reaction="Like" message-id="<?= $message->id ?>"></li>
