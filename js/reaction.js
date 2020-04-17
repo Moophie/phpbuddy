@@ -16,7 +16,7 @@ $(document).ready(function() {
                 if (data_reaction == "Like")
                     $(".like-emo").html('<span class="like-btn-like"></span>');
                 else
-                    $(".like-emo").html('<span class="like-btn-like"></span><span class="like-btn-' + data_reaction.toLowerCase() + '"></span>');
+                    $(".like-emo").html('<span class="like-btn-' + data_reaction.toLowerCase() + '"></span>');
             }
         })
     });
