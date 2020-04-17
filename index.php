@@ -12,7 +12,7 @@ $email = $_SESSION['user'];
 $user = new User($email);
 $potMatches = $user->getAllExceptUser();
 $registeredCount = $user->totalRegistration();
-$totalBuddyCount = $user->$totalBuddies();
+$totalBuddyCount = $user->totalBuddies();
 
 if (!empty($_POST['getBuddy'])) {
     $conn = Db::getConnection();
@@ -147,7 +147,7 @@ if (!empty($_POST['getBuddy'])) {
                 <p>Registered users = <?php echo $registeredCount ?> <?php ?> </p>
                 </div>
                 <div>
-                <p>amount of buddies = <?php echo $totalBuddyCount ?> </p>
+                <p>amount of buddy relations = <?php echo $totalBuddyCount ?> </p>
                 </div>
             </div>
             <h2>Welcome back, <?php echo htmlspecialchars($user->getFullname()) ?></h2>

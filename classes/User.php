@@ -330,7 +330,8 @@ class User
         return $this;
     }
 
-    public static function getAll(){
+    public static function getAll()
+    {
         //Database connection
         $conn = Db::getConnection();
 
@@ -378,23 +379,23 @@ class User
         $statement->bindValue(':email', $email);
         $statement->execute();
         $user = $statement->fetch(PDO::FETCH_OBJ);
-        
-        if(!empty($user)){
+
+        if (!empty($user)) {
             $this->id = $user->id;
-        $this->buddyStatus = $user->buddy_status;
-        $this->fullname = $user->fullname;
-        $this->email = $user->email;
-        $this->password = $user->password;
-        $this->profileImg = $user->profileImg;
-        $this->bio = $user->bio;
-        $this->location = $user->location;
-        $this->games = $user->games;
-        $this->music = $user->music;
-        $this->films = $user->films;
-        $this->books = $user->books;
-        $this->study_pref = $user->study_pref;
-        $this->hobby = $user->hobby;
-        $this->buddy_id = $user->buddy_id;
+            $this->buddyStatus = $user->buddy_status;
+            $this->fullname = $user->fullname;
+            $this->email = $user->email;
+            $this->password = $user->password;
+            $this->profileImg = $user->profileImg;
+            $this->bio = $user->bio;
+            $this->location = $user->location;
+            $this->games = $user->games;
+            $this->music = $user->music;
+            $this->films = $user->films;
+            $this->books = $user->books;
+            $this->study_pref = $user->study_pref;
+            $this->hobby = $user->hobby;
+            $this->buddy_id = $user->buddy_id;
         }
     }
 
@@ -504,12 +505,13 @@ class User
         }
     }
 
-    public static function searchUsers($filters){
+    public static function searchUsers($filters)
+    {
 
         $sql = "SELECT * FROM users WHERE 1=1";
 
-        foreach($filters as $key => $filter){
-            if(!empty($filter)){
+        foreach ($filters as $key => $filter) {
+            if (!empty($filter)) {
                 $parameter = ":" . $key;
                 $sql .= " AND $key = $parameter";
             }
@@ -518,8 +520,8 @@ class User
         $conn = Db::getConnection();
         $statement = $conn->prepare($sql);
 
-        foreach($filters as $key => $filter){
-            if(!empty($filter)){
+        foreach ($filters as $key => $filter) {
+            if (!empty($filter)) {
                 $parameter = ":" . $key;
                 $statement->bindValue($parameter, $filter);
             }
@@ -530,62 +532,63 @@ class User
 
         return $result;
     }
-       //Function that fetches all users from the database
-       public function getAllExceptUser()
-       {
-           //Database connection
-           $conn = Db::getConnection();
-   
-           //Prepare and executestatement
-           $statement = $conn->prepare("SELECT * FROM users WHERE email <> :email");
-           $statement->bindValue(':email', $this->getEmail());
-           $statement->execute();
-   
-           //Fetch all rows as an array indexed by column name
-           $users = $statement->fetchAll(PDO::FETCH_OBJ);
-   
-           //Return the result from the query
-           return $users;
-       }
+    //Function that fetches all users from the database
+    public function getAllExceptUser()
+    {
+        //Database connection
+        $conn = Db::getConnection();
+
+        //Prepare and executestatement
+        $statement = $conn->prepare("SELECT * FROM users WHERE email <> :email");
+        $statement->bindValue(':email', $this->getEmail());
+        $statement->execute();
+
+        //Fetch all rows as an array indexed by column name
+        $users = $statement->fetchAll(PDO::FETCH_OBJ);
+
+        //Return the result from the query
+        return $users;
+    }
 
     public function getMatch($potMatch)
     {
         $score = 0;
 
-        if ($this->getLocation() == $potMatch->location){
+        if ($this->getLocation() == $potMatch->location) {
             $score += 10;
         }
 
-        if ($this->getGames() == $potMatch->games){
+        if ($this->getGames() == $potMatch->games) {
             $score += 10;
         }
 
-        if ($this->getMusic() == $potMatch->music){
+        if ($this->getMusic() == $potMatch->music) {
             $score += 10;
         }
 
-        if ($this->getFilms() == $potMatch->films){
+        if ($this->getFilms() == $potMatch->films) {
             $score += 10;
         }
 
-        if ($this->getBooks() == $potMatch->books){
+        if ($this->getBooks() == $potMatch->books) {
             $score += 10;
         }
 
-        if ($this->getHobby() == $potMatch->hobby){
+        if ($this->getHobby() == $potMatch->hobby) {
             $score += 10;
         }
 
-        if ($this->getStudy_pref() == $potMatch->study_pref){
+        if ($this->getStudy_pref() == $potMatch->study_pref) {
             $score += 10;
         }
 
-        if($score >= 20){
+        if ($score >= 20) {
             return $potMatch;
         }
     }
 
-    public static function findBuddy($email){
+    public static function findBuddy($email)
+    {
 
         $conn = Db::getConnection();
         $statement = $conn->prepare("SELECT buddy_id FROM users WHERE email = :email");
@@ -599,44 +602,46 @@ class User
         $result = $statement->fetch(PDO::FETCH_OBJ);
 
         return $result;
-
     }
 
     public function totalRegistration()
-       {
-           //Database connection
-           $conn = Db::getConnection();
-   
-           //Prepare and executestatement
-           $statement = $conn->prepare("SELECT id FROM users");
-           $statement->execute();
-   
-           //Fetch all rows as an array indexed by column name
-           $users = $statement->fetchAll(PDO::FETCH_OBJ);
+    {
+        //Database connection
+        $conn = Db::getConnection();
 
-           //count all users
-           $totalRegistration = count($users);
-   
-           //Return the result from the query
-           return $totalRegistration;
-       }
+        //Prepare and executestatement
+        $statement = $conn->prepare("SELECT id FROM users");
+        $statement->execute();
 
-       public function totalBuddies()
-       {
-           //Database connection
-           $conn = Db::getConnection();
-   
-           //Prepare and executestatement
-           $statement = $conn->prepare("SELECT * FROM users WHERE buddy_id >= 1");
-           $statement->execute();
-   
-           //Fetch all rows as an array indexed by column name
-           $buddies = $statement->fetchAll(PDO::FETCH_OBJ);
+        //Fetch all rows as an array indexed by column name
+        $users = $statement->fetchAll(PDO::FETCH_OBJ);
 
-           //count all buddies
-           $totalBuddyCount = count($buddies);
-   
-           //Return the result from the query
-           return $totalBuddyCount;
-       }
+        //count all users
+        $totalRegistration = count($users);
+
+        //Return the result from the query
+        return $totalRegistration;
+    }
+
+    public function totalBuddies()
+    {
+        //Database connection
+        $conn = Db::getConnection();
+
+        //Prepare and executestatement
+        $statement = $conn->prepare("SELECT * FROM users WHERE buddy_id >= 1");
+        $statement->execute();
+
+        //Fetch all rows as an array indexed by column name
+        $buddies = $statement->fetchAll(PDO::FETCH_OBJ);
+
+        //Count all buddies
+        $totalBuddyCount = count($buddies);
+
+        //Divide by 2 to get amount of buddy relations
+        $totalBuddyCount = floor($totalBuddyCount / 2);
+
+        //Return the result from the query
+        return $totalBuddyCount;
+    }
 }
