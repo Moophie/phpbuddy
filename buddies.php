@@ -66,6 +66,7 @@ $users = User::getAll();
                         <br>
                     <?php endforeach ?>
                     </div>
+                </li>
         </ul>
     </div>
 
