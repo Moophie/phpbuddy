@@ -18,13 +18,6 @@ $potMatches = $user->getAllExceptUser();
 //If someone accepts a buddy
 if (!empty($_POST['getBuddy'])) {
 
-        //send email to user
-        $to = "serafima.y@hotmail.com";
-        $subject = "Testing php";
-        $message = "This is a test mail";
-        $headers = "From: test@student.thomasmore.be";
-        mail($to,$subject,$message,$headers);
-
     //Update the buddy_id in the database
     $conn = Db::getConnection();
     $statement = $conn->prepare("UPDATE users SET buddy_id = :buddy_id WHERE email = :email");
@@ -32,13 +25,23 @@ if (!empty($_POST['getBuddy'])) {
     $statement->bindValue(":email", $user->getEmail());
     $statement->execute();
 
-
+    //send email to the buddy
+    $emailUser = $user->getEmail();
+    $to = "serafima.y@hotmail.com";
+    $subject = "Testing php";
+    $message = "This is a test mail";
+    $headers = "From: $emailUser";
+    if(mail($to,$subject,$message,$headers)){
+        echo "<script> window.alert('E-mail successfully Sent!');</script>";
+    }else{
+        echo "<script> window.alert('Error Try Again Please');</script>";
+    }
 
     //Then redirect them to their chatwindow
-    header("Location: chat.php");
+    //header("Location: chat.php");
+
+
 }
-
-
 
 
 ?>
