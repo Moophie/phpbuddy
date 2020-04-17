@@ -601,4 +601,42 @@ class User
         return $result;
 
     }
+
+    public function totalRegistration()
+       {
+           //Database connection
+           $conn = Db::getConnection();
+   
+           //Prepare and executestatement
+           $statement = $conn->prepare("SELECT id FROM users");
+           $statement->execute();
+   
+           //Fetch all rows as an array indexed by column name
+           $users = $statement->fetchAll(PDO::FETCH_OBJ);
+
+           //count all users
+           $totalRegistration = count($users);
+   
+           //Return the result from the query
+           return $totalRegistration;
+       }
+
+       public function totalBuddies()
+       {
+           //Database connection
+           $conn = Db::getConnection();
+   
+           //Prepare and executestatement
+           $statement = $conn->prepare("SELECT * FROM users WHERE buddy_id >= 1");
+           $statement->execute();
+   
+           //Fetch all rows as an array indexed by column name
+           $buddies = $statement->fetchAll(PDO::FETCH_OBJ);
+
+           //count all buddies
+           $totalBuddyCount = count($buddies);
+   
+           //Return the result from the query
+           return $totalBuddyCount;
+       }
 }
