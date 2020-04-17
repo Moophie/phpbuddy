@@ -14,6 +14,8 @@ $user = new User($email);
 
 //Get all the users from the database except for the active user
 $potMatches = $user->getAllExceptUser();
+$registeredCount = $user->totalRegistration();
+$totalBuddyCount = $user->totalBuddies();
 
 //If someone sends a buddy suggestion
 if (!empty($_POST['getBuddy'])) {
@@ -82,6 +84,14 @@ $userBuddy = User::findBuddy($user->getEmail());
 
     <div class="container">
         <div class="jumbotron">
+            <div class="center">
+                <div>
+                <p>Registered users = <?php echo $registeredCount ?> <?php ?> </p>
+                </div>
+                <div>
+                <p>amount of buddy relations = <?php echo $totalBuddyCount ?> </p>
+                </div>
+            </div>
             <h2>Welcome back, <?php echo htmlspecialchars($user->getFullname()) ?></h2>
             <div class="center">
                 <?php if (!($user->checkProfileComplete())) : ?>

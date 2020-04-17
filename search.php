@@ -34,31 +34,31 @@ if (!empty($_POST)) {
     <div class="float-left" style="margin-right:40px;">
         <form action="" method="POST" class="border rounded" style="padding:20px; width:500px;">
             <h1>Search</h1>
-            <div class="form-group">
+            <div class="form-label-group">
                 <label for="location">Location</label>
                 <input type="text" id="location" name="location" class="form-control">
             </div>
-            <div class="form-group">
+            <div class="form-label-group">
                 <label for="games">Games</label>
                 <input type="text" id="games" name="games" class="form-control">
             </div>
-            <div class="form-group">
+            <div class="form-label-group">
                 <label for="music">Music</label>
                 <input type="text" id="music" name="music" class="form-control">
             </div>
-            <div class="form-group">
+            <div class="form-label-group">
                 <label for="films">Films</label>
                 <input type="text" id="films" name="films" class="form-control">
             </div>
-            <div class="form-group">
+            <div class="form-label-group">
                 <label for="books">Books</label>
                 <input type="text" id="books" name="books" class="form-control">
             </div>
-            <div class="form-group">
+            <div class="form-label-group">
                 <label for="hobby">Hobby</label>
                 <input type="text" id="hobby" name="hobby" class="form-control">
             </div>
-            <div class="form-group">
+            <div class="form-label-group">
                 <p>Study Preference</p>
                 <div class="form-check">
                     <input type="radio" id="design" name="study_pref" class="form-check-input" value="design">
