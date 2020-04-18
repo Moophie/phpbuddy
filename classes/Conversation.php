@@ -1,5 +1,7 @@
 <?php
 
+include_once(__DIR__ . "/Db.php");
+
 class Conversation
 {
     private $id;
@@ -92,12 +94,24 @@ class Conversation
     {
         $conn = Db::getConnection();
 
-        $statement = $conn->prepare("INSERT INTO messages (user_1, user_2, active) VALUES (:user_1, :user_2, 1)");
+        $statement = $conn->prepare("INSERT INTO conversations (user_1, user_2, active) VALUES (:user_1, :user_2, 1)");
 
         $statement->bindValue(":user_1", $this->getUser_1());
         $statement->bindValue(":user_2", $this->getUser_2());
 
         $result = $statement->execute();
+
+        return $result;
+    }
+
+    //Function that gets all messages from the current conversation
+    public function getMessages()
+    {
+        $conn = Db::getConnection();
+        $statement = $conn->prepare("SELECT messages.id, messages.content, messages.reaction, messages.timestamp, users.fullname FROM messages, users WHERE messages.sender_id = users.id AND conversation_id = :conversation_id ORDER BY messages.id ASC");
+        $statement->bindValue(":conversation_id", $this->getId());
+        $statement->execute();
+        $result = $statement->fetchAll(PDO::FETCH_OBJ);
 
         return $result;
     }

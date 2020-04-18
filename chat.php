@@ -2,42 +2,32 @@
 
 include_once(__DIR__ . "/classes/User.php");
 include_once(__DIR__ . "/classes/Db.php");
+include_once(__DIR__ . "/classes/Message.php");
+include_once(__DIR__ . "/classes/Conversation.php");
 
 session_start();
+
+$user = new User($_SESSION['user']);
 
 //If there's no active session, redirect to login.php
 if (empty($_SESSION['user'])) {
     header("Location: login.php");
 }
 
-//Function that gets all messages from the database where the current user is either the sender or the receiver)
-function getMessages()
-{
-    $user = new User($_SESSION['user']);
-
-    $conn = Db::getConnection();
-    $statement = $conn->prepare("SELECT messages.id, messages.content, messages.reaction, users.fullname FROM messages,users WHERE messages.sender_id = users.id AND (messages.receiver_id = :userId OR messages.sender_id = :userId) ORDER BY messages.id ASC");
-    $statement->bindValue(":userId", $user->getId());
-    $statement->execute();
-    $result = $statement->fetchAll(PDO::FETCH_OBJ);
-
-    return $result;
-}
-
 //If a message has been submitted, save it in the database
 if (!empty($_POST['sendMessage'])) {
 
-    $user = new User($_SESSION['user']);
-    $sender = $user->getId();
-    $receiver = $user->getBuddy_id();
-    $content = $_POST['content'];
+    $time = date('Y-m-d H:i:s');
+    var_dump($time);
+    $active_conversation = $user->getActiveConversations();
 
-    $conn = Db::getConnection();
-    $statement = $conn->prepare("INSERT INTO messages (sender_id, receiver_id, content) VALUES (:sender_id, :receiver_id, :content)");
-    $statement->bindValue(":sender_id", $sender);
-    $statement->bindValue(":receiver_id", $receiver);
-    $statement->bindValue(":content", $content);
-    $result = $statement->execute();
+    $message = new Message();
+    $message->setConversation_id($active_conversation->id);
+    $message->setSender_id($user->getId());
+    $message->setReceiver_id($user->getBuddy_id());
+    $message->setContent($_POST['content']);
+    $message->setTimestamp($time);
+    $message->saveMessage();
 }
 
 
@@ -80,11 +70,18 @@ if (!empty($_POST['sendMessage'])) {
         <a href="index.php">Back to home</a>
         <div class="messagebox">
             <?php
-            $messages = getMessages();
+            $active_conversation = $user->getActiveConversations();
+            $conversation = new Conversation();
+            $conversation->setId($active_conversation->id);
+            $messages = $conversation->getMessages();
 
             //Print out all messages
             foreach ($messages as $message) : ?>
-                <p><strong><?= htmlspecialchars($message->fullname) ?></strong></p>
+                <p>
+                <strong><?= htmlspecialchars($message->fullname) ?></strong>
+                <br>
+                <?= $message->timestamp; ?>
+                </p>
                 <p><?= htmlspecialchars($message->content) ?></p>
                 <div class="container" style="padding:0px">
                     <div class="header">
@@ -101,7 +98,14 @@ if (!empty($_POST['sendMessage'])) {
                             </span>
                             <span class="reaction-btn <?= $message->id ?>">
                                 <!-- Default like button -->
-                                <span class="reaction-btn-text <?= $message->id ?> <?php if(!empty($message->reaction)){ echo "reaction-btn-text-" . strtolower($message->reaction); echo " active"; } ?>" message-id="<?= $message->id ?>"><?php if(!empty($message->reaction)){ echo $message->reaction; }?> </span> <!-- Default like button text,(Like, wow, sad..) default:Like  -->
+                                <span class="reaction-btn-text <?= $message->id ?> <?php if (!empty($message->reaction)) {
+                                                                                        echo "reaction-btn-text-" . strtolower($message->reaction);
+                                                                                        echo " active";
+                                                                                    } ?>" message-id="<?= $message->id ?>"><?php if (!empty($message->reaction)) {
+                                                                                                                                echo $message->reaction;
+                                                                                                                            } else {
+                                                                                                                                echo "Like";
+                                                                                                                            } ?> </span> <!-- Default like button text,(Like, wow, sad..) default:Like  -->
                                 <ul class="emojies-box">
                                     <!-- Reaction buttons container-->
                                     <li class="emoji emo-like" data-reaction="Like" message-id="<?= $message->id ?>"></li>

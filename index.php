@@ -1,6 +1,7 @@
 <?php
 
 include_once(__DIR__ . "/classes/User.php");
+include_once(__DIR__ . "/classes/Conversation.php");
 
 session_start();
 
@@ -38,10 +39,14 @@ if (!empty($_POST['getBuddy'])) {
         echo "<script> window.alert('Error Try Again Please');</script>";
     }
 
+    //Create a conversation
+    $conversation = new Conversation();
+    $conversation->setUser_1($user->getId());
+    $conversation->setUser_2($_POST['buddy_id']);
+    $conversation->saveConversation();
+
     //Then redirect them to their chatwindow
     //header("Location: chat.php");
-
-
 }
 
 if (!empty($_POST['acceptBuddy'])) {
