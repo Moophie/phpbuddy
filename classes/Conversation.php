@@ -5,6 +5,7 @@ class Conversation
     private $id;
     private $user_1;
     private $user_2;
+    private $active;
 
 
     /**
@@ -65,5 +66,39 @@ class Conversation
         $this->user_2 = $user_2;
 
         return $this;
+    }
+
+    /**
+     * Get the value of active
+     */ 
+    public function getActive()
+    {
+        return $this->active;
+    }
+
+    /**
+     * Set the value of active
+     *
+     * @return  self
+     */ 
+    public function setActive($active)
+    {
+        $this->active = $active;
+
+        return $this;
+    }
+
+    public function saveConversation()
+    {
+        $conn = Db::getConnection();
+
+        $statement = $conn->prepare("INSERT INTO messages (user_1, user_2, active) VALUES (:user_1, :user_2, 1)");
+
+        $statement->bindValue(":user_1", $this->getUser_1());
+        $statement->bindValue(":user_2", $this->getUser_2());
+
+        $result = $statement->execute();
+
+        return $result;
     }
 }

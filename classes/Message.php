@@ -9,7 +9,7 @@ class Message
     private $sender_id;
     private $receiver_id;
     private $content;
-    private $time;
+    private $timestamp;
     private $read;
     private $reaction;
 
@@ -114,21 +114,21 @@ class Message
     }
 
     /**
-     * Get the value of time
+     * Get the value of timestamp
      */ 
-    public function getTime()
+    public function getTimestamp()
     {
-        return $this->time;
+        return $this->timestamp;
     }
 
     /**
-     * Set the value of time
+     * Set the value of timestamp
      *
      * @return  self
      */ 
-    public function setTime($time)
+    public function setTimestamp($timestamp)
     {
-        $this->time = $time;
+        $this->timestamp = $timestamp;
 
         return $this;
     }
@@ -173,5 +173,21 @@ class Message
         return $this;
     }
 
+    public function saveMessage()
+    {
+        $conn = Db::getConnection();
+
+        $statement = $conn->prepare("INSERT INTO messages (chat_id, sender_id, receiver_id, content, timestamp) VALUES (:chat_id, :sender_id, :receiver_id, :content, :timestamp)");
+
+        $statement->bindValue(":chat_id", $this->getChat_id());
+        $statement->bindValue(":sender_id", $this->getSender_id());
+        $statement->bindValue(":receiver_id", $this->getReceiver_id());
+        $statement->bindValue(":content", $this->getContent());
+        $statement->bindValue(":timestamp", $this->gettimestamp());
+
+        $result = $statement->execute();
+
+        return $result;
+    }
 
 }
