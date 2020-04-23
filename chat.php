@@ -71,57 +71,59 @@ if (!empty($_POST['sendMessage'])) {
         <div class="messagebox">
             <?php
             $active_conversation = $user->getActiveConversations();
-            $conversation = new Conversation();
-            $conversation->setId($active_conversation->id);
-            $messages = $conversation->getMessages();
+            if (!empty($active_conversation)) :
+                $conversation = new Conversation();
+                $conversation->setId($active_conversation->id);
+                $messages = $conversation->getMessages();
 
-            //Print out all messages
-            foreach ($messages as $message) : ?>
-                <p>
-                <strong><?= htmlspecialchars($message->fullname) ?></strong>
-                <br>
-                <?= $message->timestamp; ?>
-                </p>
-                <p><?= htmlspecialchars($message->content) ?></p>
-                <div class="container" style="padding:0px">
-                    <div class="header">
-                    </div>
-                    <div class="main">
-                        <!-- Reaction system start -->
-                        <div class="reaction-container">
-                            <!-- container div for reaction system -->
-                            <span class="like-emo <?= $message->id ?> ">
-                                <!-- like emotions container -->
-                                <?php if (!empty($message->reaction)) : ?>
-                                    <span class="like-btn-<?= strtolower($message->reaction) ?>"></span>
-                                <?php endif; ?>
-                            </span>
-                            <span class="reaction-btn <?= $message->id ?>">
-                                <!-- Default like button -->
-                                <span class="reaction-btn-text <?= $message->id ?> <?php if (!empty($message->reaction)) {
-                                                                                        echo "reaction-btn-text-" . strtolower($message->reaction);
-                                                                                        echo " active";
-                                                                                    } ?>" message-id="<?= $message->id ?>"><?php if (!empty($message->reaction)) {
+                //Print out all messages
+                foreach ($messages as $message) : ?>
+                    <p>
+                        <strong><?= htmlspecialchars($message->fullname) ?></strong>
+                        <br>
+                        <?= $message->timestamp; ?>
+                    </p>
+                    <p><?= htmlspecialchars($message->content) ?></p>
+                    <div class="container" style="padding:0px">
+                        <div class="header">
+                        </div>
+                        <div class="main">
+                            <!-- Reaction system start -->
+                            <div class="reaction-container">
+                                <!-- container div for reaction system -->
+                                <span class="like-emo <?= $message->id ?> ">
+                                    <!-- like emotions container -->
+                                    <?php if (!empty($message->reaction)) : ?>
+                                        <span class="like-btn-<?= strtolower($message->reaction) ?>"></span>
+                                    <?php endif; ?>
+                                </span>
+                                <span class="reaction-btn <?= $message->id ?>">
+                                    <!-- Default like button -->
+                                    <span class="reaction-btn-text <?= $message->id ?> <?php if (!empty($message->reaction)) {
+                                                                                            echo "reaction-btn-text-" . strtolower($message->reaction);
+                                                                                            echo " active";
+                                                                                        } ?>" message-id="<?= $message->id ?>"><?php if (!empty($message->reaction)) {
                                                                                                                                 echo $message->reaction;
                                                                                                                             } else {
                                                                                                                                 echo "Like";
                                                                                                                             } ?> </span> <!-- Default like button text,(Like, wow, sad..) default:Like  -->
-                                <ul class="emojies-box">
-                                    <!-- Reaction buttons container-->
-                                    <li class="emoji emo-like" data-reaction="Like" message-id="<?= $message->id ?>"></li>
-                                    <li class="emoji emo-love" data-reaction="Love" message-id="<?= $message->id ?>"></li>
-                                    <li class="emoji emo-haha" data-reaction="HaHa" message-id="<?= $message->id ?>"></li>
-                                    <li class="emoji emo-wow" data-reaction="Wow" message-id="<?= $message->id ?>"></li>
-                                    <li class="emoji emo-sad" data-reaction="Sad" message-id="<?= $message->id ?>"></li>
-                                    <li class="emoji emo-angry" data-reaction="Angry" message-id="<?= $message->id ?>"></li>
-                                </ul>
-                            </span>
+                                    <ul class="emojies-box">
+                                        <!-- Reaction buttons container-->
+                                        <li class="emoji emo-like" data-reaction="Like" message-id="<?= $message->id ?>"></li>
+                                        <li class="emoji emo-love" data-reaction="Love" message-id="<?= $message->id ?>"></li>
+                                        <li class="emoji emo-haha" data-reaction="HaHa" message-id="<?= $message->id ?>"></li>
+                                        <li class="emoji emo-wow" data-reaction="Wow" message-id="<?= $message->id ?>"></li>
+                                        <li class="emoji emo-sad" data-reaction="Sad" message-id="<?= $message->id ?>"></li>
+                                        <li class="emoji emo-angry" data-reaction="Angry" message-id="<?= $message->id ?>"></li>
+                                    </ul>
+                                </span>
+                            </div>
+                            <!-- Reaction system end -->
                         </div>
-                        <!-- Reaction system end -->
+                        <br>
                     </div>
-                    <br>
-                </div>
-            <?php endforeach; ?>
+                <?php endforeach; ?>
+            <?php endif; ?>
 
             <textarea name="content" id="" cols="30" rows="1"></textarea>
             <input type="submit" name="sendMessage" value="Send">

@@ -28,6 +28,7 @@ if (!empty($_POST['getBuddy'])) {
     $statement->bindValue(":email", $user->getEmail());
     $statement->execute();
 
+    /*
     //send email to the buddy
     $to = $_POST['buddy_email'];
     $subject = "Buddy request";
@@ -37,7 +38,7 @@ if (!empty($_POST['getBuddy'])) {
         echo "<script> window.alert('E-mail successfully Sent!');</script>";
     }else{
         echo "<script> window.alert('Error Try Again Please');</script>";
-    }
+    }*/
 
     //Create a conversation
     $conversation = new Conversation();
@@ -69,6 +70,25 @@ if (!empty($_POST['acceptBuddy'])) {
         //Prompt box for rejecting reason
         echo "<script>var reason = prompt('Would you like telling the reason for this rejection?', 'Write reason here');</script>";
     }
+}
+
+if (!empty($_POST['unmatch'])) {
+    $conn = Db::getConnection();
+
+    if ($_POST['buddy_id'] == $user->getId()){
+        $statement = $conn->prepare("UPDATE users SET buddy_id = 0 WHERE email = :email OR id = :buddy_id");
+        $statement->bindValue(":buddy_id", $user->getBuddy_id());
+        $statement->bindValue(":email", $user->getEmail());
+        $statement->execute();
+    } else {
+        $statement = $conn->prepare("UPDATE users SET buddy_id = 0 WHERE email = :email");
+        $statement->bindValue(":email", $user->getEmail());
+        $statement->execute();
+    }
+
+    $statement = $conn->prepare("UPDATE conversations SET active = 0 WHERE user_1 = :user_id OR user_2 = :user_id");
+    $statement->bindValue(":user_id", $user->getId());
+    $statement->execute();
 }
 
 $userBuddy = User::findBuddy($user->getEmail());
@@ -104,10 +124,10 @@ $userBuddy = User::findBuddy($user->getEmail());
         <div class="jumbotron">
             <div class="center">
                 <div>
-                <p>Registered users = <?php echo $registeredCount ?> <?php ?> </p>
+                    <p>Registered users = <?php echo $registeredCount ?> <?php ?> </p>
                 </div>
                 <div>
-                <p>amount of buddy relations = <?php echo $totalBuddyCount ?> </p>
+                    <p>amount of buddy relations = <?php echo $totalBuddyCount ?> </p>
                 </div>
             </div>
             <h2>Welcome back, <?php echo htmlspecialchars($user->getFullname()) ?></h2>
@@ -222,7 +242,13 @@ $userBuddy = User::findBuddy($user->getEmail());
                                     <?php if ($userBuddy->hobby == $user->getHobby()) : ?>
                                         <p><?= "Hobby: " . htmlspecialchars($userBuddy->hobby); ?></p>
                                     <?php endif; ?>
-                                    <p><a href="#" class="btn btn-primary"><i class="far fa-user"></i> View Profile</a></p>
+                                    <form action="" method="POST">
+                                        <input type="text" class="btn btn-primary" value="View Profile">
+                                        <br>
+                                        <br>
+                                        <input type="text" name = "buddy_id" value="<?php echo $userBuddy->buddy_id; ?>" hidden>
+                                        <input type="submit" class="btn btn-danger" name="unmatch" value="Unmatch Buddy">
+                                    </form>
                         </div>
                     </div>
                 <?php endif; ?>

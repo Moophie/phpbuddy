@@ -12,7 +12,7 @@ class Conversation
 
     /**
      * Get the value of id
-     */ 
+     */
     public function getId()
     {
         return $this->id;
@@ -22,7 +22,7 @@ class Conversation
      * Set the value of id
      *
      * @return  self
-     */ 
+     */
     public function setId($id)
     {
         $this->id = $id;
@@ -32,7 +32,7 @@ class Conversation
 
     /**
      * Get the value of user_1
-     */ 
+     */
     public function getUser_1()
     {
         return $this->user_1;
@@ -42,7 +42,7 @@ class Conversation
      * Set the value of user_1
      *
      * @return  self
-     */ 
+     */
     public function setUser_1($user_1)
     {
         $this->user_1 = $user_1;
@@ -52,7 +52,7 @@ class Conversation
 
     /**
      * Get the value of user_2
-     */ 
+     */
     public function getUser_2()
     {
         return $this->user_2;
@@ -62,7 +62,7 @@ class Conversation
      * Set the value of user_2
      *
      * @return  self
-     */ 
+     */
     public function setUser_2($user_2)
     {
         $this->user_2 = $user_2;
@@ -72,7 +72,7 @@ class Conversation
 
     /**
      * Get the value of active
-     */ 
+     */
     public function getActive()
     {
         return $this->active;
@@ -82,7 +82,7 @@ class Conversation
      * Set the value of active
      *
      * @return  self
-     */ 
+     */
     public function setActive($active)
     {
         $this->active = $active;
@@ -93,13 +93,26 @@ class Conversation
     public function saveConversation()
     {
         $conn = Db::getConnection();
-
-        $statement = $conn->prepare("INSERT INTO conversations (user_1, user_2, active) VALUES (:user_1, :user_2, 1)");
-
+        $statement = $conn->prepare("SELECT id FROM conversations WHERE (user_1 = :user_1 AND user_2 = :user_2) OR (user_1 = :user_2 AND user_2 = :user_1)");
         $statement->bindValue(":user_1", $this->getUser_1());
         $statement->bindValue(":user_2", $this->getUser_2());
-
         $result = $statement->execute();
+
+        if (empty($result)) :
+
+            $statement = $conn->prepare("INSERT INTO conversations (user_1, user_2, active) VALUES (:user_1, :user_2, 1)");
+            $statement->bindValue(":user_1", $this->getUser_1());
+            $statement->bindValue(":user_2", $this->getUser_2());
+            $statement->execute();
+
+        else:
+            
+            $statement = $conn->prepare("UPDATE conversations SET active = 1 WHERE (user_1 = :user_1 AND user_2 = :user_2) OR (user_1 = :user_2 AND user_2 = :user_1)");
+            $statement->bindValue(":user_1", $this->getUser_1());
+            $statement->bindValue(":user_2", $this->getUser_2());
+            $statement->execute();
+
+        endif;
 
         return $result;
     }
