@@ -203,15 +203,15 @@ if (!empty($_POST['changeStatus'])) {
           <div class="form-group">
             <p>Study Preference</p>
             <div class="form-check">
-              <input type="radio" id="design" name="study_pref" class="form-check-input" value="Design" <?php if ($user->getStudy_pref() == "design") : ?>checked="checked" <?php endif; ?>>
+              <input type="radio" id="design" name="study_pref" class="form-check-input" value="Design" <?php if ($user->getStudy_pref() == "Design") : echo "checked";  endif; ?>>
               <label for="design" class="form-check-label">Design</label>
             </div>
             <div class="form-check">
-              <input type="radio" id="development" name="study_pref" class="form-check-input" value="Development" <?php if ($user->getStudy_pref() == "development") : ?>checked="checked" <?php endif; ?>>
+              <input type="radio" id="development" name="study_pref" class="form-check-input" value="Development" <?php if ($user->getStudy_pref() == "Development") : echo "checked"; endif; ?>>
               <label for="development" class="form-check-label">Development</label>
             </div>
             <div class="form-check">
-              <input type="radio" id="undecided" name="study_pref" class="form-check-input" value="Undecided" <?php if (empty($user->getStudy_pref())) : ?>checked="checked" <?php endif; ?>>
+              <input type="radio" id="undecided" name="study_pref" class="form-check-input" value="Undecided" <?php if (empty($user->getStudy_pref()) || $user->getStudy_pref() == "Undecided") : echo "checked";  endif; ?>>
               <label for="undecided" class="form-check-label">Undecided</label>
             </div>
           </div>

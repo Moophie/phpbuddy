@@ -75,7 +75,7 @@ if (!empty($_POST['acceptBuddy'])) {
 if (!empty($_POST['unmatch'])) {
     $conn = Db::getConnection();
 
-    if ($_POST['buddy_id'] == $user->getId()){
+    if ($_POST['buddy_id'] == $user->getId()) {
         $statement = $conn->prepare("UPDATE users SET buddy_id = 0 WHERE email = :email OR id = :buddy_id");
         $statement->bindValue(":buddy_id", $user->getBuddy_id());
         $statement->bindValue(":email", $user->getEmail());
@@ -120,24 +120,28 @@ $userBuddy = User::findBuddy($user->getEmail());
 
     <?php include_once("nav.include.php"); ?>
 
-    <div class="container">
-        <div class="jumbotron">
-            <div class="center">
-                <div>
-                    <p>Registered users = <?php echo $registeredCount ?> <?php ?> </p>
-                </div>
-                <div>
-                    <p>amount of buddy relations = <?php echo $totalBuddyCount ?> </p>
+    <div class="container" style="height:250px; margin-top: 20px; margin-bottom:20px;">
+        <div class="jumbotron float-left" style="width:60%; height:250px;">
+            <div>
+                <h2>Welcome back, <?php echo htmlspecialchars($user->getFullname()) ?></h2>
+                <br>
+                <div class="center">
+                    <?php if (!($user->checkProfileComplete())) : ?>
+                        <p>It seems your profile is not completed yet.</p>
+                        <form action="profile.php">
+                            <input type="submit" class="btn-default btn-lg" Value="Complete your profile!">
+                        </form>
+                    <?php endif; ?>
                 </div>
             </div>
-            <h2>Welcome back, <?php echo htmlspecialchars($user->getFullname()) ?></h2>
-            <div class="center">
-                <?php if (!($user->checkProfileComplete())) : ?>
-                    <p>It seems your profile is not completed yet.</p>
-                    <form action="profile.php">
-                        <input type="submit" class="btn-default btn-lg" Value="Complete your profile!">
-                    </form>
-                <?php endif; ?>
+        </div>
+        <div class="jumbotron float-right" style="width:38%; height:250px;">
+            <h4>Buddy application statistics</h4>
+            <div>
+                <p><strong>Registered users:</strong> <?php echo $registeredCount ?> <?php ?> </p>
+            </div>
+            <div>
+                <p><strong>Buddy relations:</strong> <?php echo $totalBuddyCount ?> </p>
             </div>
         </div>
     </div>
@@ -246,7 +250,7 @@ $userBuddy = User::findBuddy($user->getEmail());
                                         <input type="text" class="btn btn-primary" value="View Profile">
                                         <br>
                                         <br>
-                                        <input type="text" name = "buddy_id" value="<?php echo $userBuddy->buddy_id; ?>" hidden>
+                                        <input type="text" name="buddy_id" value="<?php echo $userBuddy->buddy_id; ?>" hidden>
                                         <input type="submit" class="btn btn-danger" name="unmatch" value="Unmatch Buddy">
                                     </form>
                         </div>
