@@ -96,7 +96,9 @@ class Conversation
         $statement = $conn->prepare("SELECT id FROM conversations WHERE (user_1 = :user_1 AND user_2 = :user_2) OR (user_1 = :user_2 AND user_2 = :user_1)");
         $statement->bindValue(":user_1", $this->getUser_1());
         $statement->bindValue(":user_2", $this->getUser_2());
-        $result = $statement->execute();
+        $statement->execute();
+        $result = $statement->fetch(PDO::FETCH_OBJ);
+        var_dump($result);
 
         if (empty($result)) :
 

@@ -18,7 +18,6 @@ if (empty($_SESSION['user'])) {
 if (!empty($_POST['sendMessage'])) {
 
     $time = date('Y-m-d H:i:s');
-    var_dump($time);
     $active_conversation = $user->getActiveConversations();
 
     $message = new Message();

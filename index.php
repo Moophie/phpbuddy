@@ -59,12 +59,17 @@ if (!empty($_POST['acceptBuddy'])) {
         $statement->bindValue(":buddy_id", $_POST['buddy_id']);
         $statement->bindValue(":email", $user->getEmail());
         $statement->execute();
+
     } elseif ($_POST['acceptBuddy'] == "Reject") {
 
         //Remove yourself as buddy
         $conn = Db::getConnection();
         $statement = $conn->prepare("UPDATE users SET buddy_id = 0 WHERE email = :email");
         $statement->bindValue(":email", $_POST['buddy_email']);
+        $statement->execute();
+
+        $statement = $conn->prepare("UPDATE conversations SET active = 0 WHERE user_1 = :user_id OR user_2 = :user_id");
+        $statement->bindValue(":user_id", $user->getId());
         $statement->execute();
 
         //Prompt box for rejecting reason
@@ -247,9 +252,6 @@ $userBuddy = User::findBuddy($user->getEmail());
                                         <p><?= "Hobby: " . htmlspecialchars($userBuddy->hobby); ?></p>
                                     <?php endif; ?>
                                     <form action="" method="POST">
-                                        <input type="text" class="btn btn-primary" value="View Profile">
-                                        <br>
-                                        <br>
                                         <input type="text" name="buddy_id" value="<?php echo $userBuddy->buddy_id; ?>" hidden>
                                         <input type="submit" class="btn btn-danger" name="unmatch" value="Unmatch Buddy">
                                     </form>
