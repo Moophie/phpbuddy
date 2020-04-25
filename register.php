@@ -82,7 +82,10 @@ if (!empty($_POST)) {
 				<div class="form-row-last">
 					<input type="submit" class="register" value="Register">
 				</div>
+				<div id="result"> </div>
+
 			</form>
+
 		</div>
 	</div>
 </body>
