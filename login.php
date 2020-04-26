@@ -14,12 +14,15 @@ if (!empty($_POST)) {
     //If both fields are filled in, check if the login is correct
 
     if (User::checkPassword($email, $password)) {
+      $user = new User($email);
 
-      //Start the session, fill in session variables
-      //Redirect to the logged in page
-      session_start();
-      $_SESSION["user"] = $email;
-      header("Location: index.php");
+      if ($user->getActive() == 1) {
+        session_start();
+        $_SESSION['user'] = $email;
+        header("Location: index.php");
+      } else {
+        $error = "Please confirm your account";
+      }
     } else {
       $error = "Sorry, we couldn't log you in.";
     }

@@ -29,7 +29,6 @@ if (!empty($_POST)) {
 	//If setEmail returns a string, show the error message
 	if (gettype($validEmail) == "string") {
 		$error = $validEmail;
-
 	} else {
 
 		$n = 20;
@@ -46,11 +45,16 @@ if (!empty($_POST)) {
 		$sendgrid = new \SendGrid(getenv('SENDGRID_API_KEY'));
 		$sendgrid->send($sgmail);
 
-		//Otherwise, save the user, start the session and redirect to the index
+		//Save the user
 		$user->save();
-		session_start();
-		$_SESSION['user'] = $email;
-		header("Location: index.php");
+
+		$user = new User($email);
+
+		if ($user->getActive() == 1) {
+			session_start();
+			$_SESSION['user'] = $email;
+			header("Location: index.php");
+		}
 	}
 }
 

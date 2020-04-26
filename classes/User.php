@@ -440,6 +440,7 @@ class User
         //If the search returns a result, set all the objects properties to the properties taken from the database
         if (!empty($user)) {
             $this->id = $user->id;
+            $this->active = $user->active;
             $this->buddyStatus = $user->buddy_status;
             $this->fullname = $user->fullname;
             $this->email = $user->email;
