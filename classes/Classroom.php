@@ -107,6 +107,16 @@ Class classroom{
 
         return $this;
     }
+
+    public static function getClassroom($search){
+        $conn = Db::getConnection();
+        $statement = $conn->prepare("SELECT * FROM classroom WHERE name LIKE concat('%', :search, '%')");
+        $statement->bindValue(":search", $search);
+        $statement->execute();
+        $search = $statement->fetchAll();
+
+        return $search;
+    }
 }
 
 ?>
