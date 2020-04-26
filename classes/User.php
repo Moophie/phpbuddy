@@ -6,6 +6,8 @@ class User
 {
     //Declare all the class variables
     private $id;
+    private $active;
+    private $validation_string;
     private $buddyStatus;
     private $fullname;
     private $email;
@@ -42,6 +44,47 @@ class User
 
         return $this;
     }
+
+    /**
+     * Get the value of validation_string
+     */ 
+    public function getValidation_string()
+    {
+        return $this->validation_string;
+    }
+
+    /**
+     * Set the value of validation_string
+     *
+     * @return  self
+     */ 
+    public function setValidation_string($validation_string)
+    {
+        $this->validation_string = $validation_string;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of active
+     */ 
+    public function getActive()
+    {
+        return $this->active;
+    }
+
+    /**
+     * Set the value of active
+     *
+     * @return  self
+     */ 
+    public function setActive($active)
+    {
+        $this->active = $active;
+
+        return $this;
+    }
+
     /**
      * Get the value of buddyStatus
      */
@@ -361,14 +404,16 @@ class User
         $conn = Db::getConnection();
 
         //Prepare the INSERT query
-        $statement = $conn->prepare("INSERT INTO users (fullname, email, password) VALUES (:fullname, :email, :password)");
+        $statement = $conn->prepare("INSERT INTO users (active, validation_string, fullname, email, password) VALUES (0, :validation_string, :fullname, :email, :password)");
 
         //Put object values into variables
+        $validation_string = $this->getValidation_string();
         $fullname = $this->getFullname();
         $email = $this->getEmail();
         $password = $this->getPassword();
 
         //Bind variables to parameters from prepared query
+        $statement->bindValue(":validation_string", $validation_string);
         $statement->bindValue(":fullname", $fullname);
         $statement->bindValue(":email", $email);
         $statement->bindValue(":password", $password);

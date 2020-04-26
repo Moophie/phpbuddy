@@ -3,6 +3,8 @@
 include_once(__DIR__ . "/classes/User.php");
 include_once(__DIR__ . "/classes/Conversation.php");
 
+require(__DIR__ . "/sendgrid/sendgrid-php.php");
+
 session_start();
 
 //If there's no active session, redirect to login.php
