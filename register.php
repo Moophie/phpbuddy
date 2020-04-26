@@ -103,7 +103,7 @@ $(document).ready(function(){
      $.ajax({
       url:'emailverification.php',
       method:"POST",
-      data:{existingEmails:existingEmails},
+      data:{email:email},
       success:function(data)
       {
        if(data != '0')
