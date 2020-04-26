@@ -152,6 +152,15 @@ $userBuddy = User::findBuddy($user->getEmail());
     </div>
     <div class="container">
         <div class="jumbotron">
+            <h2>Find your classroom here:</h2>
+            <form action="classroom.php" method="get">
+                <input type="text" name="search" class="search" placeholder="Z3.04">
+                <input type="submit" name="submit_search" value="search" class="search_submit">
+            </form>
+        </div>
+    </div>
+    <div class="container">
+        <div class="jumbotron">
             <div class="center" style="height:450px;">
                 <!-- If the user has no buddy yet, show suggestions -->
 
