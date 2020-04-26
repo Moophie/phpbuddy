@@ -48,6 +48,7 @@ if (!empty($_POST)) {
 	<link rel="stylesheet" href="css/bootstrap.css">
 	<link rel="stylesheet" type="text/css" href="fonts/font-awesome-5/css/fontawesome-all.min.css">
 	<link rel="stylesheet" href="css/style_register.css" />
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
 	<link href="https://fonts.googleapis.com/css?family=Lato:400,700&display=swap" rel="stylesheet">
 </head>
 
@@ -61,7 +62,8 @@ if (!empty($_POST)) {
 				<h2>Register Account Buddy application</h2>
 				<?php if (!empty($error)) : ?>
 					<div style="background-color:#F8D7DA; padding:10px; border-radius:10px;">
-						<p><?= $error ?></p>
+					<p><?= $error ?></p>
+
 					</div>
 					<?php endif; ?>
 				<div class="form-row">
@@ -71,7 +73,9 @@ if (!empty($_POST)) {
 				</div>
 				<div class="form-row">
 					<label for="email">Your Email</label>
-					<input type="email" name="email" id="email" class="input-text" placeholder="Your Email" pattern="[^@]+@[^@]+.[a-zA-Z]{2,6}" required>
+					<input type="email" name="email" id="email" class="input-text" placeholder="Your Email" onBlur="checkemailAvailability()" pattern="[^@]+@[^@]+.[a-zA-Z]{2,6}" required>
+					<span id="availability"></span>
+
 					<i class="fas fa-envelope"></i>
 				</div>
 				<div class="form-row">
@@ -85,6 +89,39 @@ if (!empty($_POST)) {
 			</form>
 		</div>
 	</div>
+
+	
+<script>
+$(document).ready(function(){
+   $('#email').blur(function(){
+
+     var email = $(this).val();
+
+     $.ajax({
+      url:'emailverification.php',
+      method:"POST",
+      data:{existingEmails:existingEmails},
+      success:function(data)
+      {
+       if(data != '0')
+       {
+        $('#availability').html('<span class="text-danger">Email niet beschikbaar</span>');
+        $('#submit').attr("disabled", true);
+       }
+       else
+       {
+        $('#availability').html('<span class="text-success">Email beschikbaar</span>');
+        $('#submit').attr("disabled", false);
+       }
+      }
+     })
+
+  });
+ });
+
+</script>
+
 </body>
 
 </html>
+
