@@ -14,15 +14,20 @@ if (!empty($_POST)) {
     //If both fields are filled in, check if the login is correct
 
     if (User::checkPassword($email, $password)) {
+      session_start();
+      $user = new User($email);
 
       if ($_POST['captcha'] == $_SESSION['digit']) {
+
         if ($user->getActive() == 1) {
-          session_start();
+
           $_SESSION['user'] = $email;
           header("Location: index.php");
+
         } else {
           $error = "Please confirm your account";
         }
+
       } else {
         $error = "Wrong Captcha";
       }
