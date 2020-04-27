@@ -14,23 +14,6 @@ if (empty($_SESSION['user'])) {
     header("Location: login.php");
 }
 
-//If a message has been submitted, save it in the database
-if (!empty($_POST['sendMessage'])) {
-
-    $time = date('Y-m-d H:i:s');
-    $active_conversation = $user->getActiveConversations();
-
-    $message = new Message();
-    $message->setConversation_id($active_conversation->id);
-    $message->setSender_id($user->getId());
-    $message->setReceiver_id($user->getBuddy_id());
-    $message->setContent($_POST['content']);
-    $message->setTimestamp($time);
-    $message->saveMessage();
-}
-
-
-
 ?>
 
 <!DOCTYPE html>
@@ -49,6 +32,7 @@ if (!empty($_POST['sendMessage'])) {
     <script type="text/javascript" src="js/jquery.min.js"></script>
     <!-- jQuery for Reaction system -->
     <script type="text/javascript" src="js/reaction.js"></script>
+    <script type="text/javascript" src="js/chat.js"></script>
     <title>Chat</title>
     <style>
         .chat {
@@ -124,8 +108,8 @@ if (!empty($_POST['sendMessage'])) {
                 <?php endforeach; ?>
             <?php endif; ?>
 
-            <textarea name="content" id="" cols="30" rows="1"></textarea>
-            <input type="submit" name="sendMessage" value="Send">
+            <textarea name="content" id="" cols="30" rows="1" class="messageText"></textarea>
+            <input type="submit" name="sendMessage" value="Send" class="sendMessage">
     </form>
 </body>
 
