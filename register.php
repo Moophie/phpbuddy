@@ -3,6 +3,9 @@
 include_once(__DIR__ . "/classes/User.php");
 include_once(__DIR__ . "/classes/Db.php");
 
+require(__DIR__ . "/sendgrid/sendgrid-php.php");
+putenv("SENDGRID_API_KEY=***REMOVED***");
+
 //Check if values have been sent
 if (!empty($_POST)) {
 
@@ -26,13 +29,32 @@ if (!empty($_POST)) {
 	//If setEmail returns a string, show the error message
 	if (gettype($validEmail) == "string") {
 		$error = $validEmail;
-
 	} else {
-		//Otherwise, sae the user, start the session and redirect to the index
+
+		$n = 20;
+		$validation_string = bin2hex(random_bytes($n));
+		$user->setValidation_string($validation_string);
+		$link = "http://localhost/phpbuddy/verify.php?code=" . $validation_string;
+
+		$sgmail = new \SendGrid\Mail\Mail();
+		$sgmail->setFrom("michael.van.lierde@hotmail.com", "IMD Buddy");
+		$sgmail->setSubject("Confirm registration");
+		$sgmail->addTo($user->getEmail(), $user->getFullname());
+		$sgmail->addContent("text/html", "<a href=" . $link . ">Click to confirm your email!</a>");
+
+		$sendgrid = new \SendGrid(getenv('SENDGRID_API_KEY'));
+		$sendgrid->send($sgmail);
+
+		//Save the user
 		$user->save();
-		session_start();
-		$_SESSION['user'] = $email;
-		header("Location: index.php");
+
+		$user = new User($email);
+
+		if ($user->getActive() == 1) {
+			session_start();
+			$_SESSION['user'] = $email;
+			header("Location: index.php");
+		}
 	}
 }
 
@@ -65,7 +87,7 @@ if (!empty($_POST)) {
 					<p><?= $error ?></p>
 
 					</div>
-					<?php endif; ?>
+				<?php endif; ?>
 				<div class="form-row">
 					<label for="fullname">Full Name</label>
 					<input type="text" name="fullname" id="fullname" class="input-text" placeholder="Your Name" required>

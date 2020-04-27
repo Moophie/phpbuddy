@@ -14,15 +14,18 @@ if (!empty($_POST)) {
     //If both fields are filled in, check if the login is correct
 
     if (User::checkPassword($email, $password)) {
-      session_start();
-      if($_POST['captcha'] != $_SESSION['digit']) die("Sorry, the CAPTCHA code entered was incorrect!");
-      session_destroy();
 
-      //Start the session, fill in session variables
-      //Redirect to the logged in page
-      session_start();
-      $_SESSION["user"] = $email;
-      header("Location: index.php");
+      if ($_POST['captcha'] == $_SESSION['digit']) {
+        if ($user->getActive() == 1) {
+          session_start();
+          $_SESSION['user'] = $email;
+          header("Location: index.php");
+        } else {
+          $error = "Please confirm your account";
+        }
+      } else {
+        $error = "Wrong Captcha";
+      }
     } else {
       $error = "Sorry, we couldn't log you in.";
     }
@@ -83,9 +86,9 @@ if (!empty($_POST)) {
                   </div>
 
 
-                  <p><img src="./captcha.php" width="120" height="30"  alt="CAPTCHA"></p>
-<p><input type="text" size="6" maxlength="5" name="captcha" value=""><br>
-<small>copy the digits from the image into this box</small></p>
+                  <p><img src="./captcha.php" width="120" height="30" alt="CAPTCHA"></p>
+                  <p><input type="text" size="6" maxlength="5" name="captcha" value=""><br>
+                    <small>copy the digits from the image into this box</small></p>
 
                   <input type="submit" value="LOGIN" class="btn btn-lg btn-primary btn-block btn-login text-uppercase font-weight-bold mb-2">
                   <div class="custom-control custom-checkbox mb-3">

@@ -3,6 +3,9 @@
 include_once(__DIR__ . "/classes/User.php");
 include_once(__DIR__ . "/classes/Conversation.php");
 
+require(__DIR__ . "/sendgrid/sendgrid-php.php");
+putenv("SENDGRID_API_KEY=***REMOVED***");
+
 session_start();
 
 //If there's no active session, redirect to login.php
@@ -28,17 +31,14 @@ if (!empty($_POST['getBuddy'])) {
     $statement->bindValue(":email", $user->getEmail());
     $statement->execute();
 
-    /*
-    //send email to the buddy
-    $to = $_POST['buddy_email'];
-    $subject = "Buddy request";
-    $message = "Someone wants you as a buddy!";
-    $headers = "From: buddy@thomasmore.be";
-    if(mail($to,$subject,$message,$headers)){
-        echo "<script> window.alert('E-mail successfully Sent!');</script>";
-    }else{
-        echo "<script> window.alert('Error Try Again Please');</script>";
-    }*/
+    $sgmail = new \SendGrid\Mail\Mail();
+    $sgmail->setFrom("michael.van.lierde@hotmail.com", "IMD Buddy");
+    $sgmail->setSubject("Someone sent you a buddy request!");
+    $sgmail->addTo($_POST['buddy_email'], $_POST['buddy_name']);
+    $sgmail->addContent("text/plain", "You've received a buddy request on IMD Buddy from " .  $user->getFullname());
+
+    $sendgrid = new \SendGrid(getenv('SENDGRID_API_KEY'));
+    $sendgrid->send($sgmail);
 
     //Create a conversation
     $conversation = new Conversation();
@@ -59,7 +59,6 @@ if (!empty($_POST['acceptBuddy'])) {
         $statement->bindValue(":buddy_id", $_POST['buddy_id']);
         $statement->bindValue(":email", $user->getEmail());
         $statement->execute();
-
     } elseif ($_POST['acceptBuddy'] == "Reject") {
 
         //Remove yourself as buddy
@@ -208,6 +207,7 @@ $userBuddy = User::findBuddy($user->getEmail());
                                         <?php else : ?>
                                             <form action="" method="POST">
                                                 <input type="text" name="buddy_id" value="<?= htmlspecialchars($match->id) ?>" hidden>
+                                                <input type="text" name="buddy_name" value="<?= htmlspecialchars($match->fullname) ?>" hidden>
                                                 <input type="text" name="buddy_email" value="<?= htmlspecialchars($match->email) ?>" hidden>
                                                 <input type="submit" name="getBuddy" value="Send buddy request!">
                                             </form>
