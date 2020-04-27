@@ -14,13 +14,13 @@ if (!empty($_POST)) {
     //If both fields are filled in, check if the login is correct
 
     if (User::checkPassword($email, $password)) {
+
       session_start();
       $user = new User($email);
 
       if ($_POST['captcha'] == $_SESSION['digit']) {
 
         if ($user->getActive() == 1) {
-
           $_SESSION['user'] = $email;
           header("Location: index.php");
 

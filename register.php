@@ -48,6 +48,9 @@ if (!empty($_POST)) {
 		//Save the user
 		$user->save();
 
+		//Let him know he's registered
+		$error = "You have been succesfully registered! A confirmation mail has been sent to your email account.";
+
 		$user = new User($email);
 
 		if ($user->getActive() == 1) {
