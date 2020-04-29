@@ -199,4 +199,13 @@ class Message
         $result = $statement->execute();
         return $result;
     }
+
+    public static function undoReaction(){
+        $conn = Db::getConnection();
+        $statement = $conn->prepare("UPDATE messages SET reaction = :reaction WHERE id = :message_id ");
+        $statement->bindValue(":reaction",  "");
+        $statement->bindValue(":message_id", $_POST['message_id']);
+        $result = $statement->execute();
+        return $result;
+    }
 }
