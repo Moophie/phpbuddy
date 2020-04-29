@@ -1,12 +1,8 @@
 <?php
 include_once(__DIR__ . "/classes/Db.php");
+include_once(__DIR__ . "/classes/User.php");
 
-$validation_string = $_GET['code'];
-
-$conn = Db::getConnection();
-$statement = $conn->prepare("UPDATE users SET active = 1 WHERE validation_string = :validation_string");
-$statement->bindValue(":validation_string", $validation_string);
-$statement->execute();
+User::verify();
 
 ?>
 

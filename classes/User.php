@@ -782,4 +782,12 @@ class User
         $img = $statement->execute();
         return $img;
     }
+
+    public static function verify(){
+        $conn = Db::getConnection();
+        $statement = $conn->prepare("UPDATE users SET active = 1 WHERE validation_string = :validation_string");
+        $statement->bindValue(":validation_string", $_GET["code"]);
+        $return = $statement->execute();
+        return $return;
+    }
 }
