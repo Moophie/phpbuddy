@@ -774,4 +774,12 @@ class User
         $unmatch = $statement->execute();
         return $unmatch;
     }
+
+    public function profileImg(){
+        $conn = Db::getConnection();
+        $statement = $conn->prepare("UPDATE users  SET profileImg = ('".$_FILES['profileImg']['name']."') WHERE email = :email");
+        $statement->bindValue(":email", $this->getEmail());
+        $img = $statement->execute();
+        return $img;
+    }
 }

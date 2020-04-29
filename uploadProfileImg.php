@@ -2,11 +2,16 @@
 session_start();
 
 include_once(__DIR__ . "../classes/Db.php");
+include_once(__DIR__ . "/classes/User.php");
+
 
 //If there's no active session, redirect to login.php
 if (empty($_SESSION['user'])) {
     header("Location: login.php");
 }
+
+$email = $_SESSION['user'];
+$user = new User($email);
 
 //Connect to database
 $conn = Db::getConnection();
@@ -35,10 +40,7 @@ if (isset($_FILES['profileImg'])) {
             $newfilename = 'uploads/'.$_FILES['profileImg']['name'];
 
             if (move_uploaded_file($_FILES['profileImg']['tmp_name'], $newfilename)) {
-                $insert = $conn->prepare("UPDATE users  SET profileImg = ('".$_FILES['profileImg']['name']."') WHERE email = :email");
-                $email = $_SESSION['user'];
-                $insert->bindValue(":email", $email);
-                $insert->execute();
+                $user->profileImg();
 
                header('location:profile.php');
 
