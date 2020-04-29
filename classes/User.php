@@ -739,4 +739,39 @@ class User
 
         return $result;
     }
+
+    public function updateBuddy(){
+        $conn = Db::getConnection();
+        $statement = $conn->prepare("UPDATE users SET buddy_id = :buddy_id WHERE email = :email");
+        $statement->bindValue(":buddy_id", $_POST['buddy_id']);
+        $statement->bindValue(":email", $this->getEmail());
+        $update = $statement->execute();
+
+        return $update;
+    }
+
+    public function removeBuddy(){
+        $conn = Db::getConnection();
+        $statement = $conn->prepare("UPDATE users SET buddy_id = 0 WHERE email = :email");
+        $statement->bindValue(":email", $_POST['buddy_email']);
+        $remove = $statement->execute();
+        return $remove;
+    }
+
+    public function removeConversation(){
+        $conn = Db::getConnection();
+        $statement = $conn->prepare("UPDATE conversations SET active = 0 WHERE user_1 = :user_id OR user_2 = :user_id");
+        $statement->bindValue(":user_id", $this->getId());
+        $remove = $statement->execute();
+        return $remove;
+    }
+
+    public function unmatch(){
+        $conn = Db::getConnection();
+        $statement = $conn->prepare("UPDATE users SET buddy_id = 0 WHERE email = :email OR id = :buddy_id");
+        $statement->bindValue(":buddy_id", $this->getBuddy_id());
+        $statement->bindValue(":email", $this->getEmail());
+        $unmatch = $statement->execute();
+        return $unmatch;
+    }
 }

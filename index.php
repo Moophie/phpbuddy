@@ -25,11 +25,7 @@ $totalBuddyCount = $user->totalBuddies();
 if (!empty($_POST['getBuddy'])) {
 
     //Update the buddy_id in the database
-    $conn = Db::getConnection();
-    $statement = $conn->prepare("UPDATE users SET buddy_id = :buddy_id WHERE email = :email");
-    $statement->bindValue(":buddy_id", $_POST['buddy_id']);
-    $statement->bindValue(":email", $user->getEmail());
-    $statement->execute();
+    $user->updateBuddy();
 
     $sgmail = new \SendGrid\Mail\Mail();
     $sgmail->setFrom("michael.van.lierde@hotmail.com", "IMD Buddy");
@@ -54,23 +50,14 @@ if (!empty($_POST['acceptBuddy'])) {
     if ($_POST['acceptBuddy'] == "Accept") {
 
         //Make the other person your buddy
-        $conn = Db::getConnection();
-        $statement = $conn->prepare("UPDATE users SET buddy_id = :buddy_id WHERE email = :email");
-        $statement->bindValue(":buddy_id", $_POST['buddy_id']);
-        $statement->bindValue(":email", $user->getEmail());
-        $statement->execute();
+       $user->updateBuddy();
+
     } elseif ($_POST['acceptBuddy'] == "Reject") {
 
         //Remove yourself as buddy
-        $conn = Db::getConnection();
-        $statement = $conn->prepare("UPDATE users SET buddy_id = 0 WHERE email = :email");
-        $statement->bindValue(":email", $_POST['buddy_email']);
-        $statement->execute();
-
-        $statement = $conn->prepare("UPDATE conversations SET active = 0 WHERE user_1 = :user_id OR user_2 = :user_id");
-        $statement->bindValue(":user_id", $user->getId());
-        $statement->execute();
-
+        $user->removeBuddy();
+        $user->removeConversation();
+       
         //Prompt box for rejecting reason
         echo "<script>var reason = prompt('Would you like telling the reason for this rejection?', 'Write reason here');</script>";
     }
@@ -80,19 +67,13 @@ if (!empty($_POST['unmatch'])) {
     $conn = Db::getConnection();
 
     if ($_POST['buddy_id'] == $user->getId()) {
-        $statement = $conn->prepare("UPDATE users SET buddy_id = 0 WHERE email = :email OR id = :buddy_id");
-        $statement->bindValue(":buddy_id", $user->getBuddy_id());
-        $statement->bindValue(":email", $user->getEmail());
-        $statement->execute();
+        $user->unmatch();
+
     } else {
-        $statement = $conn->prepare("UPDATE users SET buddy_id = 0 WHERE email = :email");
-        $statement->bindValue(":email", $user->getEmail());
-        $statement->execute();
+        $user->unmatch();
     }
 
-    $statement = $conn->prepare("UPDATE conversations SET active = 0 WHERE user_1 = :user_id OR user_2 = :user_id");
-    $statement->bindValue(":user_id", $user->getId());
-    $statement->execute();
+    $user->removeConversation();
 }
 
 $userBuddy = User::findBuddy($user->getEmail());
