@@ -120,6 +120,20 @@ INSERT INTO `users` (`id`, `active`, `validation_string`, `buddy_status`, `fulln
 (9, 1, '', 'firstyear', 'Sam Verdaet', 'sam@student.thomasmore.be', '$2y$10$tcjLC.a9UPzexBbg/R3E6.SAuzJGwlW/OgXpuRE/g0m9c38gVNMfO', 'keiraknightley.jpg', 'Hey, met Sam hier', 'Antwerpen', 'Tetris', 'House', 'Harry Potter', 'Harry Potter', 'Undecided', 'Soccer', 0),
 (10, 1, '', 'mentor', 'Leander Nelissen', 'leander@student.thomasmore.be', '$2y$10$0.Hj8ePbGNY28UntxpdqVuwPYLUUA4zcs0P.xM609qjBskT1SbXPa', 'pewdiepie.jpg', 'Welkom op Leander zijn profiel boys and girls!', 'Hasselt', 'Call Of Duty', 'House', 'Lord Of The Rings', 'The Wheel Of Time', 'Design', 'Fitness', 0);
 
+-- --------------------------------------------------------
+
+--
+-- Tabelstructuur voor tabel `posts`
+--
+
+CREATE TABLE `posts` (
+  `id` int(11) NOT NULL,
+  `op` varchar(300) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `timestamp` datetime NOT NULL,
+  `content` varchar(300) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `faq` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 --
 -- Indexen voor geëxporteerde tabellen
 --
@@ -149,8 +163,10 @@ ALTER TABLE `users`
   ADD PRIMARY KEY (`id`);
 
 --
--- AUTO_INCREMENT voor geëxporteerde tabellen
+-- Indexen voor tabel `posts`
 --
+ALTER TABLE `posts`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- AUTO_INCREMENT voor een tabel `classrooms`
@@ -175,6 +191,13 @@ ALTER TABLE `messages`
 --
 ALTER TABLE `users`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+COMMIT;
+
+--
+-- AUTO_INCREMENT voor een tabel `posts`
+--
+ALTER TABLE `posts`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
