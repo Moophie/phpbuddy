@@ -30,6 +30,9 @@ $page = basename($_SERVER['PHP_SELF']);
                     <li class="nav-item <?php if ($page == "buddies.php") : echo "active"; endif; ?>">
                         <a class="nav-link" href="buddies.php">Buddies</a>
                     </li>
+                    <li class="nav-item <?php if ($page == "forum.php") : echo "active"; endif; ?>">
+                        <a class="nav-link" href="forum.php">Forums</a>
+                    </li>
                 </ul>
             <?php endif; ?>
             <span class="navbar-text">
