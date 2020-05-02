@@ -1,5 +1,5 @@
 body {
-    background: -webkit-linear-gradient(left, #3931af, #00c6ff);
+    background:white;
 }
 
 .emp-profile {
@@ -7,7 +7,7 @@ body {
     margin-top: 3%;
     margin-bottom: 3%;
     border-radius: 0.5rem;
-    background: #fff;
+    background: #E9ECEF;
 }
 
 .profile-img {
@@ -31,7 +31,7 @@ body {
 }
 
 .profile-head h6 {
-    color: #0062cc;
+    color: gray;
 }
 
 .profile-edit-btn {
