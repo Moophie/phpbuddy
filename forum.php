@@ -84,9 +84,11 @@ $faqPosts = Post::getFaqPosts();
                 <i><?php echo htmlspecialchars($post->timestamp) ?></i>
                 <p class="postText"><?php echo htmlspecialchars($post->content) ?></p>
                 <p>Pin to FAQ <img class="pin" data-id="<?php echo $post->id; ?>" src="https://via.placeholder.com/30"></p>
+                <?php if($post->op == $user->getFullname()): ?>
                 <textarea class="editContent d-none" data-id="<?php echo $post->id; ?>" name="editContent"></textarea>
                 <button class="editPost" data-id="<?php echo $post->id; ?>" data-visible="0">Edit</button>
                 <button class="deletePost" data-id="<?php echo $post->id; ?>">Delete</button>
+                <?php endif; ?>
             </div>
         <?php endforeach; ?>
 

@@ -41,7 +41,7 @@ $(document).ready(function() {
 
         var post_id = $(this).attr("data-id");
         var visible = $(this).attr("data-visible");
-        var content = $(".editContent").val();
+        var content = $(' [data-id="' + post_id + '"] .editContent').val();
 
         if (visible == "0") {
             $('[data-id="' + post_id + '"] .d-none').removeClass("d-none").addClass("d-block");
