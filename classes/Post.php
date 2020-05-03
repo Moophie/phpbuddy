@@ -213,4 +213,12 @@ class Post
         return $result;
     
     }
-}
+
+    public function getUpvotes(){
+        $conn = Db::getConnection();
+        $statement = $conn->prepare("select count(*) as count from upvotes where post_id = :postid");
+        $statement->bindValue(":postid", $this->id);
+        $statement->execute();
+        $result = $statement->fetch(PDO::FETCH_ASSOC);
+        return $result['count'];
+    }}

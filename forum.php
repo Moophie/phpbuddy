@@ -3,6 +3,8 @@ session_start();
 
 include_once(__DIR__ . "/classes/User.php");
 include_once(__DIR__ . "/classes/Post.php");
+include_once(__DIR__ . "/classes/Upvote.php");
+
 
 $email;
 
@@ -58,7 +60,6 @@ if (!empty($_POST['editPost'])) {
 $allPosts = Post::getAllPosts();
 $faqPosts = Post::getFaqPosts();
 
-
 ?>
 
 <!DOCTYPE html>
@@ -90,8 +91,10 @@ $faqPosts = Post::getFaqPosts();
                     <button class="editPost" data-id="<?php echo $post->id; ?>" data-visible="0">Edit</button>
                     <button class="deletePost" data-id="<?php echo $post->id; ?>">Delete</button>
                 <?php endif; ?>
+
                 <button class="reactPost" data-id="<?php echo $post->id; ?>">React</button>
                 <button class="showDisc" data-id="<?php echo $post->id; ?>">Show discussion</button>
+
                 <div class="discussion d-none" data-id="<?php echo $post->id; ?>" style="margin-left:20px;margin-top:10px;">
                     <?php
                     $reactions = Post::getReactions($post->id);
@@ -100,6 +103,7 @@ $faqPosts = Post::getFaqPosts();
                         <br>
                         <i><?php echo htmlspecialchars($reaction->timestamp) ?></i>
                         <p class="postText"><?php echo htmlspecialchars($reaction->content) ?></p>
+                        <p><a href="#" class="upvote" data-id="<?php echo $post->id; ?>">Upvote</a> <!--<span class="countUpvotes"><?php //echo $post->getUpvotes(); ?></span>--></p>
                     <?php endforeach ?>
                 </div>
             </div>
@@ -128,6 +132,26 @@ $faqPosts = Post::getFaqPosts();
             </div>
         <?php endforeach; ?>
     </div>
+
+    <script>
+        $(".a.upvote").on("click", function(e){
+            var postId = $(this).data('id');
+
+            $.ajax({
+                method:"POST",
+                url: "upvote.php",
+                data: {postId: postId},
+                dataType: "Json"
+            })
+            .done(function(res){
+                if(res.status == "success"){
+                    likes++;
+                }
+            
+        });
+  
+
+    </script>
 
 </body>
 
