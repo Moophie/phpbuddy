@@ -10,6 +10,7 @@ class Post
     private $timestamp;
     private $content;
     private $faq;
+    private $parent;
 
 
     /**
@@ -112,15 +113,36 @@ class Post
         return $this;
     }
 
+    /**
+     * Get the value of parent
+     */
+    public function getParent()
+    {
+        return $this->parent;
+    }
+
+    /**
+     * Set the value of parent
+     *
+     * @return  self
+     */
+    public function setParent($parent)
+    {
+        $this->parent = $parent;
+
+        return $this;
+    }
+
     public function savePost()
     {
         $conn = Db::getConnection();
 
-        $statement = $conn->prepare("INSERT INTO posts (op, timestamp, content, faq) VALUES (:op, :timestamp, :content, 0)");
+        $statement = $conn->prepare("INSERT INTO posts (op, timestamp, content, faq, parent) VALUES (:op, :timestamp, :content, 0, :parent)");
 
         $statement->bindValue(":op", $this->getOp());
         $statement->bindValue(":timestamp", $this->getTimestamp());
         $statement->bindValue(":content", $this->getContent());
+        $statement->bindValue(":parent", $this->getParent());
 
         $result = $statement->execute();
 
@@ -144,7 +166,7 @@ class Post
     {
         $conn = Db::getConnection();
 
-        $statement = $conn->prepare("SELECT * FROM posts");
+        $statement = $conn->prepare("SELECT * FROM posts WHERE parent = 0");
         $statement->execute();
         $result = $statement->fetchAll(PDO::FETCH_OBJ);
 
@@ -177,5 +199,18 @@ class Post
         $statement->bindValue(":id", $id);
         $statement->bindValue(":content", $content);
         $statement->execute();
+    }
+
+    public static function getReactions($post_id)
+    {
+        $conn = Db::getConnection();
+
+        $statement = $conn->prepare("SELECT * FROM posts WHERE parent = :post_id");
+        $statement->bindValue(":post_id", $post_id);
+        $statement->execute();
+        $result = $statement->fetchAll(PDO::FETCH_OBJ);
+
+        return $result;
+    
     }
 }
