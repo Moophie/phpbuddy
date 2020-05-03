@@ -24,6 +24,8 @@ if (!empty($_POST)) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/bootstrap.css">
     <link rel="stylesheet" href="css/phpbuddy.css">
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/search.js"></script>
     <title>Search</title>
 </head>
 
@@ -34,6 +36,10 @@ if (!empty($_POST)) {
     <div class="float-left" style="margin-right:40px;">
         <form action="" method="POST" class="border rounded" style="padding:20px; width:500px;">
             <h1>Search</h1>
+            <div class="form-label-group">
+                <label for="fullname">Full name</label>
+                <input type="text" id="fullname" name="fullname" class="form-control">
+            </div>
             <div class="form-label-group">
                 <label for="location">Location</label>
                 <input type="text" id="location" name="location" class="form-control">
