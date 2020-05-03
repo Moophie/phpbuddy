@@ -33,6 +33,9 @@ $page = basename($_SERVER['PHP_SELF']);
                     <li class="nav-item <?php if ($page == "forum.php") : echo "active"; endif; ?>">
                         <a class="nav-link" href="forum.php">Forums</a>
                     </li>
+                    <li class="nav-item <?php if ($page == "events.php") : echo "active"; endif; ?>">
+                        <a class="nav-link" href="events.php">Events</a>
+                    </li>
                 </ul>
             <?php endif; ?>
             <span class="navbar-text">
