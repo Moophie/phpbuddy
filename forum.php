@@ -46,7 +46,8 @@ if (isset($_POST['pinFaq'])) {
 }
 
 $allPosts = Post::getAllPosts();
-$faqPosts = Post::getFaqPosts();
+$faqPosts = Post::getFaqPosts(); 
+
 
 ?>
 
@@ -67,6 +68,7 @@ $faqPosts = Post::getFaqPosts();
     <?php include_once("nav.include.php"); ?>
 
     <div class="forum float-left" style="margin:10px 0px 0px 10px; border:1px black solid; width: 800px; padding:5px">
+    <tr>
         <?php foreach ($allPosts as $post) : ?>
             <div class="post" style="border:1px black solid; max-width: 800px; margin-bottom:10px; padding:5px">
                 <strong><?php echo htmlspecialchars($post->op) ?></strong>
@@ -74,7 +76,12 @@ $faqPosts = Post::getFaqPosts();
                 <i><?php echo htmlspecialchars($post->timestamp) ?></i>
                 <p><?php echo htmlspecialchars($post->content) ?></p>
                 <p>Pin to FAQ <img class="pin" data-id="<?php echo $post->id; ?>" src="https://via.placeholder.com/30"><p>
+                                <td >
+       <span class='delete' id='del_<?php echo $post->id; ?>'>Delete</span>
+     </td>
+    </tr>
             </div>
+
         <?php endforeach; ?>
 
 
@@ -85,6 +92,8 @@ $faqPosts = Post::getFaqPosts();
         </form>
     </div>
 
+
+
     <div class="FAQ float-right" style="margin:10px 10px 0px 0px; border:1px black solid; width: 400px; padding:5px">
         <h3 style="color:black">FAQ</h3>
         <?php foreach ($faqPosts as $post) : ?>
@@ -94,9 +103,51 @@ $faqPosts = Post::getFaqPosts();
                 <i><?php echo htmlspecialchars($post->timestamp) ?></i>
                 <p><?php echo htmlspecialchars($post->content) ?></p>
                 <p>Unpin from FAQ <img class="unpin" data-id="<?php echo $post->id; ?>" src="https://via.placeholder.com/30"><p>
+
+
             </div>
         <?php endforeach; ?>
     </div>
+
+
+    <script>
+    
+    
+$(document).ready(function(){
+
+// Delete 
+$('.delete').click(function(){
+  var el = this;
+  var id = this.id;
+  var splitid = id.split("_");
+
+  // Delete id
+  var deleteid = splitid[1];
+
+  // AJAX Request
+  $.ajax({
+    url: 'removepost.php',
+    type: 'POST',
+    data: { id:deleteid },
+    success: function(response){
+
+      if(response == 1){
+    // Remove row from HTML Table
+    $(el).closest('tr').css('background','tomato');
+    $(el).closest('tr').fadeOut(800,function(){
+       $(this).remove();
+    });
+     }else{
+    alert('Invalid ID.');
+     }
+
+   }
+  });
+
+});
+
+});
+</script>
 </body>
 
 </html>
