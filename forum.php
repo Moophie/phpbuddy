@@ -37,7 +37,6 @@ if (isset($_POST['pinFaq'])) {
         $post = new Post();
         $post->setId($_POST['id']);
         $post->pinPost(1);
-
     } elseif ($_POST['pinFaq'] == 0) {
         $post = new Post();
         $post->setId($_POST['id']);
@@ -45,8 +44,18 @@ if (isset($_POST['pinFaq'])) {
     }
 }
 
+if (!empty($_POST['deletePost'])){
+    $post = new Post();
+    $post->deletePost($_POST['id']);
+}
+
+if (!empty($_POST['editPost'])){
+    $post = new Post();
+    $post->editPost($_POST['id'],$_POST['content']);
+}
+
 $allPosts = Post::getAllPosts();
-$faqPosts = Post::getFaqPosts(); 
+$faqPosts = Post::getFaqPosts();
 
 
 ?>
@@ -68,20 +77,17 @@ $faqPosts = Post::getFaqPosts();
     <?php include_once("nav.include.php"); ?>
 
     <div class="forum float-left" style="margin:10px 0px 0px 10px; border:1px black solid; width: 800px; padding:5px">
-    <tr>
         <?php foreach ($allPosts as $post) : ?>
-            <div class="post" style="border:1px black solid; max-width: 800px; margin-bottom:10px; padding:5px">
+            <div class="post" data-id="<?php echo $post->id; ?>" style="border:1px black solid; max-width: 800px; margin-bottom:10px; padding:5px">
                 <strong><?php echo htmlspecialchars($post->op) ?></strong>
                 <br>
                 <i><?php echo htmlspecialchars($post->timestamp) ?></i>
-                <p><?php echo htmlspecialchars($post->content) ?></p>
-                <p>Pin to FAQ <img class="pin" data-id="<?php echo $post->id; ?>" src="https://via.placeholder.com/30"><p>
-                                <td >
-       <span class='delete' id='del_<?php echo $post->id; ?>'>Delete</span>
-     </td>
-    </tr>
+                <p class="postText"><?php echo htmlspecialchars($post->content) ?></p>
+                <p>Pin to FAQ <img class="pin" data-id="<?php echo $post->id; ?>" src="https://via.placeholder.com/30"></p>
+                <textarea class="editContent d-none" data-id="<?php echo $post->id; ?>" name="editContent"></textarea>
+                <button class="editPost" data-id="<?php echo $post->id; ?>" data-visible="0">Edit</button>
+                <button class="deletePost" data-id="<?php echo $post->id; ?>">Delete</button>
             </div>
-
         <?php endforeach; ?>
 
 
@@ -97,57 +103,16 @@ $faqPosts = Post::getFaqPosts();
     <div class="FAQ float-right" style="margin:10px 10px 0px 0px; border:1px black solid; width: 400px; padding:5px">
         <h3 style="color:black">FAQ</h3>
         <?php foreach ($faqPosts as $post) : ?>
-            <div class="post" style="border:1px black solid; max-width: 800px; margin-bottom:10px; padding:5px">
+            <div class="post" data-id="<?php echo $post->id; ?>" style="border:1px black solid; max-width: 800px; margin-bottom:10px; padding:5px">
                 <strong><?php echo htmlspecialchars($post->op) ?></strong>
                 <br>
                 <i><?php echo htmlspecialchars($post->timestamp) ?></i>
-                <p><?php echo htmlspecialchars($post->content) ?></p>
-                <p>Unpin from FAQ <img class="unpin" data-id="<?php echo $post->id; ?>" src="https://via.placeholder.com/30"><p>
-
-
+                <p class="postText"><?php echo htmlspecialchars($post->content) ?></p>
+                <p>Unpin from FAQ <img class="unpin" data-id="<?php echo $post->id; ?>" src="https://via.placeholder.com/30"></p>
             </div>
         <?php endforeach; ?>
     </div>
 
-
-    <script>
-    
-    
-$(document).ready(function(){
-
-// Delete 
-$('.delete').click(function(){
-  var el = this;
-  var id = this.id;
-  var splitid = id.split("_");
-
-  // Delete id
-  var deleteid = splitid[1];
-
-  // AJAX Request
-  $.ajax({
-    url: 'removepost.php',
-    type: 'POST',
-    data: { id:deleteid },
-    success: function(response){
-
-      if(response == 1){
-    // Remove row from HTML Table
-    $(el).closest('tr').css('background','tomato');
-    $(el).closest('tr').fadeOut(800,function(){
-       $(this).remove();
-    });
-     }else{
-    alert('Invalid ID.');
-     }
-
-   }
-  });
-
-});
-
-});
-</script>
 </body>
 
 </html>

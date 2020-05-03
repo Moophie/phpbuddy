@@ -158,8 +158,24 @@ class Post
         $statement = $conn->prepare("SELECT * FROM posts WHERE faq = 1");
         $statement->execute();
         $result = $statement->fetchAll(PDO::FETCH_OBJ);
-        
+
         return $result;
     }
-    
+
+    public function deletePost($id)
+    {
+        $conn = Db::getConnection();
+        $statement = $conn->prepare("DELETE FROM posts WHERE id = :id");
+        $statement->bindValue(":id", $id);
+        $statement->execute();
+    }
+
+    public function editPost($id, $content)
+    {
+        $conn = Db::getConnection();
+        $statement = $conn->prepare("UPDATE posts SET content = :content WHERE id = :id");
+        $statement->bindValue(":id", $id);
+        $statement->bindValue(":content", $content);
+        $statement->execute();
+    }
 }
