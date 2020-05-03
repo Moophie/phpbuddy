@@ -47,7 +47,7 @@ class User
 
     /**
      * Get the value of validation_string
-     */ 
+     */
     public function getValidation_string()
     {
         return $this->validation_string;
@@ -57,7 +57,7 @@ class User
      * Set the value of validation_string
      *
      * @return  self
-     */ 
+     */
     public function setValidation_string($validation_string)
     {
         $this->validation_string = $validation_string;
@@ -67,7 +67,7 @@ class User
 
     /**
      * Get the value of active
-     */ 
+     */
     public function getActive()
     {
         return $this->active;
@@ -77,7 +77,7 @@ class User
      * Set the value of active
      *
      * @return  self
-     */ 
+     */
     public function setActive($active)
     {
         $this->active = $active;
@@ -740,7 +740,8 @@ class User
         return $result;
     }
 
-    public function updateBuddy(){
+    public function updateBuddy()
+    {
         $conn = Db::getConnection();
         $statement = $conn->prepare("UPDATE users SET buddy_id = :buddy_id WHERE email = :email");
         $statement->bindValue(":buddy_id", $_POST['buddy_id']);
@@ -750,7 +751,8 @@ class User
         return $update;
     }
 
-    public function removeBuddy(){
+    public function removeBuddy()
+    {
         $conn = Db::getConnection();
         $statement = $conn->prepare("UPDATE users SET buddy_id = 0 WHERE email = :email");
         $statement->bindValue(":email", $_POST['buddy_email']);
@@ -758,7 +760,8 @@ class User
         return $remove;
     }
 
-    public function removeConversation(){
+    public function removeConversation()
+    {
         $conn = Db::getConnection();
         $statement = $conn->prepare("UPDATE conversations SET active = 0 WHERE user_1 = :user_id OR user_2 = :user_id");
         $statement->bindValue(":user_id", $this->getId());
@@ -766,7 +769,8 @@ class User
         return $remove;
     }
 
-    public function unmatch(){
+    public function unmatch()
+    {
         $conn = Db::getConnection();
         $statement = $conn->prepare("UPDATE users SET buddy_id = 0 WHERE email = :email OR id = :buddy_id");
         $statement->bindValue(":buddy_id", $this->getBuddy_id());
@@ -775,19 +779,51 @@ class User
         return $unmatch;
     }
 
-    public function profileImg(){
+    public function profileImg()
+    {
         $conn = Db::getConnection();
-        $statement = $conn->prepare("UPDATE users  SET profileImg = ('".$_FILES['profileImg']['name']."') WHERE email = :email");
+        $statement = $conn->prepare("UPDATE users  SET profileImg = ('" . $_FILES['profileImg']['name'] . "') WHERE email = :email");
         $statement->bindValue(":email", $this->getEmail());
         $img = $statement->execute();
         return $img;
     }
 
-    public static function verify(){
+    public static function verify()
+    {
         $conn = Db::getConnection();
         $statement = $conn->prepare("UPDATE users SET active = 1 WHERE validation_string = :validation_string");
         $statement->bindValue(":validation_string", $_GET["code"]);
         $return = $statement->execute();
         return $return;
+    }
+
+    public function joinEvent($eventId)
+    {
+        $conn = Db::getConnection();
+
+        $statement = $conn->prepare("INSERT INTO users_events (user_id, event_id) VALUES (:user_id, :event_id)");
+
+        $statement->bindValue(":user_id", $this->getId());
+        $statement->bindValue(":event_id", $eventId);
+
+        $result = $statement->execute();
+
+        return $result;
+    }
+
+    public function checkJoinedEvent($eventId)
+    {
+        $conn = Db::getConnection();
+        $statement = $conn->prepare("SELECT * FROM users_events WHERE user_id = :user_id AND event_id = :event_id");
+        $statement->bindValue(":user_id", $this->getId());
+        $statement->bindValue(":event_id", $eventId);
+        $statement->execute();
+        $result = $statement->fetch(PDO::FETCH_OBJ);
+
+        if(!empty($result)){
+            return true;
+        } else {
+            return false;
+        }
     }
 }
