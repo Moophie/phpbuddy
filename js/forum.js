@@ -83,7 +83,17 @@ $(document).ready(function() {
             $('[data-id="' + post_id + '"] .d-block.discussion').removeClass("d-block").addClass("d-none");
             $('[data-id="' + post_id + '"] .showDisc').html("Show discussion");
         }
+    });
 
+    $(".upvote").on("click", function() {
+        var post_id = $(this).attr("data-id");
+        console.log(post_id);
 
+        $.ajax({
+            type: "POST",
+            url: "forum.php",
+            data: { upvote: 1, id: post_id },
+            success: function(response) {}
+        })
     });
 });

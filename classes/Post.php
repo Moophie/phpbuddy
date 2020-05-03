@@ -11,6 +11,7 @@ class Post
     private $content;
     private $faq;
     private $parent;
+    private $upvotes;
 
 
     /**
@@ -133,6 +134,46 @@ class Post
         return $this;
     }
 
+    /**
+     * Get the value of upvotes
+     */ 
+    public function getUpvotes()
+    {
+        return $this->upvotes;
+    }
+
+    /**
+     * Set the value of upvotes
+     *
+     * @return  self
+     */ 
+    public function setUpvotes($upvotes)
+    {
+        $this->upvotes = $upvotes;
+
+        return $this;
+    }
+
+    public function __construct($post_id = 0)
+    {
+        //Select all of the event's data from the database
+        $conn = Db::getConnection();
+        $statement = $conn->prepare('SELECT * FROM posts WHERE id = :post_id');
+        $statement->bindValue(':post_id', $post_id);
+        $statement->execute();
+        $post = $statement->fetch(PDO::FETCH_OBJ);
+
+        //If the search returns a result, set all the objects properties to the properties taken from the database
+        if (!empty($post)) {
+            $this->id = $post->id;
+            $this->op = $post->op;
+            $this->timestamp = $post->timestamp;
+            $this->content = $post->content;
+            $this->faq = $post->faq;
+            $this->parent = $post->parent;
+        }
+    }
+
     public function savePost()
     {
         $conn = Db::getConnection();
@@ -166,7 +207,7 @@ class Post
     {
         $conn = Db::getConnection();
 
-        $statement = $conn->prepare("SELECT * FROM posts WHERE parent = 0");
+        $statement = $conn->prepare("SELECT * FROM posts WHERE parent = 0 ORDER BY upvotes DESC");
         $statement->execute();
         $result = $statement->fetchAll(PDO::FETCH_OBJ);
 
@@ -177,7 +218,7 @@ class Post
     {
         $conn = Db::getConnection();
 
-        $statement = $conn->prepare("SELECT * FROM posts WHERE faq = 1");
+        $statement = $conn->prepare("SELECT * FROM posts WHERE faq = 1 ORDER BY upvotes DESC");
         $statement->execute();
         $result = $statement->fetchAll(PDO::FETCH_OBJ);
 
@@ -205,20 +246,38 @@ class Post
     {
         $conn = Db::getConnection();
 
-        $statement = $conn->prepare("SELECT * FROM posts WHERE parent = :post_id");
+        $statement = $conn->prepare("SELECT * FROM posts WHERE parent = :post_id ORDER BY upvotes DESC");
         $statement->bindValue(":post_id", $post_id);
         $statement->execute();
         $result = $statement->fetchAll(PDO::FETCH_OBJ);
 
         return $result;
-    
     }
 
-    public function getUpvotes(){
+    public static function countUpvotes($post_id)
+    {
         $conn = Db::getConnection();
-        $statement = $conn->prepare("select count(*) as count from upvotes where post_id = :postid");
-        $statement->bindValue(":postid", $this->id);
+        $statement = $conn->prepare("SELECT * FROM upvotes WHERE post_id = :post_id");
+        $statement->bindValue(":post_id", $post_id);
         $statement->execute();
-        $result = $statement->fetch(PDO::FETCH_ASSOC);
-        return $result['count'];
-    }}
+        $count = $statement->rowCount();
+        return $count;
+    }
+
+    public function addUpvote(){
+    
+        $conn = Db::getConnection();
+        $statement = $conn->prepare("SELECT upvotes FROM posts WHERE id = :post_id");
+        $statement->bindValue(":post_id", $this->getId());
+        $statement->execute();
+        $amountUpvotes = $statement->fetch(PDO::FETCH_OBJ);
+
+        $upvotes = $amountUpvotes->upvotes + 1;
+        var_dump($upvotes);
+
+        $statement = $conn->prepare("UPDATE posts SET upvotes = :upvotes WHERE id = :post_id");
+        $statement->bindValue(":upvotes", $upvotes);
+        $statement->bindValue(":post_id", $this->getId());
+        $statement->execute();
+    }
+}

@@ -1,12 +1,13 @@
 <?php
 include_once(__DIR__ . "/Db.php");
 
-Class Upvote{
+class Upvote
+{
     private $id;
     private $post_id;
     private $user_id;
 
-    
+
     /**
      * Get the value of id
      */
@@ -27,7 +28,7 @@ Class Upvote{
         return $this;
     }
 
-    
+
     /**
      * Get the value of id
      */
@@ -48,7 +49,7 @@ Class Upvote{
         return $this;
     }
 
-    
+
     /**
      * Get the value of id
      */
@@ -69,16 +70,24 @@ Class Upvote{
         return $this;
     }
 
-    public function save(){
-
-        // @todo: hook in a new function that checks if a user has already liked a post
+    public function saveUpvote()
+    {
 
         $conn = Db::getConnection();
-        $statement = $conn->prepare("insert into upvotes (post_id, user_id) values (:postid, :userid");
-        $statement->bindValue(":postid", $this->getPost_Id());
-        $statement->bindValue(":userid", $this->getUser_Id());
-        return $statement->execute();
+
+        $statement = $conn->prepare("SELECT * FROM upvotes WHERE post_id = :post_id AND user_id = :user_id");
+        $statement->bindValue(":post_id", $this->getPost_Id());
+        $statement->bindValue(":user_id", $this->getUser_Id());
+        $statement->execute();
+        $count = $statement->rowCount();
+
+        if ($count > 0) {
+            return $error = "You've already liked this post";
+        } else {
+            $statement = $conn->prepare("INSERT INTO upvotes (post_id, user_id) VALUES (:post_id, :user_id)");
+            $statement->bindValue(":post_id", $this->getPost_Id());
+            $statement->bindValue(":user_id", $this->getUser_Id());
+            $statement->execute();
+        }
     }
 }
-
-?>

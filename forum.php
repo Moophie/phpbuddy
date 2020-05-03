@@ -57,6 +57,16 @@ if (!empty($_POST['editPost'])) {
     $post->editPost($_POST['id'], $_POST['content']);
 }
 
+if(!empty($_POST['upvote'])){
+    $post = new Post($_POST['id']);
+    $post->addUpvote();
+    
+    $upvote = new Upvote();
+    $upvote->setPost_id($_POST['id']);
+    $upvote->setUser_id($user->getId());
+    $upvote->saveUpvote();
+}
+
 $allPosts = Post::getAllPosts();
 $faqPosts = Post::getFaqPosts();
 
@@ -81,6 +91,7 @@ $faqPosts = Post::getFaqPosts();
     <div class="forum float-left" style="margin:10px 0px 0px 10px; border:1px black solid; width: 800px; padding:5px">
         <?php foreach ($allPosts as $post) : ?>
             <div class="post" data-id="<?php echo $post->id; ?>" style="border:1px black solid; max-width: 800px; margin-bottom:10px; padding:5px">
+            <p>Upvotes: <?php echo Post::countUpvotes($post->id); ?></p>
                 <strong><?php echo htmlspecialchars($post->op) ?></strong>
                 <br>
                 <i><?php echo htmlspecialchars($post->timestamp) ?></i>
@@ -93,17 +104,19 @@ $faqPosts = Post::getFaqPosts();
                 <?php endif; ?>
 
                 <button class="reactPost" data-id="<?php echo $post->id; ?>">React</button>
+                <button class="upvote" data-id="<?php echo $post->id; ?>">Upvote</button>
                 <button class="showDisc" data-id="<?php echo $post->id; ?>">Show discussion</button>
 
                 <div class="discussion d-none" data-id="<?php echo $post->id; ?>" style="margin-left:20px;margin-top:10px;">
                     <?php
                     $reactions = Post::getReactions($post->id);
                     foreach ($reactions as $reaction) : ?>
+                    <p>Upvotes: <?php echo Post::countUpvotes($reaction->id); ?></p>
                         <strong><?php echo htmlspecialchars($reaction->op) ?></strong>
                         <br>
                         <i><?php echo htmlspecialchars($reaction->timestamp) ?></i>
                         <p class="postText"><?php echo htmlspecialchars($reaction->content) ?></p>
-                        <p><a href="#" class="upvote" data-id="<?php echo $post->id; ?>">Upvote</a> <!--<span class="countUpvotes"><?php //echo $post->getUpvotes(); ?></span>--></p>
+                        <p><button class="upvote" data-id="<?php echo $reaction->id; ?>">Upvote</button></p>
                     <?php endforeach ?>
                 </div>
             </div>
@@ -132,27 +145,6 @@ $faqPosts = Post::getFaqPosts();
             </div>
         <?php endforeach; ?>
     </div>
-
-    <script>
-        $(".a.upvote").on("click", function(e){
-            var postId = $(this).data('id');
-
-            $.ajax({
-                method:"POST",
-                url: "upvote.php",
-                data: {postId: postId},
-                dataType: "Json"
-            })
-            .done(function(res){
-                if(res.status == "success"){
-                    likes++;
-                }
-            
-        });
-  
-
-    </script>
-
 </body>
 
 </html>
