@@ -98,7 +98,6 @@ class Conversation
         $statement->bindValue(":user_2", $this->getUser_2());
         $statement->execute();
         $result = $statement->fetch(PDO::FETCH_OBJ);
-        var_dump($result);
 
         if (empty($result)) :
 
