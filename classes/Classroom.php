@@ -1,7 +1,8 @@
 <?php
 include_once(__DIR__ . "/Db.php");
 
-Class classroom{
+class classroom
+{
     private $id;
     private $name;
     private $building;
@@ -10,7 +11,7 @@ Class classroom{
 
     /**
      * Get the value of id
-     */ 
+     */
     public function getId()
     {
         return $this->id;
@@ -20,7 +21,7 @@ Class classroom{
      * Set the value of id
      *
      * @return  self
-     */ 
+     */
     public function setId($id)
     {
         $this->id = $id;
@@ -30,7 +31,7 @@ Class classroom{
 
     /**
      * Get the value of name
-     */ 
+     */
     public function getName()
     {
         return $this->name;
@@ -40,7 +41,7 @@ Class classroom{
      * Set the value of name
      *
      * @return  self
-     */ 
+     */
     public function setName($name)
     {
         $this->name = $name;
@@ -50,7 +51,7 @@ Class classroom{
 
     /**
      * Get the value of building
-     */ 
+     */
     public function getBuilding()
     {
         return $this->building;
@@ -60,7 +61,7 @@ Class classroom{
      * Set the value of building
      *
      * @return  self
-     */ 
+     */
     public function setBuilding($building)
     {
         $this->building = $building;
@@ -70,7 +71,7 @@ Class classroom{
 
     /**
      * Get the value of floor
-     */ 
+     */
     public function getFloor()
     {
         return $this->floor;
@@ -80,7 +81,7 @@ Class classroom{
      * Set the value of floor
      *
      * @return  self
-     */ 
+     */
     public function setFloor($floor)
     {
         $this->floor = $floor;
@@ -90,7 +91,7 @@ Class classroom{
 
     /**
      * Get the value of room_number
-     */ 
+     */
     public function getRoom_number()
     {
         return $this->room_number;
@@ -100,7 +101,7 @@ Class classroom{
      * Set the value of room_number
      *
      * @return  self
-     */ 
+     */
     public function setRoom_number($room_number)
     {
         $this->room_number = $room_number;
@@ -108,7 +109,8 @@ Class classroom{
         return $this;
     }
 
-    public static function getClassroom($search){
+    public static function getClassroom($search)
+    {
         $conn = Db::getConnection();
         $statement = $conn->prepare("SELECT * FROM classrooms WHERE name LIKE concat('%', :search, '%')");
         $statement->bindValue(":search", $search);
@@ -117,6 +119,15 @@ Class classroom{
 
         return $search;
     }
-}
 
-?>
+    public static function completeSearch($keyword)
+    {
+        $conn = Db::getConnection();
+        $statement = $conn->prepare("SELECT * FROM classrooms WHERE name LIKE :keyword ORDER BY id LIMIT 5");
+        $statement->bindValue(":keyword", $keyword);
+        $statement->execute();
+        $classrooms = $statement->fetchAll(PDO::FETCH_OBJ);
+
+        return $classrooms;
+    }
+}
