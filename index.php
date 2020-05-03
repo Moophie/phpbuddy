@@ -2,6 +2,7 @@
 
 include_once(__DIR__ . "/classes/User.php");
 include_once(__DIR__ . "/classes/Conversation.php");
+include_once(__DIR__ . "/classes/Classroom.php");
 
 require(__DIR__ . "/sendgrid/sendgrid-php.php");
 putenv("SENDGRID_API_KEY=***REMOVED***");
@@ -50,14 +51,13 @@ if (!empty($_POST['acceptBuddy'])) {
     if ($_POST['acceptBuddy'] == "Accept") {
 
         //Make the other person your buddy
-       $user->updateBuddy();
-
+        $user->updateBuddy();
     } elseif ($_POST['acceptBuddy'] == "Reject") {
 
         //Remove yourself as buddy
         $user->removeBuddy();
         $user->removeConversation();
-       
+
         //Prompt box for rejecting reason
         echo "<script>var reason = prompt('Would you like telling the reason for this rejection?', 'Write reason here');</script>";
     }
@@ -68,7 +68,6 @@ if (!empty($_POST['unmatch'])) {
 
     if ($_POST['buddy_id'] == $user->getId()) {
         $user->unmatch();
-
     } else {
         $user->unmatch();
     }
@@ -89,6 +88,8 @@ $userBuddy = User::findBuddy($user->getEmail());
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="css/bootstrap.css">
     <link rel="stylesheet" href="css/phpbuddy.css">
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/autocomplete.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Lato:400,700&display=swap" rel="stylesheet">
     <title>IMD Buddy</title>
     <style>
@@ -134,8 +135,9 @@ $userBuddy = User::findBuddy($user->getEmail());
         <div class="jumbotron">
             <h2>Find your classroom here:</h2>
             <form action="class.php" method="get">
-                <input type="text" name="search" class="search" placeholder="Z3.04">
+                <input type="text" name="search" class="search" placeholder="Z3.04" autocomplete="off">
                 <input type="submit" name="submit_search" value="search" class="search_submit">
+                <div class="suggestions"></div>
             </form>
         </div>
     </div>

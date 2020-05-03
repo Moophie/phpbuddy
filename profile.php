@@ -87,7 +87,7 @@ if (!empty($_POST['changeStatus'])) {
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <link rel="stylesheet" href="css/bootstrap.css">
   <link rel="stylesheet" href="css/phpbuddy.css">
-  <link rel="stylesheet" href="css/style_profile.css">
+  <!---<link rel="stylesheet" href="css/style_profile.css">--->
   <link href="https://fonts.googleapis.com/css?family=Lato:400,700&display=swap" rel="stylesheet">
   <title>IMD Buddy</title>
 </head>
@@ -96,86 +96,34 @@ if (!empty($_POST['changeStatus'])) {
 
   <?php include_once("nav.include.php"); ?>
 
-  <div class="container emp-profile">
-    <div class="row">
+  <div class="container">
+    <div class="jumbotron" style=" height:400px; margin:20px;">
+    <div class="float-left"  style=" margin-left:50px;">
+      <img src="./uploads/<?= htmlspecialchars($user->getProfileImg()) ?>" width="250px;" height="250px;" />
+          <form enctype="multipart/form-data" action="uploadProfileImg.php" method="POST" style="margin-top:10px;">
+            <input type="file" name="profileImg" capture="camera" required />
+            <br>
+            <input type="submit" value="upload" name="uploadPicture"/>
+          </form>
+    </div>
+    <div>
+      <h2><?= htmlspecialchars($user->getFullname()); ?></h2>
+      <h6> Web Developer and Designer </h6>
+    </div>
+    </div>
+    </div>
 
-      <div class="float-left" style="margin-left:20px;">
-        <img src="./uploads/<?= htmlspecialchars($user->getProfileImg()) ?>" width="250px;" height="250px;" />
-        <form enctype="multipart/form-data" action="uploadProfileImg.php" method="POST">
-          <input type="file" name="profileImg" capture="camera" required />
-          <br>
-          <input type="submit" value="upload" name="uploadPicture" />
-        </form>
-      </div>
+    <div class="container">
+    <div class="jumbotron float-left" style="width:50%; height:950px; margin:20px;">
 
-      <div class="row">
-        <div class="col-md-4">
-          <div class="profile-img">
-
-          </div>
-        </div>
-
-        <div class="col-md-5">
-          <div class="profile-head">
-            <h5><?= htmlspecialchars($user->getFullname()); ?></h5>
-            <h6> Web Developer and Designer </h6>
-            <ul class="nav nav-tabs" id="myTab" role="tablist">
-              <li class="nav-item">
-                <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">About</a>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="col-md-4">
-          <div class="float-left" style="margin-left:20; ">
-            <h1>Settings</h1>
-            <form method="POST" action="">
-              <p style="color:red">
-                <?php if (!empty($errorMail)) :
-                  echo $errorMail;
-                endif; ?>
-              </p>
-              <div class="form-group">
-                <label for="emailpassword">Current password</label>
-                <input type="password" name="emailpassword" id="emailpassword" class="form-control">
-              </div>
-              <div class="form-group">
-                <label for="newemail">New email</label>
-                <input type="email" name="newemail" id="newemail" class="form-control">
-              </div>
-              <input type="submit" value="Save" name="changeEmail">
-
-              <form method="POST" action="">
-                <div class="form-group">
-                  <p style="color:red">
-                    <?php if (!empty($errorPass)) :
-                      echo $errorPass;
-                    endif; ?>
-                  </p>
-                  <label for="oldpassword">Current password</label>
-                  <input type="password" name="oldpassword" id="oldpassword" class="form-control">
-                </div>
-                <div class="form-group">
-                  <label for="newpassword">New password</label>
-                  <input type="password" name="newpassword" id="newpassword" class="form-control">
-                </div>
-                <input type="submit" value="Save" name="changePassword">
-              </form>
-            </form>
-          </div>
-        </div>
-
-        <form action="" method="POST" style="padding:20px; width:500px;">
+        <form action="" method="POST">
 
           <!-- Fill in the input fields with the data from the database -->
-          <div class="col-md-7">
-            <h1> <label for="bio">Biography</label></h1>
-            <textarea name="bio" id="bio" cols="10" rows="10" class="form-control"><?= htmlspecialchars($user->getBio()) ?></textarea>
-          </div>
           <br>
+          <div class="form-group">
+            <label for="bio">Biography</label>
+            <textarea name="bio" id="bio" class="form-control"><?= htmlspecialchars($user->getBio()) ?></textarea>
+          </div>
           <div class="form-group">
             <label for="location">Location</label>
             <input type="text" id="location" name="location" class="form-control" value="<?= htmlspecialchars($user->getLocation()) ?>">
@@ -218,9 +166,50 @@ if (!empty($_POST['changeStatus'])) {
           <div class="form-group">
             <input type="submit" value="Submit" name="updateProfile">
           </div>
+</div>
+</div>
 
-        </form>
-        <form action="" method="POST" class="border rounded" style="margin-left: 32%; width:500px;">
+  <div class="container">
+    <div class="jumbotron float-right" style="width:40%; height:600px; margin:20px;">
+            <form method="POST" action="">
+              <p style="color:red">
+                <?php if (!empty($errorMail)) :
+                  echo $errorMail;
+                endif; ?>
+              </p>
+              <div class="form-group">
+                <label for="emailpassword">Current password</label>
+                <input type="password" name="emailpassword" id="emailpassword" class="form-control">
+              </div>
+              <div class="form-group">
+                <label for="newemail">New email</label>
+                <input type="email" name="newemail" id="newemail" class="form-control">
+              </div>
+              <input type="submit" value="Save" name="changeEmail" style="margin-bottom:20px;">
+
+              <form method="POST" action="">
+                <div class="form-group">
+                  <p style="color:red">
+                    <?php if (!empty($errorPass)) :
+                      echo $errorPass;
+                    endif; ?>
+                  </p>
+                  <label for="oldpassword">Current password</label>
+                  <input type="password" name="oldpassword" id="oldpassword" class="form-control">
+                </div>
+                <div class="form-group">
+                  <label for="newpassword">New password</label>
+                  <input type="password" name="newpassword" id="newpassword" class="form-control">
+                </div>
+                <input type="submit" value="Save" name="changePassword">
+              </form>
+            </form>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="jumbotron float-right" style="width:40%; height:200px; margin:20px; margin-bottom:50px;">
+    <form action="" method="POST">
           <div class="form-group">
             <div class="form-check">
               <input type="radio" id="firstyear" name="buddyStatus" class="form-check-input" value="firstyear" <?php if ($user->getBuddyStatus() == "firstyear") : ?>checked="checked" <?php endif; ?>>
@@ -232,13 +221,8 @@ if (!empty($_POST['changeStatus'])) {
             </div>
           </div>
           <input type="submit" value="Save" name="changeStatus">
-        </form>
-      </div>
+    </form>
     </div>
+  </div>
 
-  </div>
-  </form>
-  </div>
-  </div>
-  </div>
 </body>
