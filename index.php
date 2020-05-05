@@ -14,9 +14,9 @@ $email = $_SESSION['user'];
 $user = new classes\Buddy\User($email);
 
 //Get all the users from the database except for the active user
-$potMatches = $user->getAllExceptUser();
-$registeredCount = $user->totalRegistration();
-$totalBuddyCount = $user->totalBuddies();
+$potential_matches = $user->getAllExceptUser();
+$registered_count = $user->totalRegistration();
+$total_buddy_count = $user->totalBuddies();
 
 //If someone sends a buddy suggestion
 if (!empty($_POST['getBuddy'])) {
@@ -71,7 +71,7 @@ if (!empty($_POST['unmatch'])) {
     $user->removeConversation();
 }
 
-$userBuddy = classes\Buddy\User::findBuddy($user->getEmail());
+$user_buddy = classes\Buddy\User::findBuddy($user->getEmail());
 
 ?>
 
@@ -118,10 +118,10 @@ $userBuddy = classes\Buddy\User::findBuddy($user->getEmail());
         <div class="jumbotron float-right" style="width:38%; height:250px;">
             <h4>Buddy application statistics</h4>
             <div>
-                <p><strong>Registered users:</strong> <?php echo $registeredCount ?> <?php ?> </p>
+                <p><strong>Registered users:</strong> <?php echo $registered_count ?> <?php ?> </p>
             </div>
             <div>
-                <p><strong>Buddy relations:</strong> <?php echo $totalBuddyCount ?> </p>
+                <p><strong>Buddy relations:</strong> <?php echo $total_buddy_count ?> </p>
             </div>
         </div>
     </div>
@@ -144,16 +144,16 @@ $userBuddy = classes\Buddy\User::findBuddy($user->getEmail());
 
                     <h2>Potential Buddies</h2>
                     <!-- Loop over all the other users -->
-                    <?php foreach ($potMatches as $potMatch) :
+                    <?php foreach ($potential_matches as $potential_match) :
 
                         //Check each user for a match
-                        $match = $user->getMatch($potMatch);
+                        $match = $user->getMatch($potential_match);
 
                         //If the function returns a match, print it out
                         if (!empty($match) && (empty($match->buddy_id) || $match->buddy_id == $user->getId())) : ?>
                             <div class="matches float-left" style="display:block">
                                 <h4><?= $match->fullname ?></h4>
-                                <img src="./uploads/<?= htmlspecialchars($match->profileImg) ?>" width="100px;" height="100px;" />
+                                <img src="./uploads/<?= htmlspecialchars($match->profile_img) ?>" width="100px;" height="100px;" />
                                 <br>
                                 <br>
                                 <h6>Things you have in common:</h6>
@@ -203,42 +203,42 @@ $userBuddy = classes\Buddy\User::findBuddy($user->getEmail());
                         <?php endif; ?>
                     <?php endforeach; ?>
                 <?php else : ?>
-                    <?php if ($userBuddy->buddy_id == $user->getId()) : ?>
+                    <?php if ($user_buddy->buddy_id == $user->getId()) : ?>
                         <h2 style="margin-top:-30px; padding-bottom: 20px">Your buddy</h2>
                     <?php else : ?>
                         <h2 style="margin-top:-30px; padding-bottom: 20px">You have sent a request to:</h2>
                     <?php endif; ?>
                     <div class="d-flex flex-row border rounded">
                         <div class="p-0 w-25">
-                            <img src="./uploads/<?= htmlspecialchars($userBuddy->profileImg); ?>" class="img-thumbnail border-0" />
+                            <img src="./uploads/<?= htmlspecialchars($user_buddy->profile_img); ?>" class="img-thumbnail border-0" />
                         </div>
                         <div class="pl-3 pt-2 pr-2 pb-2 w-75 border-left">
-                            <h4 class="text-primary"><?= htmlspecialchars($userBuddy->fullname); ?></h4>
+                            <h4 class="text-primary"><?= htmlspecialchars($user_buddy->fullname); ?></h4>
                             <h6>Things you have in common:</h6>
                             <!-- Check all attributes for common ones and then print them out -->
-                            <?php if ($userBuddy->location == $user->getLocation()) : ?>
-                                <p><?= "Location: " . htmlspecialchars($userBuddy->location); ?><p>
+                            <?php if ($user_buddy->location == $user->getLocation()) : ?>
+                                <p><?= "Location: " . htmlspecialchars($user_buddy->location); ?><p>
                                     <?php endif; ?>
-                                    <?php if ($userBuddy->games == $user->getGames()) : ?>
-                                        <p><?= "Video games: " . htmlspecialchars($userBuddy->games); ?></p>
+                                    <?php if ($user_buddy->games == $user->getGames()) : ?>
+                                        <p><?= "Video games: " . htmlspecialchars($user_buddy->games); ?></p>
                                     <?php endif; ?>
-                                    <?php if ($userBuddy->music == $user->getMusic()) : ?>
-                                        <p><?= "Music: " . htmlspecialchars($userBuddy->music); ?></p>
+                                    <?php if ($user_buddy->music == $user->getMusic()) : ?>
+                                        <p><?= "Music: " . htmlspecialchars($user_buddy->music); ?></p>
                                     <?php endif; ?>
-                                    <?php if ($userBuddy->films == $user->getFilms()) : ?>
-                                        <p><?= "Movies: " . htmlspecialchars($userBuddy->films); ?></p>
+                                    <?php if ($user_buddy->films == $user->getFilms()) : ?>
+                                        <p><?= "Movies: " . htmlspecialchars($user_buddy->films); ?></p>
                                     <?php endif; ?>
-                                    <?php if ($userBuddy->books == $user->getBooks()) : ?>
-                                        <p><?= "Books: " . htmlspecialchars($userBuddy->books); ?></p>
+                                    <?php if ($user_buddy->books == $user->getBooks()) : ?>
+                                        <p><?= "Books: " . htmlspecialchars($user_buddy->books); ?></p>
                                     <?php endif; ?>
-                                    <?php if ($userBuddy->study_pref == $user->getStudy_pref()) : ?>
-                                        <p><?= "Same study preferences: " . htmlspecialchars($userBuddy->study_pref); ?></p>
+                                    <?php if ($user_buddy->study_pref == $user->getStudy_pref()) : ?>
+                                        <p><?= "Same study preferences: " . htmlspecialchars($user_buddy->study_pref); ?></p>
                                     <?php endif; ?>
-                                    <?php if ($userBuddy->hobby == $user->getHobby()) : ?>
-                                        <p><?= "Hobby: " . htmlspecialchars($userBuddy->hobby); ?></p>
+                                    <?php if ($user_buddy->hobby == $user->getHobby()) : ?>
+                                        <p><?= "Hobby: " . htmlspecialchars($user_buddy->hobby); ?></p>
                                     <?php endif; ?>
                                     <form action="" method="POST">
-                                        <input type="text" name="buddy_id" value="<?php echo $userBuddy->buddy_id; ?>" hidden>
+                                        <input type="text" name="buddy_id" value="<?php echo $user_buddy->buddy_id; ?>" hidden>
                                         <input type="submit" class="btn btn-danger" name="unmatch" value="Unmatch Buddy">
                                     </form>
                         </div>

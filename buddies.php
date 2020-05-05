@@ -40,7 +40,7 @@ $users = classes\Buddy\User::getAll();
                     <div class="col-md-12">
                         <div class="d-flex flex-row border rounded">
                             <div class="p-0 w-25">
-                                <img src="./uploads/<?= htmlspecialchars($user->profileImg); ?>" class="img-thumbnail border-0" />
+                                <img src="./uploads/<?= htmlspecialchars($user->profile_img); ?>" class="img-thumbnail border-0" />
                             </div>
                             <div class="pl-3 pt-2 pr-2 pb-2 w-75 border-left">
                                 <h4 class="text-primary"><?= htmlspecialchars($user->fullname); ?></h4>

@@ -25,12 +25,12 @@ $classrooms = classes\Buddy\Classroom::getClassroom($_GET['search']);
         <div class="jumbotron center" style="margin-top:20px;">
             <h2>Found Classrooms</h2>
         </div>
-        <?php if ($classrooms > 0) :  foreach ($classrooms as $class) : ?>
+        <?php if ($classrooms > 0) :  foreach ($classrooms as $classroom) : ?>
                 <div class="jumbotron float-left" style="width:300px; margin-left:20px;">
-                    <h4>Classroom: <?php echo $class['name']; ?> </h4>
-                    <p>Building: <?php echo $class['building']; ?></p>
-                    <p>Floor: <?php echo $class['floor']; ?></p>
-                    <p>Class Number: <?php echo $class['room_number']; ?></p>
+                    <h4>Classroom: <?php echo $classroom['name']; ?> </h4>
+                    <p>Building: <?php echo $classroom['building']; ?></p>
+                    <p>Floor: <?php echo $classroom['floor']; ?></p>
+                    <p>Class Number: <?php echo $classroom['room_number']; ?></p>
                 </div>
 
             <?php endforeach; ?>

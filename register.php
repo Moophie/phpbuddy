@@ -21,13 +21,13 @@ if (!empty($_POST['register'])) {
 
     //Set the user's properties
     //setEmail returns an error message if the email is not a valid email or if it's not unique
-    $validEmail = $user->setEmail($email);
+    $valid_email = $user->setEmail($email);
     $user->setFullname($fullname);
     $user->setPassword($hash);
 
     //If setEmail returns a string, show the error message
-    if (gettype($validEmail) == "string") {
-        $error = $validEmail;
+    if (gettype($valid_email) == "string") {
+        $error = $valid_email;
     } else {
         $n = 20;
         $validation_string = bin2hex(random_bytes($n));

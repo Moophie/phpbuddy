@@ -149,7 +149,7 @@ CREATE TABLE `users` (
   `fullname` varchar(300) COLLATE utf8mb4_unicode_ci NOT NULL,
   `email` varchar(300) COLLATE utf8mb4_unicode_ci NOT NULL,
   `password` varchar(300) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `profileImg` varchar(300) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `profile_img` varchar(300) COLLATE utf8mb4_unicode_ci NOT NULL,
   `bio` varchar(300) COLLATE utf8mb4_unicode_ci NOT NULL,
   `location` varchar(300) COLLATE utf8mb4_unicode_ci NOT NULL,
   `games` varchar(300) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -165,7 +165,7 @@ CREATE TABLE `users` (
 -- Gegevens worden geëxporteerd voor tabel `users`
 --
 
-INSERT INTO `users` (`id`, `active`, `validation_string`, `buddy_status`, `fullname`, `email`, `password`, `profileImg`, `bio`, `location`, `games`, `music`, `films`, `books`, `study_pref`, `hobby`, `buddy_id`) VALUES
+INSERT INTO `users` (`id`, `active`, `validation_string`, `buddy_status`, `fullname`, `email`, `password`, `profile_img`, `bio`, `location`, `games`, `music`, `films`, `books`, `study_pref`, `hobby`, `buddy_id`) VALUES
 (1, 1, '', 'mentor', 'Michael Van Lierde', 'michael@student.thomasmore.be', '$2y$10$Fb4BKktLG/oZFiPVQi2RWuHitbfbTJrsYWvSd6z/yBiNXdHZJGngG', 'channing.jpg', 'Hallo, ik ben Michael!', 'Beigem', 'League of Legends', 'Rap', 'Harry Potter', 'World War Z', 'Development', 'Skating', 0),
 (2, 1, '', 'firstyear', 'Jasper Peeters', 'jasper@student.thomasmore.be', '$2y$10$WCT4XCccfLANWuUWYz/dd.w/k.IDMp6F8oKWUfc47UFxt5SSvR1tm', 'koencrucke.jpg', 'Hey ik ben een Jasper!', 'Antwerpen', 'Call Of Duty', 'Pop', 'Harry Potter', 'Narnia', 'Design', 'Soccer', 5),
 (3, 1, '', 'mentor', 'Serafima Yavarouskaya', 'serafima@student.thomasmore.be', '$2y$10$HM1aT7b8lpINWOv0MWf/N.k39CcGca66XpqJbfEC8iZ121PeHYVR6', 'katewinslet.jpg', 'Hey ik ben Serafima!', 'Beigem', 'League of Legends', 'Rap', 'World War Z', 'Narnia', 'Development', 'Skating', 0),

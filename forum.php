@@ -7,7 +7,7 @@ $email;
 if (empty($_SESSION['user'])) {
     $email = "Anonymous";
 } else {
-    $emailf = $_SESSION['user'];
+    $email = $_SESSION['user'];
 }
 
 $user = new classes\Buddy\User($email);
@@ -62,8 +62,8 @@ if (!empty($_POST['upvote'])) {
     $upvote->saveUpvote();
 }
 
-$allPosts = classes\Buddy\Post::getAllPosts();
-$faqPosts = classes\Buddy\Post::getFaqPosts();
+$all_posts = classes\Buddy\Post::getAllPosts();
+$faq_posts = classes\Buddy\Post::getFaqPosts();
 
 ?>
 
@@ -82,7 +82,7 @@ $faqPosts = classes\Buddy\Post::getFaqPosts();
     <?php include_once("nav.include.php"); ?>
 
     <div class="forum float-left" style="margin:10px 0px 0px 10px; border:1px black solid; width: 800px; padding:5px">
-        <?php foreach ($allPosts as $post) : ?>
+        <?php foreach ($all_posts as $post) : ?>
             <div class="post" data-id="<?php echo $post->id; ?>" style="border:1px black solid; max-width: 800px; margin-bottom:10px; padding:5px">
                 <p>Upvotes: <?php echo classes\Buddy\Post::countUpvotes($post->id); ?></p>
                 <strong><?php echo htmlspecialchars($post->op) ?></strong>
@@ -128,7 +128,7 @@ $faqPosts = classes\Buddy\Post::getFaqPosts();
 
     <div class="FAQ float-right" style="margin:10px 10px 0px 0px; border:1px black solid; width: 400px; padding:5px">
         <h3 style="color:black">FAQ</h3>
-        <?php foreach ($faqPosts as $post) : ?>
+        <?php foreach ($faq_posts as $post) : ?>
             <div class="post" data-id="<?php echo $post->id; ?>" style="border:1px black solid; max-width: 800px; margin-bottom:10px; padding:5px">
                 <strong><?php echo htmlspecialchars($post->op) ?></strong>
                 <br>

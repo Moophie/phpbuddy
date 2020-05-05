@@ -22,7 +22,7 @@ if (!empty($_POST['joinEvent'])) {
     }
 }
 
-$allEvents = classes\Buddy\Event::getAllEvents();
+$all_events = classes\Buddy\Event::getAllEvents();
 
 ?>
 
@@ -42,7 +42,7 @@ $allEvents = classes\Buddy\Event::getAllEvents();
 
     <div>
         <div>
-            <?php foreach ($allEvents as $event) : ?>
+            <?php foreach ($all_events as $event) : ?>
                 <?php $e = new classes\Buddy\Event($event->id) ?>
                 <div class="event" style="border:1px black solid; max-width: 800px; margin-bottom:10px; padding:5px">
                     <strong><?php echo htmlspecialchars($event->title) ?></strong>

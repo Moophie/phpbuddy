@@ -269,10 +269,9 @@ class Post
         $statement = $conn->prepare("SELECT upvotes FROM posts WHERE id = :post_id");
         $statement->bindValue(":post_id", $this->getId());
         $statement->execute();
-        $amountUpvotes = $statement->fetch(\PDO::FETCH_OBJ);
+        $amount_upvotes = $statement->fetch(\PDO::FETCH_OBJ);
 
-        $upvotes = $amountUpvotes->upvotes + 1;
-        var_dump($upvotes);
+        $upvotes = $amount_upvotes->upvotes + 1;
 
         $statement = $conn->prepare("UPDATE posts SET upvotes = :upvotes WHERE id = :post_id");
         $statement->bindValue(":upvotes", $upvotes);

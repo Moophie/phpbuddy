@@ -7,11 +7,11 @@ class User
     private $id;
     private $active;
     private $validation_string;
-    private $buddyStatus;
+    private $buddy_status;
     private $fullname;
     private $email;
     private $password;
-    private $profileImg;
+    private $profile_img;
     private $bio;
     private $location;
     private $games;
@@ -83,21 +83,21 @@ class User
     }
 
     /**
-     * Get the value of buddyStatus
+     * Get the value of buddy_status
      */
-    public function getBuddyStatus()
+    public function getBuddy_status()
     {
-        return $this->buddyStatus;
+        return $this->buddy_status;
     }
 
     /**
-     * Set the value of buddyStatus
+     * Set the value of buddy_status
      *
      * @return  self
      */
-    public function setBuddyStatus($buddyStatus)
+    public function setBuddy_status($buddy_status)
     {
-        $this->buddyStatus = $buddyStatus;
+        $this->buddy_status = $buddy_status;
 
         return $this;
     }
@@ -142,10 +142,10 @@ class User
         $statement = $conn->prepare("SELECT id FROM users WHERE email = :email");
         $statement->bindValue(":email", $email);
         $statement->execute();
-        $existingEmails = $statement->rowCount();
+        $existing_emails = $statement->rowCount();
 
         //Check if the email is unique
-        if ($existingEmails > 0) {
+        if ($existing_emails > 0) {
             return $error = "Email already in use";
 
         //Check if the email ends on student.thomasmore.be
@@ -180,21 +180,21 @@ class User
     }
 
     /**
-     * Get the value of profileImg
+     * Get the value of profile_img
      */
-    public function getProfileImg()
+    public function getProfile_img()
     {
-        return $this->profileImg;
+        return $this->profile_img;
     }
 
     /**
-     * Set the value of profileImg
+     * Set the value of profile_img
      *
      * @return  self
      */
-    public function setProfileImg($profileImg)
+    public function setProfile_img($profile_img)
     {
-        $this->profileImg = $profileImg;
+        $this->profile_img = $profile_img;
 
         return $this;
     }
@@ -384,7 +384,7 @@ class User
         $conn = Db::getConnection();
 
         //Prepare and executestatement
-        $statement = $conn->prepare("SELECT email, fullname, profileImg from users");
+        $statement = $conn->prepare("SELECT email, fullname, profile_img from users");
         $statement->execute();
 
         //Fetch all rows as an array indexed by column name
@@ -403,17 +403,11 @@ class User
         //Prepare the INSERT query
         $statement = $conn->prepare("INSERT INTO users (active, validation_string, fullname, email, password) VALUES (0, :validation_string, :fullname, :email, :password)");
 
-        //Put object values into variables
-        $validation_string = $this->getValidation_string();
-        $fullname = $this->getFullname();
-        $email = $this->getEmail();
-        $password = $this->getPassword();
-
-        //Bind variables to parameters from prepared query
-        $statement->bindValue(":validation_string", $validation_string);
-        $statement->bindValue(":fullname", $fullname);
-        $statement->bindValue(":email", $email);
-        $statement->bindValue(":password", $password);
+        //Bind values to parameters from prepared query
+        $statement->bindValue(":validation_string", $this->getValidation_string());
+        $statement->bindValue(":fullname", $this->getFullname());
+        $statement->bindValue(":email", $this->getEmail());
+        $statement->bindValue(":password", $this->getPassword());
 
         //Execute query
         $result = $statement->execute();
@@ -438,11 +432,11 @@ class User
         if (!empty($user)) {
             $this->id = $user->id;
             $this->active = $user->active;
-            $this->buddyStatus = $user->buddy_status;
+            $this->buddy_status = $user->buddy_status;
             $this->fullname = $user->fullname;
             $this->email = $user->email;
             $this->password = $user->password;
-            $this->profileImg = $user->profileImg;
+            $this->profile_img = $user->profile_img;
             $this->bio = $user->bio;
             $this->location = $user->location;
             $this->games = $user->games;
@@ -456,44 +450,44 @@ class User
     }
 
     //Function that changes the password
-    public function changePassword($newpassword)
+    public function changePassword($new_password)
     {
         $conn = Db::getConnection();
 
         //Encrypt the password
-        $newpassword = password_hash($_POST['newpassword'], PASSWORD_BCRYPT);
+        $new_password = password_hash($_POST['new_password'], PASSWORD_BCRYPT);
 
-        $insert = $conn->prepare("UPDATE users SET password = :newpassword WHERE email = :email");
+        $insert = $conn->prepare("UPDATE users SET password = :new_password WHERE email = :email");
         $insert->bindValue(':email', $this->getEmail());
-        $insert->bindValue(':newpassword', $newpassword);
+        $insert->bindValue(':new_password', $new_password);
         $insert->execute();
     }
 
     //Function that changes the email
-    public function changeEmail($newemail)
+    public function changeEmail($new_email)
     {
         $conn = Db::getConnection();
 
         //Make email case insensitive
-        $newemail = strtolower($newemail);
+        $new_email = strtolower($new_email);
 
-        $insert = $conn->prepare("UPDATE users SET email = :newemail WHERE email = :email");
+        $insert = $conn->prepare("UPDATE users SET email = :new_email WHERE email = :email");
         $insert->bindValue(':email', $this->getEmail());
-        $insert->bindValue(':newemail', $newemail);
+        $insert->bindValue(':new_email', $new_email);
         $insert->execute();
 
         //Set the $_SESSION['user'] to the new email, otherwise everything breaks
-        $_SESSION['user'] = $newemail;
+        $_SESSION['user'] = $new_email;
     }
 
     //Function that changes the buddy_status
-    public function changeBuddyStatus($newstatus)
+    public function changeBuddy_status($new_status)
     {
         $conn = Db::getConnection();
 
-        $insert = $conn->prepare("UPDATE users SET buddy_status = :newstatus WHERE email = :email");
+        $insert = $conn->prepare("UPDATE users SET buddy_status = :new_status WHERE email = :email");
         $insert->bindValue(':email', $this->getEmail());
-        $insert->bindValue(':newstatus', $newstatus);
+        $insert->bindValue(':new_status', $new_status);
         $insert->execute();
     }
 
@@ -503,31 +497,19 @@ class User
         //Database connection
         $conn = Db::getConnection();
 
-        $email = $_SESSION['user'];
-
         //Prepare the INSERT query
         $statement = $conn->prepare("UPDATE users SET bio = :bio, location = :location, games = :games, music = :music, films = :films, books = :books, study_pref = :study_pref, hobby = :hobby WHERE email = :email");
 
-        //Put object values into variables
-        $bio = $this->getBio();
-        $location = $this->getLocation();
-        $games = $this->getGames();
-        $music = $this->getMusic();
-        $films = $this->getFilms();
-        $books = $this->getBooks();
-        $study_pref = $this->getStudy_pref();
-        $hobby = $this->getHobby();
-
-        //Bind variables to parameters from prepared query
-        $statement->bindValue(":bio", $bio);
-        $statement->bindValue(":location", $location);
-        $statement->bindValue(":games", $games);
-        $statement->bindValue(":music", $music);
-        $statement->bindValue(":films", $films);
-        $statement->bindValue(":books", $books);
-        $statement->bindValue(":study_pref", $study_pref);
-        $statement->bindValue(":hobby", $hobby);
-        $statement->bindValue(":email", $email);
+        //Bind values to parameters from prepared query
+        $statement->bindValue(":bio", $this->getBio());
+        $statement->bindValue(":location", $this->getLocation());
+        $statement->bindValue(":games", $this->getGames());
+        $statement->bindValue(":music", $this->getMusic());
+        $statement->bindValue(":films", $this->getFilms());
+        $statement->bindValue(":books", $this->getBooks());
+        $statement->bindValue(":study_pref", $this->getStudy_pref());
+        $statement->bindValue(":hobby", $this->getHobby());
+        $statement->bindValue(":email", $_SESSION['user']);
 
         //Execute query
         $result = $statement->execute();
@@ -540,7 +522,7 @@ class User
     public function checkProfileComplete()
     {
         //If nothing is empty, return true
-        if (!empty($this->profileImg) && !empty($this->getBio()) && !empty($this->getLocation()) && !empty($this->getGames()) && !empty($this->getMusic()) && !empty($this->getFilms()) && !empty($this->getBooks()) && !empty($this->getStudy_pref()) && !empty($this->getHobby())) {
+        if (!empty($this->profile_img) && !empty($this->getBio()) && !empty($this->getLocation()) && !empty($this->getGames()) && !empty($this->getMusic()) && !empty($this->getFilms()) && !empty($this->getBooks()) && !empty($this->getStudy_pref()) && !empty($this->getHobby())) {
             return true;
         } else {
             return false;
@@ -622,45 +604,45 @@ class User
     }
 
     //Function that checks if a user matches the active user
-    public function getMatch($potMatch)
+    public function getMatch($potential_match)
     {
         $score = 0;
 
         //For every similar property, add to the score
         //Weight of every similarity can be changed by just adjusting the score added
 
-        if ($this->getLocation() == $potMatch->location) {
+        if ($this->getLocation() == $potential_match->location) {
             $score += 10;
         }
 
-        if ($this->getGames() == $potMatch->games) {
+        if ($this->getGames() == $potential_match->games) {
             $score += 10;
         }
 
-        if ($this->getMusic() == $potMatch->music) {
+        if ($this->getMusic() == $potential_match->music) {
             $score += 10;
         }
 
-        if ($this->getFilms() == $potMatch->films) {
+        if ($this->getFilms() == $potential_match->films) {
             $score += 10;
         }
 
-        if ($this->getBooks() == $potMatch->books) {
+        if ($this->getBooks() == $potential_match->books) {
             $score += 10;
         }
 
-        if ($this->getHobby() == $potMatch->hobby) {
+        if ($this->getHobby() == $potential_match->hobby) {
             $score += 10;
         }
 
-        if ($this->getStudy_pref() == $potMatch->study_pref) {
+        if ($this->getStudy_pref() == $potential_match->study_pref) {
             $score += 10;
         }
 
         //If the score is above a certain number, return the potential match as an object
         //The number can be changed according to how similar the matches have to be
         if ($score >= 20) {
-            return $potMatch;
+            return $potential_match;
         }
     }
 
@@ -697,10 +679,10 @@ class User
         $users = $statement->fetchAll(\PDO::FETCH_OBJ);
 
         //count all users
-        $totalRegistration = count($users);
+        $total_registration = count($users);
 
         //Return the result from the query
-        return $totalRegistration;
+        return $total_registration;
     }
 
     public function totalBuddies()
@@ -716,13 +698,13 @@ class User
         $buddies = $statement->fetchAll(\PDO::FETCH_OBJ);
 
         //Count all buddies
-        $totalBuddyCount = count($buddies);
+        $total_buddy_count = count($buddies);
 
         //Divide by 2 to get amount of buddy relations
-        $totalBuddyCount = floor($totalBuddyCount / 2);
+        $total_buddy_count = floor($total_buddy_count / 2);
 
         //Return the result from the query
-        return $totalBuddyCount;
+        return $total_buddy_count;
     }
 
     public function getActiveConversations()
@@ -775,10 +757,10 @@ class User
         return $unmatch;
     }
 
-    public function profileImg()
+    public function saveProfile_img()
     {
         $conn = Db::getConnection();
-        $statement = $conn->prepare("UPDATE users  SET profileImg = ('" . $_FILES['profileImg']['name'] . "') WHERE email = :email");
+        $statement = $conn->prepare("UPDATE users  SET profile_img = ('" . $_FILES['profile_img']['name'] . "') WHERE email = :email");
         $statement->bindValue(":email", $this->getEmail());
         $img = $statement->execute();
         return $img;
@@ -793,26 +775,26 @@ class User
         return $return;
     }
 
-    public function joinEvent($eventId)
+    public function joinEvent($event_id)
     {
         $conn = Db::getConnection();
 
         $statement = $conn->prepare("INSERT INTO users_events (user_id, event_id) VALUES (:user_id, :event_id)");
 
         $statement->bindValue(":user_id", $this->getId());
-        $statement->bindValue(":event_id", $eventId);
+        $statement->bindValue(":event_id", $event_id);
 
         $result = $statement->execute();
 
         return $result;
     }
 
-    public function checkJoinedEvent($eventId)
+    public function checkJoinedEvent($event_id)
     {
         $conn = Db::getConnection();
         $statement = $conn->prepare("SELECT * FROM users_events WHERE user_id = :user_id AND event_id = :event_id");
         $statement->bindValue(":user_id", $this->getId());
-        $statement->bindValue(":event_id", $eventId);
+        $statement->bindValue(":event_id", $event_id);
         $statement->execute();
         $result = $statement->fetch(\PDO::FETCH_OBJ);
 

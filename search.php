@@ -9,7 +9,7 @@ if (empty($_SESSION['user'])) {
 
 //If someone clicks search, find the correct users based on the filters in the $_POST
 if (!empty($_POST)) {
-    $foundUsers = classes\Buddy\User::searchUsers($_POST);
+    $found_users = classes\Buddy\User::searchUsers($_POST);
 }
 
 ?>
@@ -83,20 +83,20 @@ if (!empty($_POST)) {
 
 
     <div class="float-left">
-        <?php if (!empty($foundUsers)) : ?>
+        <?php if (!empty($found_users)) : ?>
 
             <!-- Print out all users and their properties -->
-            <?php foreach ($foundUsers as $foundUser) : ?>
+            <?php foreach ($found_users as $found_user) : ?>
                 <div class="float-left" style="margin-right: 10px; border: 1px solid black; padding: 10px;">
                     <ul style="list-style:none; margin:0px; padding:0px;">
-                        <li><b>Full name:</b> <?= htmlspecialchars($foundUser->fullname) ?></li>
-                        <li><b>Location :</b> <?= htmlspecialchars($foundUser->location) ?></li>
-                        <li><b>Games :</b> <?= htmlspecialchars($foundUser->games) ?></li>
-                        <li><b>Music :</b> <?= htmlspecialchars($foundUser->music) ?></li>
-                        <li><b>Films :</b> <?= htmlspecialchars($foundUser->films) ?></li>
-                        <li><b>Books :</b> <?= htmlspecialchars($foundUser->books) ?></li>
-                        <li><b>Hobby :</b> <?= htmlspecialchars($foundUser->hobby) ?></li>
-                        <li><b>Studies :</b> <?= htmlspecialchars($foundUser->study_pref) ?></li>
+                        <li><b>Full name:</b> <?= htmlspecialchars($found_user->fullname) ?></li>
+                        <li><b>Location :</b> <?= htmlspecialchars($found_user->location) ?></li>
+                        <li><b>Games :</b> <?= htmlspecialchars($found_user->games) ?></li>
+                        <li><b>Music :</b> <?= htmlspecialchars($found_user->music) ?></li>
+                        <li><b>Films :</b> <?= htmlspecialchars($found_user->films) ?></li>
+                        <li><b>Books :</b> <?= htmlspecialchars($found_user->books) ?></li>
+                        <li><b>Hobby :</b> <?= htmlspecialchars($found_user->hobby) ?></li>
+                        <li><b>Studies :</b> <?= htmlspecialchars($found_user->study_pref) ?></li>
                     </ul>
                 </div>
             <?php endforeach; ?>

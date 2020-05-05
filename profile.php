@@ -12,40 +12,40 @@ $user = new classes\Buddy\User($_SESSION['user']);
 
 //Detect a submit to change the password
 if (!empty($_POST['changePassword'])) {
-    $newpassword = $_POST['newpassword'];
-    $oldpassword = $_POST['oldpassword'];
+    $new_password = $_POST['new_password'];
+    $old_password = $_POST['old_password'];
 
     //Check if the user has the correct password
-    if (classes\Buddy\User::checkPassword($user->getEmail(), $oldpassword)) {
+    if (classes\Buddy\User::checkPassword($user->getEmail(), $old_password)) {
 
     //Change it to the new password
-        $user->changePassword($newpassword);
+        $user->changePassword($new_password);
     } else {
-        $errorPass = "We couldn't change the password.";
+        $error_password = "We couldn't change the password.";
     }
 }
 
 //Detect a submit to change the email
 if (!empty($_POST['changeEmail'])) {
-    $oldpassword = $_POST['emailpassword'];
-    $newemail = $_POST['newemail'];
+    $old_password = $_POST['emailpassword'];
+    $new_email = $_POST['new_email'];
 
     //Check if the user has the correct password
-    if (classes\Buddy\User::checkPassword($user->getEmail(), $oldpassword)) {
+    if (classes\Buddy\User::checkPassword($user->getEmail(), $old_password)) {
 
     //Use the setter with conditions to set the new email
-        $validEmail = $user->setEmail($newemail);
+        $valid_email = $user->setEmail($new_email);
 
         //If the setter returns an error string, show the error
-        if (gettype($validEmail) == "string") {
-            $errorMail = $validEmail;
+        if (gettype($valid_email) == "string") {
+            $error_mail = $valid_email;
         } else {
 
       //If the setter returns an object, change the email in the database
-            $user->changeEmail($newemail);
+            $user->changeEmail($new_email);
         }
     } else {
-        $errorMail = "Wrong password";
+        $error_mail = "Wrong password";
     }
 }
 
@@ -71,14 +71,14 @@ if (!empty($_POST['updateProfile'])) {
 if (!empty($_POST['changeStatus'])) {
 
   //Change the user's status
-    $user->changeBuddyStatus($_POST['buddyStatus']);
+    $user->changeBuddy_status($_POST['buddy_status']);
 }
 
 if (!empty($_POST['uploadPicture'])) {
-    if (isset($_FILES['profileImg'])) {
-        if ($_FILES['profileImg']['error'] > 0) {
+    if (isset($_FILES['profile_img'])) {
+        if ($_FILES['profile_img']['error'] > 0) {
             //For error messages: see http://php.net/manual/en/features.fileupload.errors.php
-            switch ($_FILES['profileImg']['error']) {
+            switch ($_FILES['profile_img']['error']) {
         case 1:
           $msg = 'You can only upload 2MB';
           break;
@@ -88,18 +88,18 @@ if (!empty($_POST['uploadPicture'])) {
       }
         } else {
             //Check MIME TYPE - http://php.net/manual/en/function.finfo-open.php
-            $allowedtypes = array('image/jpg', 'image/jpeg', 'image/png', 'image/gif');
-            $filename = $_FILES['profileImg']['tmp_name'];
+            $allowed_types = array('image/jpg', 'image/jpeg', 'image/png', 'image/gif');
+            $file_name = $_FILES['profile_img']['tmp_name'];
             $finfo = new finfo(FILEINFO_MIME_TYPE);
-            $fileinfo = $finfo->file($filename);
+            $file_info = $finfo->file($file_name);
 
-            if (in_array($fileinfo, $allowedtypes)) {
+            if (in_array($file_info, $allowed_types)) {
 
         //Move uploaded file
-                $newfilename = 'uploads/' . $_FILES['profileImg']['name'];
+                $new_file_name = 'uploads/' . $_FILES['profile_img']['name'];
 
-                if (move_uploaded_file($_FILES['profileImg']['tmp_name'], $newfilename)) {
-                    $user->profileImg();
+                if (move_uploaded_file($_FILES['profile_img']['tmp_name'], $new_file_name)) {
+                    $user->saveProfile_img();
 
                     header('location:profile.php');
                 } else {
@@ -131,9 +131,9 @@ if (!empty($_POST['uploadPicture'])) {
   <div class="container">
     <div class="jumbotron" style=" height:400px; margin:20px;">
       <div class="float-left" style=" margin-left:50px;">
-        <img src="./uploads/<?= htmlspecialchars($user->getProfileImg()) ?>" width="250px;" height="250px;" />
+        <img src="./uploads/<?= htmlspecialchars($user->getProfile_img()) ?>" width="250px;" height="250px;" />
         <form enctype="multipart/form-data" action="" method="POST" style="margin-top:10px;">
-          <input type="file" name="profileImg" capture="camera" required />
+          <input type="file" name="profile_img" capture="camera" required />
           <br>
           <input type="submit" value="upload" name="uploadPicture" />
         </form>
@@ -208,8 +208,8 @@ if (!empty($_POST['uploadPicture'])) {
     <div class="jumbotron float-right" style="width:40%; height:600px; margin:20px;">
       <form method="POST" action="">
         <p style="color:red">
-          <?php if (!empty($errorMail)) :
-            echo $errorMail;
+          <?php if (!empty($error_mail)) :
+            echo $error_mail;
           endif; ?>
         </p>
         <div class="form-group">
@@ -217,24 +217,24 @@ if (!empty($_POST['uploadPicture'])) {
           <input type="password" name="emailpassword" id="emailpassword" class="form-control">
         </div>
         <div class="form-group">
-          <label for="newemail">New email</label>
-          <input type="email" name="newemail" id="newemail" class="form-control">
+          <label for="new_email">New email</label>
+          <input type="email" name="new_email" id="new_email" class="form-control">
         </div>
         <input type="submit" value="Save" name="changeEmail" style="margin-bottom:20px;">
 
         <form method="POST" action="">
           <div class="form-group">
             <p style="color:red">
-              <?php if (!empty($errorPass)) :
-                echo $errorPass;
+              <?php if (!empty($error_password)) :
+                echo $error_password;
               endif; ?>
             </p>
-            <label for="oldpassword">Current password</label>
-            <input type="password" name="oldpassword" id="oldpassword" class="form-control">
+            <label for="old_password">Current password</label>
+            <input type="password" name="old_password" id="old_password" class="form-control">
           </div>
           <div class="form-group">
-            <label for="newpassword">New password</label>
-            <input type="password" name="newpassword" id="newpassword" class="form-control">
+            <label for="new_password">New password</label>
+            <input type="password" name="new_password" id="new_password" class="form-control">
           </div>
           <input type="submit" value="Save" name="changePassword">
         </form>
@@ -247,11 +247,11 @@ if (!empty($_POST['uploadPicture'])) {
       <form action="" method="POST">
         <div class="form-group">
           <div class="form-check">
-            <input type="radio" id="firstyear" name="buddyStatus" class="form-check-input" value="firstyear" <?php if ($user->getBuddyStatus() == "firstyear") : ?>checked="checked" <?php endif; ?>>
+            <input type="radio" id="firstyear" name="buddy_status" class="form-check-input" value="firstyear" <?php if ($user->getBuddy_status() == "firstyear") : ?>checked="checked" <?php endif; ?>>
             <label for="firstyear" class="form-check-label">I'm a first year student looking for a buddy.</label>
           </div>
           <div class="form-check">
-            <input type="radio" id="mentor" name="buddyStatus" class="form-check-input" value="mentor" <?php if ($user->getBuddyStatus() == "mentor") : ?>checked="checked" <?php endif; ?>>
+            <input type="radio" id="mentor" name="buddy_status" class="form-check-input" value="mentor" <?php if ($user->getBuddy_status() == "mentor") : ?>checked="checked" <?php endif; ?>>
             <label for="mentor" class="form-check-label">I'm a second or third year student looking to mentor someone.</label>
           </div>
         </div>
