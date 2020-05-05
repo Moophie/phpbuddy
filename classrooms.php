@@ -2,7 +2,7 @@
 
 include_once(__DIR__ . "/bootstrap.include.php");
 
-$classrooms = classes\Buddy\Classroom::getClassroom($_GET['search']);
+$classrooms = classes\Buddy\Classroom::getClassrooms($_GET['search']);
 ?>
 
 <!DOCTYPE html>

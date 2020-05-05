@@ -110,7 +110,7 @@ class classroom
         return $this;
     }
 
-    public static function getClassroom($search)
+    public static function getClassrooms($search)
     {
         $conn = Db::getConnection();
         $statement = $conn->prepare("SELECT * FROM classrooms WHERE name LIKE concat('%', :search, '%')");

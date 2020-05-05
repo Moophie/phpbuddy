@@ -23,7 +23,7 @@ if (!empty($_POST['register'])) {
     //setEmail returns an error message if the email is not a valid email or if it's not unique
     $valid_email = $user->setEmail($email);
     $user->setFullname($fullname);
-    $user->setPassword($hash);
+	$user->setPassword($hash);
 
     //If setEmail returns a string, show the error message
     if (gettype($valid_email) == "string") {
@@ -32,7 +32,7 @@ if (!empty($_POST['register'])) {
         $n = 20;
         $validation_string = bin2hex(random_bytes($n));
         $user->setValidation_string($validation_string);
-        $link = "http://localhost/phpbuddy/verify.php?code=" . $validation_string;
+		$link = "http://" . $_SERVER['HTTP_HOST'] . dirname($_SERVER['REQUEST_URI']) . "/verify.php?code=" . $validation_string;
 
         $sgmail = new \SendGrid\Mail\Mail();
         $sgmail->setFrom("michael.van.lierde@hotmail.com", "IMD Buddy");

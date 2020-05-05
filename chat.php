@@ -2,12 +2,12 @@
 
 include_once(__DIR__ . "/bootstrap.include.php");
 
-$user = new classes\Buddy\User($_SESSION['user']);
-
 //If there's no active session, redirect to login.php
 if (empty($_SESSION['user'])) {
     header("Location: login.php");
 }
+
+$user = new classes\Buddy\User($_SESSION['user']);
 
 if (!empty($_POST['content'])) {
     $time = date('Y-m-d H:i:s');

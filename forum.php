@@ -18,7 +18,7 @@ if (!empty($_POST['postContent'])) {
     $post = new classes\Buddy\Post();
 
     if (empty($_SESSION['user'])) {
-        $post->setOp("Anonymous");
+        $post->setOp($email);
     } else {
         $user = new classes\Buddy\User($_SESSION['user']);
         $post->setOp($user->getFullname());
