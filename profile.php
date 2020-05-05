@@ -7,73 +7,73 @@ $user = new classes\Buddy\User($_SESSION['user']);
 
 //Detect a submit to change the password
 if (!empty($_POST['changePassword'])) {
-    $new_password = $_POST['new_password'];
-    $old_password = $_POST['old_password'];
+  $new_password = $_POST['new_password'];
+  $old_password = $_POST['old_password'];
 
-    //Check if the user has the correct password
-    if (classes\Buddy\User::checkPassword($user->getEmail(), $old_password)) {
+  //Check if the user has the correct password
+  if (classes\Buddy\User::checkPassword($user->getEmail(), $old_password)) {
 
     //Change it to the new password
-        $user->changePassword($new_password);
-    } else {
-        $error_password = "We couldn't change the password.";
-    }
+    $user->changePassword($new_password);
+  } else {
+    $error_password = "We couldn't change the password.";
+  }
 }
 
 //Detect a submit to change the email
 if (!empty($_POST['changeEmail'])) {
-    $old_password = $_POST['emailpassword'];
-    $new_email = $_POST['new_email'];
+  $old_password = $_POST['emailpassword'];
+  $new_email = $_POST['new_email'];
 
-    //Check if the user has the correct password
-    if (classes\Buddy\User::checkPassword($user->getEmail(), $old_password)) {
+  //Check if the user has the correct password
+  if (classes\Buddy\User::checkPassword($user->getEmail(), $old_password)) {
 
     //Use the setter with conditions to set the new email
-        $valid_email = $user->setEmail($new_email);
+    $valid_email = $user->setEmail($new_email);
 
-        //If the setter returns an error string, show the error
-        if (gettype($valid_email) == "string") {
-            $error_mail = $valid_email;
-        } else {
+    //If the setter returns an error string, show the error
+    if (gettype($valid_email) == "string") {
+      $error_mail = $valid_email;
+    } else {
 
       //If the setter returns an object, change the email in the database
-            $user->changeEmail($new_email);
-        }
-    } else {
-        $error_mail = "Wrong password";
+      $user->changeEmail($new_email);
     }
+  } else {
+    $error_mail = "Wrong password";
+  }
 }
 
 //Detect a submit to update your profile
 if (!empty($_POST['updateProfile'])) {
-    $user = new classes\Buddy\User($_SESSION['user']);
+  $user = new classes\Buddy\User($_SESSION['user']);
 
-    //Fill in the user's properties
-    $user->setBio($_POST['bio']);
-    $user->setLocation($_POST['location']);
-    $user->setGames($_POST['games']);
-    $user->setMusic($_POST['music']);
-    $user->setFilms($_POST['films']);
-    $user->setBooks($_POST['books']);
-    $user->setStudy_pref($_POST['study_pref']);
-    $user->setHobby($_POST['hobby']);
+  //Fill in the user's properties
+  $user->setBio($_POST['bio']);
+  $user->setLocation($_POST['location']);
+  $user->setGames($_POST['games']);
+  $user->setMusic($_POST['music']);
+  $user->setFilms($_POST['films']);
+  $user->setBooks($_POST['books']);
+  $user->setStudy_pref($_POST['study_pref']);
+  $user->setHobby($_POST['hobby']);
 
-    //Save those properties to the database
-    $user->completeProfile();
+  //Save those properties to the database
+  $user->completeProfile();
 }
 
 //Detect a submit to change your status firstyear/mentor
 if (!empty($_POST['changeStatus'])) {
 
   //Change the user's status
-    $user->changeBuddy_status($_POST['buddy_status']);
+  $user->changeBuddy_status($_POST['buddy_status']);
 }
 
 if (!empty($_POST['uploadPicture'])) {
-    if (isset($_FILES['profile_img'])) {
-        if ($_FILES['profile_img']['error'] > 0) {
-            //For error messages: see http://php.net/manual/en/features.fileupload.errors.php
-            switch ($_FILES['profile_img']['error']) {
+  if (isset($_FILES['profile_img'])) {
+    if ($_FILES['profile_img']['error'] > 0) {
+      //For error messages: see http://php.net/manual/en/features.fileupload.errors.php
+      switch ($_FILES['profile_img']['error']) {
         case 1:
           $msg = 'You can only upload 2MB';
           break;
@@ -81,30 +81,30 @@ if (!empty($_POST['uploadPicture'])) {
           $msg = 'Sorry, uw upload kon niet worden verwerkt.';
           echo "<button onclick=\"location.href='index.php'\">Try again</button>";
       }
-        } else {
-            //Check MIME TYPE - http://php.net/manual/en/function.finfo-open.php
-            $allowed_types = array('image/jpg', 'image/jpeg', 'image/png', 'image/gif');
-            $file_name = $_FILES['profile_img']['tmp_name'];
-            $finfo = new finfo(FILEINFO_MIME_TYPE);
-            $file_info = $finfo->file($file_name);
+    } else {
+      //Check MIME TYPE - http://php.net/manual/en/function.finfo-open.php
+      $allowed_types = array('image/jpg', 'image/jpeg', 'image/png', 'image/gif');
+      $file_name = $_FILES['profile_img']['tmp_name'];
+      $finfo = new finfo(FILEINFO_MIME_TYPE);
+      $file_info = $finfo->file($file_name);
 
-            if (in_array($file_info, $allowed_types)) {
+      if (in_array($file_info, $allowed_types)) {
 
         //Move uploaded file
-                $new_file_name = 'uploads/' . $_FILES['profile_img']['name'];
+        $new_file_name = 'uploads/' . $_FILES['profile_img']['name'];
 
-                if (move_uploaded_file($_FILES['profile_img']['tmp_name'], $new_file_name)) {
-                    $user->saveProfile_img();
+        if (move_uploaded_file($_FILES['profile_img']['tmp_name'], $new_file_name)) {
+          $user->saveProfile_img();
 
-                    header('location:profile.php');
-                } else {
-                    $msg = 'Sorry, de upload is mislukt.';
-                }
-            } else {
-                $msg = 'Sorry, enkel afbeeldingen zijn toegestaan.';
-            }
+          header('location:profile.php');
+        } else {
+          $msg = 'Sorry, de upload is mislukt.';
         }
+      } else {
+        $msg = 'Sorry, enkel afbeeldingen zijn toegestaan.';
+      }
     }
+  }
 }
 
 ?>
@@ -125,13 +125,16 @@ if (!empty($_POST['uploadPicture'])) {
   <?php include_once("nav.include.php"); ?>
 
   <div class="container">
-    <div class="jumbotron" style=" height:400px; margin:20px;">
+    <div class="jumbotron" style=" height:450px; margin:20px;">
       <div class="float-left" style=" margin-left:50px;">
         <img src="./uploads/<?= htmlspecialchars($user->getProfile_img()) ?>" width="250px;" height="250px;" />
-        <form enctype="multipart/form-data" action="" method="POST" style="margin-top:10px;">
-          <input type="file" name="profile_img" capture="camera" required />
-          <br>
-          <input type="submit" value="upload" name="uploadPicture" />
+        <form enctype="multipart/form-data" action="" method="POST" style="margin-top:20px;">
+          <div class="form-group">
+            <input type="file" id="profile_img" name="profile_img" capture="camera" required />
+          </div>
+          <div class="form-group">
+            <input type="submit" value="Upload" name="uploadPicture" />
+          </div>
         </form>
       </div>
       <div>
