@@ -13,3 +13,29 @@ body {
 .navbar {
     margin-bottom: 10px;
 }
+
+.jumbotron {
+    margin: 20px;
+}
+
+
+/* Forum CSS */
+
+.forum {
+    margin-left: 10px;
+}
+
+.faq {
+    margin-right: 10px;
+}
+
+
+/* Events CSS */
+
+.event {
+    margin: 0px 20px 20px 0px;
+    padding: 15px;
+    background-color: lightgray;
+    width: 250px;
+    height: 350px;
+}

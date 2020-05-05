@@ -179,7 +179,7 @@ class Event
         return $result;
     }
 
-    public function checkFull()
+    public function amountParticipants()
     {
         $conn = Db::getConnection();
 
@@ -188,10 +188,6 @@ class Event
         $statement->execute();
         $count = $statement->rowCount();
 
-        if ($count >= $this->getMax()) {
-            return true;
-        } else {
-            return false;
-        }
+        return $count;
     }
 }

@@ -75,7 +75,7 @@ if (isset($_POST['like'])) {
                         <?= $message->timestamp; ?>
                     </p>
                     <p><?= htmlspecialchars($message->content) ?></p>
-                    <div class="container" style="padding:0px">
+                    <div class="container">
                         <div class="header">
                         </div>
                         <div class="main">

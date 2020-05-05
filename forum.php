@@ -82,7 +82,7 @@ $faq_posts = classes\Buddy\Post::getFaqPosts();
 <body>
     <?php include_once("nav.include.php"); ?>
 
-    <div class="forum float-left" style="margin:10px 0px 0px 10px; border:1px black solid; width: 800px; padding:5px">
+    <div class="forum float-left jumbotron">
         <?php foreach ($all_posts as $post) : ?>
             <div class="post" data-id="<?php echo $post->id; ?>" style="border:1px black solid; max-width: 800px; margin-bottom:10px; padding:5px">
                 <p>Upvotes: <?php echo classes\Buddy\Post::countUpvotes($post->id); ?></p>
@@ -127,7 +127,7 @@ $faq_posts = classes\Buddy\Post::getFaqPosts();
 
 
 
-    <div class="FAQ float-right" style="margin:10px 10px 0px 0px; border:1px black solid; width: 400px; padding:5px">
+    <div class="faq float-right jumbotron">
         <h3 style="color:black">FAQ</h3>
         <?php foreach ($faq_posts as $post) : ?>
             <div class="post" data-id="<?php echo $post->id; ?>" style="border:1px black solid; max-width: 800px; margin-bottom:10px; padding:5px">
