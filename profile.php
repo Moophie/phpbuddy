@@ -1,7 +1,6 @@
 <?php
 
-include_once(__DIR__ . "/classes/User.php");
-include_once(__DIR__ . "/classes/Db.php");
+include_once(__DIR__ . "/bootstrap.include.php");
 
 session_start();
 
@@ -11,7 +10,7 @@ if (empty($_SESSION['user'])) {
 }
 
 //Create a new user based on the active user's email
-$user = new User($_SESSION['user']);
+$user = new classes\Buddy\User($_SESSION['user']);
 
 //Detect a submit to change the password
 if (!empty($_POST['changePassword'])) {
@@ -20,7 +19,7 @@ if (!empty($_POST['changePassword'])) {
   $oldpassword = $_POST['oldpassword'];
 
   //Check if the user has the correct password
-  if (User::checkPassword($user->getEmail(), $oldpassword)) {
+  if (classes\Buddy\User::checkPassword($user->getEmail(), $oldpassword)) {
 
     //Change it to the new password
     $user->changePassword($newpassword);
@@ -36,7 +35,7 @@ if (!empty($_POST['changeEmail'])) {
   $newemail = $_POST['newemail'];
 
   //Check if the user has the correct password
-  if (User::checkPassword($user->getEmail(), $oldpassword)) {
+  if (classes\Buddy\User::checkPassword($user->getEmail(), $oldpassword)) {
 
     //Use the setter with conditions to set the new email
     $validEmail = $user->setEmail($newemail);
@@ -56,7 +55,7 @@ if (!empty($_POST['changeEmail'])) {
 
 //Detect a submit to update your profile
 if (!empty($_POST['updateProfile'])) {
-  $user = new User($_SESSION['user']);
+  $user = new classes\Buddy\User($_SESSION['user']);
 
   //Fill in the user's properties
   $user->setBio($_POST['bio']);

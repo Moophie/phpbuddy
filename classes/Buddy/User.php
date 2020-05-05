@@ -1,5 +1,7 @@
 <?php
 
+namespace classes\Buddy;
+
 include_once(__DIR__ . "/Db.php");
 
 class User
@@ -391,7 +393,7 @@ class User
         $statement->execute();
 
         //Fetch all rows as an array indexed by column name
-        $users = $statement->fetchAll(PDO::FETCH_OBJ);
+        $users = $statement->fetchAll(\PDO::FETCH_OBJ);
 
         //Return the result from the query
         return $users;
@@ -435,7 +437,7 @@ class User
         $statement = $conn->prepare('SELECT * FROM users WHERE email = :email');
         $statement->bindValue(':email', $email);
         $statement->execute();
-        $user = $statement->fetch(PDO::FETCH_OBJ);
+        $user = $statement->fetch(\PDO::FETCH_OBJ);
 
         //If the search returns a result, set all the objects properties to the properties taken from the database
         if (!empty($user)) {
@@ -552,12 +554,12 @@ class User
 
     public static function checkPassword($email, $password)
     {
-        //Prepared PDO statement that fetches the password corresponding to the inputted email
+        //Prepared \PDO statement that fetches the password corresponding to the inputted email
         $conn = Db::getConnection();
         $statement = $conn->prepare("SELECT password FROM users WHERE email = :email");
         $statement->bindValue(":email", $email);
         $statement->execute();
-        $result = $statement->fetch(PDO::FETCH_ASSOC);
+        $result = $statement->fetch(\PDO::FETCH_ASSOC);
 
         //Check if the password is correct
         if (isset($result['password'])) {
@@ -605,7 +607,7 @@ class User
         }
 
         $statement->execute();
-        $result = $statement->fetchAll(PDO::FETCH_OBJ);
+        $result = $statement->fetchAll(\PDO::FETCH_OBJ);
 
         return $result;
     }
@@ -619,7 +621,7 @@ class User
         $statement = $conn->prepare("SELECT * FROM users WHERE email <> :email");
         $statement->bindValue(':email', $this->getEmail());
         $statement->execute();
-        $users = $statement->fetchAll(PDO::FETCH_OBJ);
+        $users = $statement->fetchAll(\PDO::FETCH_OBJ);
 
         return $users;
     }
@@ -677,13 +679,13 @@ class User
         $statement = $conn->prepare("SELECT buddy_id FROM users WHERE email = :email");
         $statement->bindValue(":email", $email);
         $statement->execute();
-        $result = $statement->fetch(PDO::FETCH_OBJ);
+        $result = $statement->fetch(\PDO::FETCH_OBJ);
 
         //SQL that uses that buddy_id to select the name and image of that user's buddy
         $statement = $conn->prepare("SELECT * FROM users WHERE id = :buddy_id");
         $statement->bindValue(":buddy_id", $result->buddy_id);
         $statement->execute();
-        $result = $statement->fetch(PDO::FETCH_OBJ);
+        $result = $statement->fetch(\PDO::FETCH_OBJ);
 
         return $result;
     }
@@ -698,7 +700,7 @@ class User
         $statement->execute();
 
         //Fetch all rows as an array indexed by column name
-        $users = $statement->fetchAll(PDO::FETCH_OBJ);
+        $users = $statement->fetchAll(\PDO::FETCH_OBJ);
 
         //count all users
         $totalRegistration = count($users);
@@ -717,7 +719,7 @@ class User
         $statement->execute();
 
         //Fetch all rows as an array indexed by column name
-        $buddies = $statement->fetchAll(PDO::FETCH_OBJ);
+        $buddies = $statement->fetchAll(\PDO::FETCH_OBJ);
 
         //Count all buddies
         $totalBuddyCount = count($buddies);
@@ -735,7 +737,7 @@ class User
         $statement = $conn->prepare("SELECT * FROM conversations WHERE (user_1 = :user_id OR user_2 = :user_id) AND active = 1");
         $statement->bindValue(":user_id", $this->getId());
         $statement->execute();
-        $result = $statement->fetch(PDO::FETCH_OBJ);
+        $result = $statement->fetch(\PDO::FETCH_OBJ);
 
         return $result;
     }
@@ -818,7 +820,7 @@ class User
         $statement->bindValue(":user_id", $this->getId());
         $statement->bindValue(":event_id", $eventId);
         $statement->execute();
-        $result = $statement->fetch(PDO::FETCH_OBJ);
+        $result = $statement->fetch(\PDO::FETCH_OBJ);
 
         if(!empty($result)){
             return true;

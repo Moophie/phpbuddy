@@ -1,6 +1,6 @@
 <?php
 
-session_start();
+include_once(__DIR__ . "/bootstrap.include.php");
 
 //If there's no active session, redirect to login.php
 if (empty($_SESSION['user'])) {

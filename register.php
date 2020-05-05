@@ -1,7 +1,6 @@
 <?php
 
-include_once(__DIR__ . "/classes/User.php");
-include_once(__DIR__ . "/classes/Db.php");
+include_once(__DIR__ . "/bootstrap.include.php");
 
 require(__DIR__ . "/sendgrid/sendgrid-php.php");
 putenv("SENDGRID_API_KEY=***REMOVED***");
@@ -18,7 +17,7 @@ if (!empty($_POST)) {
 	//Encrypt the password
 	$hash = password_hash($_POST['password'], PASSWORD_BCRYPT);
 
-	$user = new User($email);
+	$user = new classes\Buddy\User($email);
 
 	//Set the user's properties
 	//setEmail returns an error message if the email is not a valid email or if it's not unique
@@ -51,7 +50,7 @@ if (!empty($_POST)) {
 		//Let him know he's registered
 		$error = "You have been succesfully registered! A confirmation mail has been sent to your email account.";
 
-		$user = new User($email);
+		$user = new classes\Buddy\User($email);
 
 		if ($user->getActive() == 1) {
 			session_start();

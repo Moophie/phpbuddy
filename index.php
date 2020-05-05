@@ -1,8 +1,6 @@
 <?php
 
-include_once(__DIR__ . "/classes/User.php");
-include_once(__DIR__ . "/classes/Conversation.php");
-include_once(__DIR__ . "/classes/Classroom.php");
+include_once(__DIR__ . "/bootstrap.include.php");
 
 require(__DIR__ . "/sendgrid/sendgrid-php.php");
 putenv("SENDGRID_API_KEY=***REMOVED***");
@@ -15,7 +13,7 @@ if (empty($_SESSION['user'])) {
 }
 
 $email = $_SESSION['user'];
-$user = new User($email);
+$user = new classes\Buddy\User($email);
 
 //Get all the users from the database except for the active user
 $potMatches = $user->getAllExceptUser();
@@ -38,7 +36,7 @@ if (!empty($_POST['getBuddy'])) {
     $sendgrid->send($sgmail);
 
     //Create a conversation
-    $conversation = new Conversation();
+    $conversation = new classes\Buddy\Conversation();
     $conversation->setUser_1($user->getId());
     $conversation->setUser_2($_POST['buddy_id']);
     $conversation->saveConversation();
@@ -64,7 +62,7 @@ if (!empty($_POST['acceptBuddy'])) {
 }
 
 if (!empty($_POST['unmatch'])) {
-    $conn = Db::getConnection();
+    $conn = classes\Buddy\Db::getConnection();
 
     if ($_POST['buddy_id'] == $user->getId()) {
         $user->unmatch();
@@ -75,7 +73,7 @@ if (!empty($_POST['unmatch'])) {
     $user->removeConversation();
 }
 
-$userBuddy = User::findBuddy($user->getEmail());
+$userBuddy = classes\Buddy\User::findBuddy($user->getEmail());
 
 ?>
 

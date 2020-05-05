@@ -1,9 +1,9 @@
 <?php
-    include_once(__DIR__ . "/classes/Classroom.php");
+    include_once(__DIR__ . "/bootstrap.include.php");
 
     session_start();
 
-    $classrooms = Classroom::getClassroom($_GET['search']);
+    $classrooms = classes\Buddy\Classroom::getClassroom($_GET['search']);
 ?>
 
 <!DOCTYPE html>

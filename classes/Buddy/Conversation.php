@@ -1,5 +1,7 @@
 <?php
 
+namespace classes\Buddy;
+
 include_once(__DIR__ . "/Db.php");
 
 class Conversation
@@ -97,7 +99,7 @@ class Conversation
         $statement->bindValue(":user_1", $this->getUser_1());
         $statement->bindValue(":user_2", $this->getUser_2());
         $statement->execute();
-        $result = $statement->fetch(PDO::FETCH_OBJ);
+        $result = $statement->fetch(\PDO::FETCH_OBJ);
 
         if (empty($result)) :
 
@@ -125,7 +127,7 @@ class Conversation
         $statement = $conn->prepare("SELECT messages.id, messages.content, messages.reaction, messages.timestamp, users.fullname FROM messages, users WHERE messages.sender_id = users.id AND conversation_id = :conversation_id ORDER BY messages.id ASC");
         $statement->bindValue(":conversation_id", $this->getId());
         $statement->execute();
-        $result = $statement->fetchAll(PDO::FETCH_OBJ);
+        $result = $statement->fetchAll(\PDO::FETCH_OBJ);
 
         return $result;
     }

@@ -1,5 +1,6 @@
 <?php
-include_once(__DIR__ . "/Db.php");
+
+namespace classes\Buddy;
 
 class classroom
 {
@@ -126,7 +127,7 @@ class classroom
         $statement = $conn->prepare("SELECT * FROM classrooms WHERE name LIKE :keyword ORDER BY id LIMIT 5");
         $statement->bindValue(":keyword", $keyword);
         $statement->execute();
-        $classrooms = $statement->fetchAll(PDO::FETCH_OBJ);
+        $classrooms = $statement->fetchAll(\PDO::FETCH_OBJ);
 
         return $classrooms;
     }

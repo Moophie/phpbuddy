@@ -1,14 +1,13 @@
 <?php
 session_start();
 
-include_once(__DIR__ . "/classes/User.php");
-include_once(__DIR__ . "/classes/Event.php");
+include_once(__DIR__ . "/bootstrap.include.php");
 
 if (!empty($_POST['createEvent'])) {
 
-    $user = new User($_SESSION['user']);
+    $user = new classes\Buddy\User($_SESSION['user']);
 
-    $event = new Event();
+    $event = new classes\Buddy\Event();
     $event->setTitle($_POST['title']);
     $event->setTimestamp($_POST['time']);
     $event->setDescription($_POST['description']);
@@ -18,14 +17,14 @@ if (!empty($_POST['createEvent'])) {
 }
 
 if (!empty($_POST['joinEvent'])) {
-    $user = new User($_SESSION['user']);
-    $event = new Event($_POST['eventId']);
+    $user = new classes\Buddy\User($_SESSION['user']);
+    $event = new classes\Buddy\Event($_POST['eventId']);
     if (($user->checkJoinedEvent($_POST['eventId']) == false) && ($event->checkFull() == false)) {
         $user->joinEvent($_POST['eventId']);
     }
 }
 
-$allEvents = Event::getAllEvents();
+$allEvents = classes\Buddy\Event::getAllEvents();
 
 ?>
 
@@ -47,7 +46,7 @@ $allEvents = Event::getAllEvents();
     <div>
         <div>
             <?php foreach ($allEvents as $event) : ?>
-                <?php $e = new Event($event->id) ?>
+                <?php $e = new classes\Buddy\Event($event->id) ?>
                 <div class="event" style="border:1px black solid; max-width: 800px; margin-bottom:10px; padding:5px">
                     <strong><?php echo htmlspecialchars($event->title) ?></strong>
                     <br>

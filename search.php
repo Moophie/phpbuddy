@@ -1,7 +1,6 @@
 <?php
 
-include_once(__DIR__ . "/classes/User.php");
-
+include_once(__DIR__ . "/bootstrap.include.php");
 session_start();
 
 //If there's no active session, redirect to login.php
@@ -11,7 +10,7 @@ if (empty($_SESSION['user'])) {
 
 //If someone clicks search, find the correct users based on the filters in the $_POST
 if (!empty($_POST)) {
-    $foundUsers = User::searchUsers($_POST);
+    $foundUsers = classes\Buddy\User::searchUsers($_POST);
 }
 
 ?>

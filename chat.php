@@ -1,13 +1,10 @@
 <?php
 
-include_once(__DIR__ . "/classes/User.php");
-include_once(__DIR__ . "/classes/Db.php");
-include_once(__DIR__ . "/classes/Message.php");
-include_once(__DIR__ . "/classes/Conversation.php");
+include_once(__DIR__ . "/bootstrap.include.php");
 
 session_start();
 
-$user = new User($_SESSION['user']);
+$user = new classes\Buddy\User($_SESSION['user']);
 
 //If there's no active session, redirect to login.php
 if (empty($_SESSION['user'])) {
@@ -55,7 +52,7 @@ if (empty($_SESSION['user'])) {
             <?php
             $active_conversation = $user->getActiveConversations();
             if (!empty($active_conversation)) :
-                $conversation = new Conversation();
+                $conversation = new classes\Buddy\Conversation();
                 $conversation->setId($active_conversation->id);
                 $messages = $conversation->getMessages();
 

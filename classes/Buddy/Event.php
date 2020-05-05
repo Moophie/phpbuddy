@@ -1,5 +1,7 @@
 <?php
 
+namespace classes\Buddy;
+
 include_once(__DIR__ . "/Db.php");
 
 class Event
@@ -139,7 +141,7 @@ class Event
         $statement = $conn->prepare('SELECT * FROM events WHERE id = :event_id');
         $statement->bindValue(':event_id', $event_id);
         $statement->execute();
-        $event = $statement->fetch(PDO::FETCH_OBJ);
+        $event = $statement->fetch(\PDO::FETCH_OBJ);
 
         //If the search returns a result, set all the objects properties to the properties taken from the database
         if (!empty($event)) {
@@ -176,7 +178,7 @@ class Event
 
         $statement = $conn->prepare("SELECT * FROM events");
         $statement->execute();
-        $result = $statement->fetchAll(PDO::FETCH_OBJ);
+        $result = $statement->fetchAll(\PDO::FETCH_OBJ);
 
         return $result;
     }

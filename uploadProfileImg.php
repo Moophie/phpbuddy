@@ -1,8 +1,7 @@
 <?php
 session_start();
 
-include_once(__DIR__ . "../classes/Db.php");
-include_once(__DIR__ . "/classes/User.php");
+include_once(__DIR__ . "/bootstrap.include.php");
 
 
 //If there's no active session, redirect to login.php
@@ -11,10 +10,10 @@ if (empty($_SESSION['user'])) {
 }
 
 $email = $_SESSION['user'];
-$user = new User($email);
+$user = new classes\Buddy\User($email);
 
 //Connect to database
-$conn = Db::getConnection();
+$conn = classes\Buddy\Db::getConnection();
 
 if (isset($_FILES['profileImg'])) {
     if ($_FILES['profileImg']['error'] > 0) {

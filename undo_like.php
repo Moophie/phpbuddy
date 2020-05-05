@@ -1,7 +1,6 @@
 <?php
 
-include_once(__DIR__ . "/classes/Db.php");
-include_once(__DIR__ . "/classes/Message.php");
+include_once(__DIR__ . "/bootstrap.include.php");
 
 
-Message::undoReaction();
+classes\Buddy\Message::undoReaction();

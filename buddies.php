@@ -1,6 +1,6 @@
 <?php
 
-include_once(__DIR__ . "/classes/User.php");
+include_once(__DIR__ . "/bootstrap.include.php");
 
 session_start();
 
@@ -10,7 +10,7 @@ if (empty($_SESSION['user'])) {
 }
 
 //Get all users from the database
-$users = User::getAll();
+$users = classes\Buddy\User::getAll();
 
 ?>
 
@@ -54,7 +54,7 @@ $users = User::getAll();
                         <?php
 
                         //Select the user's buddy
-                        $buddy = User::findBuddy($user->email);
+                        $buddy = classes\Buddy\User::findBuddy($user->email);
 
                         //Check if there is a buddy, then print out the buddy's fullname
                         if (!empty($buddy)) : ?>

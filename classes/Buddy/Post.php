@@ -1,5 +1,7 @@
 <?php
 
+namespace classes\Buddy;
+
 include_once(__DIR__ . "/Db.php");
 
 class Post
@@ -161,7 +163,7 @@ class Post
         $statement = $conn->prepare('SELECT * FROM posts WHERE id = :post_id');
         $statement->bindValue(':post_id', $post_id);
         $statement->execute();
-        $post = $statement->fetch(PDO::FETCH_OBJ);
+        $post = $statement->fetch(\PDO::FETCH_OBJ);
 
         //If the search returns a result, set all the objects properties to the properties taken from the database
         if (!empty($post)) {
@@ -209,7 +211,7 @@ class Post
 
         $statement = $conn->prepare("SELECT * FROM posts WHERE parent = 0 ORDER BY upvotes DESC");
         $statement->execute();
-        $result = $statement->fetchAll(PDO::FETCH_OBJ);
+        $result = $statement->fetchAll(\PDO::FETCH_OBJ);
 
         return $result;
     }
@@ -220,7 +222,7 @@ class Post
 
         $statement = $conn->prepare("SELECT * FROM posts WHERE faq = 1 ORDER BY upvotes DESC");
         $statement->execute();
-        $result = $statement->fetchAll(PDO::FETCH_OBJ);
+        $result = $statement->fetchAll(\PDO::FETCH_OBJ);
 
         return $result;
     }
@@ -249,7 +251,7 @@ class Post
         $statement = $conn->prepare("SELECT * FROM posts WHERE parent = :post_id ORDER BY upvotes DESC");
         $statement->bindValue(":post_id", $post_id);
         $statement->execute();
-        $result = $statement->fetchAll(PDO::FETCH_OBJ);
+        $result = $statement->fetchAll(\PDO::FETCH_OBJ);
 
         return $result;
     }
@@ -270,7 +272,7 @@ class Post
         $statement = $conn->prepare("SELECT upvotes FROM posts WHERE id = :post_id");
         $statement->bindValue(":post_id", $this->getId());
         $statement->execute();
-        $amountUpvotes = $statement->fetch(PDO::FETCH_OBJ);
+        $amountUpvotes = $statement->fetch(\PDO::FETCH_OBJ);
 
         $upvotes = $amountUpvotes->upvotes + 1;
         var_dump($upvotes);

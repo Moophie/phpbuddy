@@ -1,9 +1,7 @@
 <?php
 session_start();
 
-include_once(__DIR__ . "/classes/User.php");
-include_once(__DIR__ . "/classes/Post.php");
-include_once(__DIR__ . "/classes/Upvote.php");
+include_once(__DIR__ . "/bootstrap.include.php");
 
 
 $email;
@@ -14,17 +12,17 @@ if (empty($_SESSION['user'])) {
     $email = $_SESSION['user'];
 }
 
-$user = new User($email);
+$user = new classes\Buddy\User($email);
 
 if (!empty($_POST['postContent'])) {
     $time = date('Y-m-d H:i:s');
 
-    $post = new Post();
+    $post = new classes\Buddy\Post();
 
     if (empty($_SESSION['user'])) {
         $post->setOp("Anonymous");
     } else {
-        $user = new User($_SESSION['user']);
+        $user = new classes\Buddy\User($_SESSION['user']);
         $post->setOp($user->getFullname());
     }
 
@@ -37,38 +35,38 @@ if (!empty($_POST['postContent'])) {
 if (isset($_POST['pinFaq'])) {
 
     if ($_POST['pinFaq'] == 1) {
-        $post = new Post();
+        $post = new classes\Buddy\Post();
         $post->setId($_POST['id']);
         $post->pinPost(1);
     } elseif ($_POST['pinFaq'] == 0) {
-        $post = new Post();
+        $post = new classes\Buddy\Post();
         $post->setId($_POST['id']);
         $post->pinPost(0);
     }
 }
 
 if (!empty($_POST['deletePost'])) {
-    $post = new Post();
+    $post = new classes\Buddy\Post();
     $post->deletePost($_POST['id']);
 }
 
 if (!empty($_POST['editPost'])) {
-    $post = new Post();
+    $post = new classes\Buddy\Post();
     $post->editPost($_POST['id'], $_POST['content']);
 }
 
 if(!empty($_POST['upvote'])){
-    $post = new Post($_POST['id']);
+    $post = new classes\Buddy\Post($_POST['id']);
     $post->addUpvote();
     
-    $upvote = new Upvote();
+    $upvote = new classes\Buddy\Upvote();
     $upvote->setPost_id($_POST['id']);
     $upvote->setUser_id($user->getId());
     $upvote->saveUpvote();
 }
 
-$allPosts = Post::getAllPosts();
-$faqPosts = Post::getFaqPosts();
+$allPosts = classes\Buddy\Post::getAllPosts();
+$faqPosts = classes\Buddy\Post::getFaqPosts();
 
 ?>
 
@@ -91,7 +89,7 @@ $faqPosts = Post::getFaqPosts();
     <div class="forum float-left" style="margin:10px 0px 0px 10px; border:1px black solid; width: 800px; padding:5px">
         <?php foreach ($allPosts as $post) : ?>
             <div class="post" data-id="<?php echo $post->id; ?>" style="border:1px black solid; max-width: 800px; margin-bottom:10px; padding:5px">
-            <p>Upvotes: <?php echo Post::countUpvotes($post->id); ?></p>
+            <p>Upvotes: <?php echo classes\Buddy\Post::countUpvotes($post->id); ?></p>
                 <strong><?php echo htmlspecialchars($post->op) ?></strong>
                 <br>
                 <i><?php echo htmlspecialchars($post->timestamp) ?></i>
@@ -109,9 +107,9 @@ $faqPosts = Post::getFaqPosts();
 
                 <div class="discussion d-none" data-id="<?php echo $post->id; ?>" style="margin-left:20px;margin-top:10px;">
                     <?php
-                    $reactions = Post::getReactions($post->id);
+                    $reactions = classes\Buddy\Post::getReactions($post->id);
                     foreach ($reactions as $reaction) : ?>
-                    <p>Upvotes: <?php echo Post::countUpvotes($reaction->id); ?></p>
+                    <p>Upvotes: <?php echo classes\Buddy\Post::countUpvotes($reaction->id); ?></p>
                         <strong><?php echo htmlspecialchars($reaction->op) ?></strong>
                         <br>
                         <i><?php echo htmlspecialchars($reaction->timestamp) ?></i>

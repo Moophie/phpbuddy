@@ -1,7 +1,6 @@
 <?php
 
-include_once(__DIR__ . "/classes/Db.php");
-include_once(__DIR__ . "/classes/User.php");
+include_once(__DIR__ . "/bootstrap.include.php");
 
 //Detect submit
 if (!empty($_POST)) {
@@ -13,10 +12,10 @@ if (!empty($_POST)) {
   if (!empty($email) && !empty($password)) {
     //If both fields are filled in, check if the login is correct
 
-    if (User::checkPassword($email, $password)) {
+    if (classes\Buddy\User::checkPassword($email, $password)) {
 
       session_start();
-      $user = new User($email);
+      $user = new classes\Buddy\User($email);
 
       if ($_POST['captcha'] == $_SESSION['digit']) {
 

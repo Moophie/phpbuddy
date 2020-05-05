@@ -1,6 +1,6 @@
 <?php
 
-include_once(__DIR__ . "/classes/User.php");
+include_once(__DIR__ . "/bootstrap.include.php");
 
 //Put the pagename in a variable
 //PHP_SELF returns the path, basename shortens it to the filename
@@ -42,7 +42,7 @@ $page = basename($_SERVER['PHP_SELF']);
 
                 <!-- If there's an active session, make a new user and show the site navigation -->
                 <?php if (!empty($_SESSION['user'])) :
-                    $user = new User($_SESSION['user']);
+                    $user = new classes\Buddy\User($_SESSION['user']);
                 ?>
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item">
