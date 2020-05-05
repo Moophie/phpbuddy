@@ -122,8 +122,7 @@ if (!empty($_POST['uploadPicture'])) {
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <link rel="stylesheet" href="css/bootstrap.css">
   <link rel="stylesheet" href="css/phpbuddy.css">
-  <!---<link rel="stylesheet" href="css/style_profile.css">--->
-  <link href="https://fonts.googleapis.com/css?family=Lato:400,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700&display=swap">
   <title>IMD Buddy</title>
 </head>
 

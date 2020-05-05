@@ -76,8 +76,6 @@ $faqPosts = classes\Buddy\Post::getFaqPosts();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/bootstrap.css">
     <link rel="stylesheet" href="css/phpbuddy.css">
-    <script type="text/javascript" src="js/jquery.min.js"></script>
-    <script type="text/javascript" src="js/forum.js"></script>
     <title>Forums</title>
 </head>
 
@@ -141,6 +139,9 @@ $faqPosts = classes\Buddy\Post::getFaqPosts();
             </div>
         <?php endforeach; ?>
     </div>
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/forum.js"></script>
 </body>
 
 </html>

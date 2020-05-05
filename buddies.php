@@ -21,7 +21,7 @@ $users = classes\Buddy\User::getAll();
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="css/bootstrap.css">
     <link rel="stylesheet" href="css/phpbuddy.css">
-    <link href="https://fonts.googleapis.com/css?family=Lato:400,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700&display=swap">
     <title>IMD Buddy</title>
 </head>
 
@@ -66,8 +66,8 @@ $users = classes\Buddy\User::getAll();
                 </li>
         </ul>
     </div>
-
-    <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"> </script>
+    
+    <script src="js/jquery.min.js"></script>
     <script src="js/bootstrap.js"></script>
     <script src="https://kit.fontawesome.com/2b908491a1.js" crossorigin="anonymous"></script>
 </body>

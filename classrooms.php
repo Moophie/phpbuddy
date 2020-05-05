@@ -1,8 +1,6 @@
 <?php
 include_once(__DIR__ . "/bootstrap.include.php");
 
-session_start();
-
 $classrooms = classes\Buddy\Classroom::getClassroom($_GET['search']);
 ?>
 
@@ -15,7 +13,7 @@ $classrooms = classes\Buddy\Classroom::getClassroom($_GET['search']);
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="css/bootstrap.css">
     <link rel="stylesheet" href="css/phpbuddy.css">
-    <link href="https://fonts.googleapis.com/css?family=Lato:400,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700&display=swap">
     <title>Classrooms</title>
 </head>
 

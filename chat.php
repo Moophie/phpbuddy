@@ -45,14 +45,8 @@ if (isset($_POST['like'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/bootstrap.css">
     <link rel="stylesheet" href="css/phpbuddy.css">
-    <!-- bootstrap css -->
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
-    <!-- Css for reaction system -->
-    <link rel="stylesheet" type="text/css" href="css/reaction.css" />
-
-    <script type="text/javascript" src="js/jquery.min.js"></script>
-    <!-- jQuery for Reaction system -->
-    <script type="text/javascript" src="js/chat.js"></script>
+    <link rel="stylesheet" href="css/reaction.css" />
     <title>Chat</title>
     <style>
         .chat {
@@ -134,6 +128,9 @@ if (isset($_POST['like'])) {
             <textarea id="" cols="30" rows="1" class="messageText"></textarea>
             <button class="sendMessage">Send</button>
     </form>
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/chat.js"></script>
 </body>
 
 </html>
