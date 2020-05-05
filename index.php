@@ -132,7 +132,7 @@ $userBuddy = classes\Buddy\User::findBuddy($user->getEmail());
     <div class="container">
         <div class="jumbotron">
             <h2>Find your classroom here:</h2>
-            <form action="class.php" method="get">
+            <form action="classrooms.php" method="get">
                 <input type="text" name="search" class="search" placeholder="Z3.04" autocomplete="off">
                 <input type="submit" name="submit_search" value="search" class="search_submit">
                 <div class="suggestions"></div>

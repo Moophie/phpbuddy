@@ -11,6 +11,32 @@ if (empty($_SESSION['user'])) {
     header("Location: login.php");
 }
 
+if (!empty($_POST['content'])) {
+    $time = date('Y-m-d H:i:s');
+
+    $active_conversation = $user->getActiveConversations();
+
+    $message = new classes\Buddy\Message();
+    $message->setConversation_id($active_conversation->id);
+    $message->setSender_id($user->getId());
+    $message->setReceiver_id($user->getBuddy_id());
+    $message->setContent($_POST['content']);
+    $message->setTimestamp($time);
+    $message->saveMessage();
+}
+
+if (isset($_POST['like'])) {
+
+    echo "hallo";
+    if ($_POST['like'] == 1) {
+        classes\Buddy\Message::reaction();
+    }
+
+    if ($_POST['like'] == 0) {
+        classes\Buddy\Message::undoReaction();
+    }
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -28,7 +54,6 @@ if (empty($_SESSION['user'])) {
 
     <script type="text/javascript" src="js/jquery.min.js"></script>
     <!-- jQuery for Reaction system -->
-    <script type="text/javascript" src="js/reaction.js"></script>
     <script type="text/javascript" src="js/chat.js"></script>
     <title>Chat</title>
     <style>
@@ -108,8 +133,8 @@ if (empty($_SESSION['user'])) {
                 <?php endforeach; ?>
             <?php endif; ?>
 
-            <textarea name="content" id="" cols="30" rows="1" class="messageText"></textarea>
-            <input type="submit" name="sendMessage" value="Send" class="sendMessage">
+            <textarea id="" cols="30" rows="1" class="messageText"></textarea>
+            <button class="sendMessage">Send</button>
     </form>
 </body>
 

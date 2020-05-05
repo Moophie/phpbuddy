@@ -2,7 +2,7 @@
 
 namespace classes\Buddy;
 
-include_once(__DIR__ . "/../settings/settings.php");
+include_once(__DIR__ . "/../../settings/settings.php");
 
 class Db
 {
