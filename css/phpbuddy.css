@@ -9,3 +9,11 @@ body {
 .center {
     text-align: center;
 }
+
+.navbar {
+    margin-bottom: 10px;
+}
+
+h1 {
+    font-size: 500em;
+}
