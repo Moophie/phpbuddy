@@ -5,8 +5,6 @@ include_once(__DIR__ . "/bootstrap.include.php");
 require(__DIR__ . "/sendgrid/sendgrid-php.php");
 putenv("SENDGRID_API_KEY=***REMOVED***");
 
-session_start();
-
 //If there's no active session, redirect to login.php
 if (empty($_SESSION['user'])) {
     header("Location: login.php");

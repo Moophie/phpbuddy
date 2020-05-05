@@ -2,8 +2,6 @@
 
 include_once(__DIR__ . "/bootstrap.include.php");
 
-session_start();
-
 $user = new classes\Buddy\User($_SESSION['user']);
 
 //If there's no active session, redirect to login.php
