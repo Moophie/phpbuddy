@@ -78,6 +78,44 @@ if (!empty($_POST['changeStatus'])) {
   $user->changeBuddyStatus($_POST['buddyStatus']);
 }
 
+if (!empty($_POST['uploadPicture'])) {
+  if (isset($_FILES['profileImg'])) {
+    if ($_FILES['profileImg']['error'] > 0) {
+      //For error messages: see http://php.net/manual/en/features.fileupload.errors.php
+      switch ($_FILES['profileImg']['error']) {
+        case 1:
+          $msg = 'You can only upload 2MB';
+          break;
+        default:
+          $msg = 'Sorry, uw upload kon niet worden verwerkt.';
+          echo "<button onclick=\"location.href='index.php'\">Try again</button>";
+      }
+    } else {
+      //Check MIME TYPE - http://php.net/manual/en/function.finfo-open.php
+      $allowedtypes = array('image/jpg', 'image/jpeg', 'image/png', 'image/gif');
+      $filename = $_FILES['profileImg']['tmp_name'];
+      $finfo = new finfo(FILEINFO_MIME_TYPE);
+      $fileinfo = $finfo->file($filename);
+
+      if (in_array($fileinfo, $allowedtypes)) {
+
+        //Move uploaded file
+        $newfilename = 'uploads/' . $_FILES['profileImg']['name'];
+
+        if (move_uploaded_file($_FILES['profileImg']['tmp_name'], $newfilename)) {
+          $user->profileImg();
+
+          header('location:profile.php');
+        } else {
+          $msg = 'Sorry, de upload is mislukt.';
+        }
+      } else {
+        $msg = 'Sorry, enkel afbeeldingen zijn toegestaan.';
+      }
+    }
+  }
+}
+
 ?>
 
 <head>
@@ -99,7 +137,7 @@ if (!empty($_POST['changeStatus'])) {
     <div class="jumbotron" style=" height:400px; margin:20px;">
       <div class="float-left" style=" margin-left:50px;">
         <img src="./uploads/<?= htmlspecialchars($user->getProfileImg()) ?>" width="250px;" height="250px;" />
-        <form enctype="multipart/form-data" action="uploadProfileImg.php" method="POST" style="margin-top:10px;">
+        <form enctype="multipart/form-data" action="" method="POST" style="margin-top:10px;">
           <input type="file" name="profileImg" capture="camera" required />
           <br>
           <input type="submit" value="upload" name="uploadPicture" />
