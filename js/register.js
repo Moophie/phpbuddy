@@ -1,30 +1,22 @@
-            // getting all form data
-			var email     =   $("#email").val();
+$(document).ready(function() {
+    $('.email').blur(function() {
 
+        var email = $(this).val();
 
-			// sending ajax request
-			$.ajax({
+        $.ajax({
+            url: 'emailAvailability.php',
+            method: "POST",
+            data: { emailAvailability: email },
+            success: function(data) {
+                if (data != '0') {
+                    $('#availability').html('<span class="text-danger">Email niet beschikbaar</span>');
+                    $('#submit').attr("disabled", true);
+                } else {
+                    $('#availability').html('<span class="text-success">Email beschikbaar</span>');
+                    $('#submit').attr("disabled", false);
+                }
+            }
+        })
 
-				url: '../classes/User.php',
-				type: 'post',
-				data: {
-					     'email': email,
-
-                    },
-                    // on success response
-				success:function(response) {
-					$("#result").html(response);
-
-					// reset form fields
-					$("#form-detail")[0].reset();
-				},
-
-				// error response
-				error:function(e) {
-					$("#result").html("Email already in use.");
-				}
-
-                })
-
-
-
+    });
+});

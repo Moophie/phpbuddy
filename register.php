@@ -6,7 +6,7 @@ require(__DIR__ . "/sendgrid/sendgrid-php.php");
 putenv("SENDGRID_API_KEY=***REMOVED***");
 
 //Check if values have been sent
-if (!empty($_POST)) {
+if (!empty($_POST['register'])) {
 
 	//Put $_POST variables into variables
 	//Convert the email string to lowercase, case sensitivity does not matter here
@@ -73,6 +73,7 @@ if (!empty($_POST)) {
 	<link rel="stylesheet" type="text/css" href="fonts/font-awesome-5/css/fontawesome-all.min.css">
 	<link rel="stylesheet" href="css/style_register.css" />
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+	<script type="text/javascript" src="js/register.js"></script>
 	<link href="https://fonts.googleapis.com/css?family=Lato:400,700&display=swap" rel="stylesheet">
 </head>
 
@@ -97,7 +98,7 @@ if (!empty($_POST)) {
 				</div>
 				<div class="form-row">
 					<label for="email">Your Email</label>
-					<input type="email" name="email" id="email" class="input-text" placeholder="Your Email" onBlur="checkemailAvailability()" pattern="[^@]+@[^@]+.[a-zA-Z]{2,6}" required>
+					<input type="email" name="email" class="input-text email" placeholder="Your Email" pattern="[^@]+@[^@]+.[a-zA-Z]{2,6}" required>
 					<span id="availability"></span>
 
 					<i class="fas fa-envelope"></i>
@@ -108,7 +109,7 @@ if (!empty($_POST)) {
 					<i class="fas fa-lock"></i>
 				</div>
 				<div class="form-row-last">
-					<input type="submit" class="register" value="Register">
+					<input type="submit" class="register" value="Register" name="register">
 				</div>
 				<div id="result"> </div>
 
@@ -116,35 +117,6 @@ if (!empty($_POST)) {
 
 		</div>
 	</div>
-
-
-	<script>
-		$(document).ready(function() {
-			$('#email').blur(function() {
-
-				var email = $(this).val();
-
-				$.ajax({
-					url: 'emailverification.php',
-					method: "POST",
-					data: {
-						email: email
-					},
-					success: function(data) {
-						if (data != '0') {
-							$('#availability').html('<span class="text-danger">Email niet beschikbaar</span>');
-							$('#submit').attr("disabled", true);
-						} else {
-							$('#availability').html('<span class="text-success">Email beschikbaar</span>');
-							$('#submit').attr("disabled", false);
-						}
-					}
-				})
-
-			});
-		});
-	</script>
-
 </body>
 
 </html>
