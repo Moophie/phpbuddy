@@ -84,7 +84,6 @@ $user_buddy = classes\Buddy\User::findBuddy($user->getEmail());
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="css/bootstrap.css">
     <link rel="stylesheet" href="css/phpbuddy.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700&display=swap">
     <title>IMD Buddy</title>
     <style>
         .matches {
