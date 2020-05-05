@@ -1,8 +1,8 @@
 <?php
+
 include_once(__DIR__ . "/bootstrap.include.php");
 
 if (!empty($_POST['createEvent'])) {
-
     $user = new classes\Buddy\User($_SESSION['user']);
 
     $event = new classes\Buddy\Event();

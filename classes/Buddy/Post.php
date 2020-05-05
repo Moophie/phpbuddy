@@ -2,11 +2,8 @@
 
 namespace classes\Buddy;
 
-include_once(__DIR__ . "/Db.php");
-
 class Post
 {
-
     private $id;
     private $op;
     private $timestamp;
@@ -268,7 +265,6 @@ class Post
 
     public function addUpvote()
     {
-
         $conn = Db::getConnection();
         $statement = $conn->prepare("SELECT upvotes FROM posts WHERE id = :post_id");
         $statement->bindValue(":post_id", $this->getId());

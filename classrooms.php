@@ -1,4 +1,5 @@
 <?php
+
 include_once(__DIR__ . "/bootstrap.include.php");
 
 $classrooms = classes\Buddy\Classroom::getClassroom($_GET['search']);
@@ -28,7 +29,7 @@ $classrooms = classes\Buddy\Classroom::getClassroom($_GET['search']);
                 <div class="jumbotron float-left" style="width:300px; margin-left:20px;">
                     <h4>Classroom: <?php echo $class['name']; ?> </h4>
                     <p>Building: <?php echo $class['building']; ?></p>
-                    <p>Floor: <? echo $class['floor']; ?></p>
+                    <p>Floor: <?php echo $class['floor']; ?></p>
                     <p>Class Number: <?php echo $class['room_number']; ?></p>
                 </div>
 

@@ -24,8 +24,6 @@ if (!empty($_POST['content'])) {
 }
 
 if (isset($_POST['like'])) {
-
-    echo "hallo";
     if ($_POST['like'] == 1) {
         classes\Buddy\Message::reaction();
     }

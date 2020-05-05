@@ -8,56 +8,55 @@ putenv("SENDGRID_API_KEY=***REMOVED***");
 //Check if values have been sent
 if (!empty($_POST['register'])) {
 
-	//Put $_POST variables into variables
-	//Convert the email string to lowercase, case sensitivity does not matter here
-	$fullname = $_POST['fullname'];
-	$password = $_POST['password'];
-	$email = strtolower($_POST['email']);
+    //Put $_POST variables into variables
+    //Convert the email string to lowercase, case sensitivity does not matter here
+    $fullname = $_POST['fullname'];
+    $password = $_POST['password'];
+    $email = strtolower($_POST['email']);
 
-	//Encrypt the password
-	$hash = password_hash($_POST['password'], PASSWORD_BCRYPT);
+    //Encrypt the password
+    $hash = password_hash($_POST['password'], PASSWORD_BCRYPT);
 
-	$user = new classes\Buddy\User($email);
+    $user = new classes\Buddy\User($email);
 
-	//Set the user's properties
-	//setEmail returns an error message if the email is not a valid email or if it's not unique
-	$validEmail = $user->setEmail($email);
-	$user->setFullname($fullname);
-	$user->setPassword($hash);
+    //Set the user's properties
+    //setEmail returns an error message if the email is not a valid email or if it's not unique
+    $validEmail = $user->setEmail($email);
+    $user->setFullname($fullname);
+    $user->setPassword($hash);
 
-	//If setEmail returns a string, show the error message
-	if (gettype($validEmail) == "string") {
-		$error = $validEmail;
-	} else {
+    //If setEmail returns a string, show the error message
+    if (gettype($validEmail) == "string") {
+        $error = $validEmail;
+    } else {
+        $n = 20;
+        $validation_string = bin2hex(random_bytes($n));
+        $user->setValidation_string($validation_string);
+        $link = "http://localhost/phpbuddy/verify.php?code=" . $validation_string;
 
-		$n = 20;
-		$validation_string = bin2hex(random_bytes($n));
-		$user->setValidation_string($validation_string);
-		$link = "http://localhost/phpbuddy/verify.php?code=" . $validation_string;
+        $sgmail = new \SendGrid\Mail\Mail();
+        $sgmail->setFrom("michael.van.lierde@hotmail.com", "IMD Buddy");
+        $sgmail->setSubject("Confirm registration");
+        $sgmail->addTo($user->getEmail(), $user->getFullname());
+        $sgmail->addContent("text/html", "<a href=" . $link . ">Click to confirm your email!</a>");
 
-		$sgmail = new \SendGrid\Mail\Mail();
-		$sgmail->setFrom("michael.van.lierde@hotmail.com", "IMD Buddy");
-		$sgmail->setSubject("Confirm registration");
-		$sgmail->addTo($user->getEmail(), $user->getFullname());
-		$sgmail->addContent("text/html", "<a href=" . $link . ">Click to confirm your email!</a>");
+        $sendgrid = new \SendGrid(getenv('SENDGRID_API_KEY'));
+        $sendgrid->send($sgmail);
 
-		$sendgrid = new \SendGrid(getenv('SENDGRID_API_KEY'));
-		$sendgrid->send($sgmail);
+        //Save the user
+        $user->save();
 
-		//Save the user
-		$user->save();
+        //Let him know he's registered
+        $error = "You have been succesfully registered! A confirmation mail has been sent to your email account.";
 
-		//Let him know he's registered
-		$error = "You have been succesfully registered! A confirmation mail has been sent to your email account.";
+        $user = new classes\Buddy\User($email);
 
-		$user = new classes\Buddy\User($email);
-
-		if ($user->getActive() == 1) {
-			session_start();
-			$_SESSION['user'] = $email;
-			header("Location: index.php");
-		}
-	}
+        if ($user->getActive() == 1) {
+            session_start();
+            $_SESSION['user'] = $email;
+            header("Location: index.php");
+        }
+    }
 }
 
 ?>

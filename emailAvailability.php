@@ -1,4 +1,5 @@
 <?php
+
 include_once(__DIR__ . "/bootstrap.include.php");
 
 if (isset($_POST["emailAvailability"])) :

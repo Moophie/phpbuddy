@@ -6,36 +6,34 @@ include_once(__DIR__ . "/bootstrap.include.php");
 if (!empty($_POST)) {
 
   //Put fields in variables
-  $email = $_POST['email'];
-  $password = $_POST['password'];
+    $email = $_POST['email'];
+    $password = $_POST['password'];
 
-  if (!empty($email) && !empty($password)) {
-    //If both fields are filled in, check if the login is correct
+    if (!empty($email) && !empty($password)) {
+        //If both fields are filled in, check if the login is correct
 
-    if (classes\Buddy\User::checkPassword($email, $password)) {
+        if (classes\Buddy\User::checkPassword($email, $password)) {
+            session_start();
+            $user = new classes\Buddy\User($email);
 
-      session_start();
-      $user = new classes\Buddy\User($email);
-
-      if ($_POST['captcha'] == $_SESSION['digit']) {
-
-        if ($user->getActive() == 1) {
-          $_SESSION['user'] = $email;
-          header("Location: index.php");
+            if ($_POST['captcha'] == $_SESSION['digit']) {
+                if ($user->getActive() == 1) {
+                    $_SESSION['user'] = $email;
+                    header("Location: index.php");
+                } else {
+                    $error = "Please confirm your account";
+                }
+            } else {
+                $error = "Wrong Captcha";
+            }
         } else {
-          $error = "Please confirm your account";
+            $error = "Sorry, we couldn't log you in.";
         }
-      } else {
-        $error = "Wrong Captcha";
-      }
     } else {
-      $error = "Sorry, we couldn't log you in.";
-    }
-  } else {
 
     //If one of the fields is empty, generate an error
-    $error = "Email and password are required.";
-  }
+        $error = "Email and password are required.";
+    }
 }
 
 ?>

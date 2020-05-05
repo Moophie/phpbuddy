@@ -2,8 +2,6 @@
 
 namespace classes\Buddy;
 
-include_once(__DIR__ . "/Db.php");
-
 class Conversation
 {
     private $id;
@@ -104,16 +102,14 @@ class Conversation
         if (empty($result)) :
 
             $statement = $conn->prepare("INSERT INTO conversations (user_1, user_2, active) VALUES (:user_1, :user_2, 1)");
-            $statement->bindValue(":user_1", $this->getUser_1());
-            $statement->bindValue(":user_2", $this->getUser_2());
-            $statement->execute();
-
-        else :
+        $statement->bindValue(":user_1", $this->getUser_1());
+        $statement->bindValue(":user_2", $this->getUser_2());
+        $statement->execute(); else :
 
             $statement = $conn->prepare("UPDATE conversations SET active = 1 WHERE (user_1 = :user_1 AND user_2 = :user_2) OR (user_1 = :user_2 AND user_2 = :user_1)");
-            $statement->bindValue(":user_1", $this->getUser_1());
-            $statement->bindValue(":user_2", $this->getUser_2());
-            $statement->execute();
+        $statement->bindValue(":user_1", $this->getUser_1());
+        $statement->bindValue(":user_2", $this->getUser_2());
+        $statement->execute();
 
         endif;
 

@@ -2,8 +2,6 @@
 
 namespace classes\Buddy;
 
-include_once(__DIR__ . "/Db.php");
-
 class Upvote
 {
     private $id;
@@ -30,7 +28,6 @@ class Upvote
 
         return $this;
     }
-
 
     /**
      * Get the value of id
@@ -75,7 +72,6 @@ class Upvote
 
     public function saveUpvote()
     {
-
         $conn = Db::getConnection();
 
         $statement = $conn->prepare("SELECT * FROM upvotes WHERE post_id = :post_id AND user_id = :user_id");

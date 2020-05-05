@@ -4,7 +4,7 @@ include_once(__DIR__ . "/bootstrap.include.php");
 
 //If there's no active session, redirect to login.php
 if (empty($_SESSION['user'])) {
-  header("Location: login.php");
+    header("Location: login.php");
 }
 
 //Create a new user based on the active user's email
@@ -12,75 +12,73 @@ $user = new classes\Buddy\User($_SESSION['user']);
 
 //Detect a submit to change the password
 if (!empty($_POST['changePassword'])) {
+    $newpassword = $_POST['newpassword'];
+    $oldpassword = $_POST['oldpassword'];
 
-  $newpassword = $_POST['newpassword'];
-  $oldpassword = $_POST['oldpassword'];
-
-  //Check if the user has the correct password
-  if (classes\Buddy\User::checkPassword($user->getEmail(), $oldpassword)) {
+    //Check if the user has the correct password
+    if (classes\Buddy\User::checkPassword($user->getEmail(), $oldpassword)) {
 
     //Change it to the new password
-    $user->changePassword($newpassword);
-  } else {
-    $errorPass = "We couldn't change the password.";
-  }
+        $user->changePassword($newpassword);
+    } else {
+        $errorPass = "We couldn't change the password.";
+    }
 }
 
 //Detect a submit to change the email
 if (!empty($_POST['changeEmail'])) {
+    $oldpassword = $_POST['emailpassword'];
+    $newemail = $_POST['newemail'];
 
-  $oldpassword = $_POST['emailpassword'];
-  $newemail = $_POST['newemail'];
-
-  //Check if the user has the correct password
-  if (classes\Buddy\User::checkPassword($user->getEmail(), $oldpassword)) {
+    //Check if the user has the correct password
+    if (classes\Buddy\User::checkPassword($user->getEmail(), $oldpassword)) {
 
     //Use the setter with conditions to set the new email
-    $validEmail = $user->setEmail($newemail);
+        $validEmail = $user->setEmail($newemail);
 
-    //If the setter returns an error string, show the error
-    if (gettype($validEmail) == "string") {
-      $errorMail = $validEmail;
-    } else {
+        //If the setter returns an error string, show the error
+        if (gettype($validEmail) == "string") {
+            $errorMail = $validEmail;
+        } else {
 
       //If the setter returns an object, change the email in the database
-      $user->changeEmail($newemail);
+            $user->changeEmail($newemail);
+        }
+    } else {
+        $errorMail = "Wrong password";
     }
-  } else {
-    $errorMail = "Wrong password";
-  }
 }
 
 //Detect a submit to update your profile
 if (!empty($_POST['updateProfile'])) {
-  $user = new classes\Buddy\User($_SESSION['user']);
+    $user = new classes\Buddy\User($_SESSION['user']);
 
-  //Fill in the user's properties
-  $user->setBio($_POST['bio']);
-  $user->setLocation($_POST['location']);
-  $user->setGames($_POST['games']);
-  $user->setMusic($_POST['music']);
-  $user->setFilms($_POST['films']);
-  $user->setBooks($_POST['books']);
-  $user->setStudy_pref($_POST['study_pref']);
-  $user->setHobby($_POST['hobby']);
+    //Fill in the user's properties
+    $user->setBio($_POST['bio']);
+    $user->setLocation($_POST['location']);
+    $user->setGames($_POST['games']);
+    $user->setMusic($_POST['music']);
+    $user->setFilms($_POST['films']);
+    $user->setBooks($_POST['books']);
+    $user->setStudy_pref($_POST['study_pref']);
+    $user->setHobby($_POST['hobby']);
 
-  //Save those properties to the database
-  $user->completeProfile();
+    //Save those properties to the database
+    $user->completeProfile();
 }
 
 //Detect a submit to change your status firstyear/mentor
 if (!empty($_POST['changeStatus'])) {
 
   //Change the user's status
-  $user->changeBuddyStatus($_POST['buddyStatus']);
+    $user->changeBuddyStatus($_POST['buddyStatus']);
 }
 
 if (!empty($_POST['uploadPicture'])) {
-  if (isset($_FILES['profileImg'])) {
-    if ($_FILES['profileImg']['error'] > 0) {
-      //For error messages: see http://php.net/manual/en/features.fileupload.errors.php
-      switch ($_FILES['profileImg']['error']) {
+    if (isset($_FILES['profileImg'])) {
+        if ($_FILES['profileImg']['error'] > 0) {
+            //For error messages: see http://php.net/manual/en/features.fileupload.errors.php
+            switch ($_FILES['profileImg']['error']) {
         case 1:
           $msg = 'You can only upload 2MB';
           break;
@@ -88,30 +86,30 @@ if (!empty($_POST['uploadPicture'])) {
           $msg = 'Sorry, uw upload kon niet worden verwerkt.';
           echo "<button onclick=\"location.href='index.php'\">Try again</button>";
       }
-    } else {
-      //Check MIME TYPE - http://php.net/manual/en/function.finfo-open.php
-      $allowedtypes = array('image/jpg', 'image/jpeg', 'image/png', 'image/gif');
-      $filename = $_FILES['profileImg']['tmp_name'];
-      $finfo = new finfo(FILEINFO_MIME_TYPE);
-      $fileinfo = $finfo->file($filename);
+        } else {
+            //Check MIME TYPE - http://php.net/manual/en/function.finfo-open.php
+            $allowedtypes = array('image/jpg', 'image/jpeg', 'image/png', 'image/gif');
+            $filename = $_FILES['profileImg']['tmp_name'];
+            $finfo = new finfo(FILEINFO_MIME_TYPE);
+            $fileinfo = $finfo->file($filename);
 
-      if (in_array($fileinfo, $allowedtypes)) {
+            if (in_array($fileinfo, $allowedtypes)) {
 
         //Move uploaded file
-        $newfilename = 'uploads/' . $_FILES['profileImg']['name'];
+                $newfilename = 'uploads/' . $_FILES['profileImg']['name'];
 
-        if (move_uploaded_file($_FILES['profileImg']['tmp_name'], $newfilename)) {
-          $user->profileImg();
+                if (move_uploaded_file($_FILES['profileImg']['tmp_name'], $newfilename)) {
+                    $user->profileImg();
 
-          header('location:profile.php');
-        } else {
-          $msg = 'Sorry, de upload is mislukt.';
+                    header('location:profile.php');
+                } else {
+                    $msg = 'Sorry, de upload is mislukt.';
+                }
+            } else {
+                $msg = 'Sorry, enkel afbeeldingen zijn toegestaan.';
+            }
         }
-      } else {
-        $msg = 'Sorry, enkel afbeeldingen zijn toegestaan.';
-      }
     }
-  }
 }
 
 ?>

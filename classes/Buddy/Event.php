@@ -2,11 +2,8 @@
 
 namespace classes\Buddy;
 
-include_once(__DIR__ . "/Db.php");
-
 class Event
 {
-
     private $id;
     private $title;
     private $timestamp;
@@ -156,7 +153,6 @@ class Event
 
     public function saveEvent()
     {
-
         $conn = Db::getConnection();
 
         $statement = $conn->prepare("INSERT INTO events (title, timestamp, description, max, creator) VALUES (:title, :timestamp, :description, :max, :creator)");

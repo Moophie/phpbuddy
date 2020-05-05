@@ -2,11 +2,8 @@
 
 namespace classes\Buddy;
 
-include_once(__DIR__ . "/Db.php");
-
 class User
 {
-    //Declare all the class variables
     private $id;
     private $active;
     private $validation_string;
@@ -24,8 +21,6 @@ class User
     private $study_pref;
     private $hobby;
     private $buddy_id;
-
-    //Generate all the setters
 
     /**
      * Get the value of id
@@ -153,7 +148,7 @@ class User
         if ($existingEmails > 0) {
             return $error = "Email already in use";
 
-            //Check if the email ends on student.thomasmore.be 
+        //Check if the email ends on student.thomasmore.be
         } elseif (!(substr($email, -22) === "@student.thomasmore.be")) {
             return $error = "Not a valid Thomas More email";
         } else {
@@ -672,7 +667,6 @@ class User
     //Function that finds the user's buddy via his email
     public static function findBuddy($email)
     {
-
         $conn = Db::getConnection();
 
         //SQL that selects the user's buddy_id

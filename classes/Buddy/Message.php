@@ -2,9 +2,6 @@
 
 namespace classes\Buddy;
 
-include_once(__DIR__ . "/Db.php");
-include_once(__DIR__ . "/Conversation.php");
-
 class Message
 {
     private $id;
@@ -197,7 +194,7 @@ class Message
     {
         $conn = Db::getConnection();
         $statement = $conn->prepare("UPDATE messages SET reaction = :reaction WHERE id = :message_id ");
-        $statement->bindValue(":reaction",  $_POST['data_reaction']);
+        $statement->bindValue(":reaction", $_POST['data_reaction']);
         $statement->bindValue(":message_id", $_POST['message_id']);
         $result = $statement->execute();
         return $result;
@@ -207,7 +204,7 @@ class Message
     {
         $conn = Db::getConnection();
         $statement = $conn->prepare("UPDATE messages SET reaction = :reaction WHERE id = :message_id ");
-        $statement->bindValue(":reaction",  "");
+        $statement->bindValue(":reaction", "");
         $statement->bindValue(":message_id", $_POST['message_id']);
         $result = $statement->execute();
         return $result;

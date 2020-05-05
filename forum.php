@@ -1,13 +1,13 @@
 <?php
-include_once(__DIR__ . "/bootstrap.include.php");
 
+include_once(__DIR__ . "/bootstrap.include.php");
 
 $email;
 
 if (empty($_SESSION['user'])) {
     $email = "Anonymous";
 } else {
-    $email = $_SESSION['user'];
+    $emailf = $_SESSION['user'];
 }
 
 $user = new classes\Buddy\User($email);
@@ -31,7 +31,6 @@ if (!empty($_POST['postContent'])) {
 }
 
 if (isset($_POST['pinFaq'])) {
-
     if ($_POST['pinFaq'] == 1) {
         $post = new classes\Buddy\Post();
         $post->setId($_POST['id']);
