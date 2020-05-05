@@ -77,6 +77,7 @@ $user_buddy = classes\Buddy\User::findBuddy($user->getEmail());
     <link rel="stylesheet" href="css/bootstrap.css">
     <link rel="stylesheet" href="css/phpbuddy.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700&display=swap">
+    <link rel="stylesheet" href="fonts/font-awesome-5/css/fontawesome-all.min.css">
     <title>IMD Buddy</title>
     <style>
         .matches {
@@ -92,8 +93,8 @@ $user_buddy = classes\Buddy\User::findBuddy($user->getEmail());
 
     <?php include_once("nav.include.php"); ?>
 
-    <div class="container" style="height:250px; margin-top: 20px; margin-bottom:20px;">
-        <div class="jumbotron float-left" style="width:60%; height:250px;">
+    <div class="container" style="height:250px;">
+        <div class="jumbotron float-left" style="width:50%; height:230px;">
             <div>
                 <h2>Welcome back, <?php echo htmlspecialchars($user->getFullname()) ?></h2>
                 <br>
@@ -107,7 +108,7 @@ $user_buddy = classes\Buddy\User::findBuddy($user->getEmail());
                 </div>
             </div>
         </div>
-        <div class="jumbotron float-right" style="width:38%; height:250px;">
+        <div class="jumbotron float-right" style="width:40%; height:230px;">
             <h4>Buddy application statistics</h4>
             <div>
                 <p><strong>Registered users:</strong> <?php echo $registered_count ?> <?php ?> </p>
@@ -245,7 +246,6 @@ $user_buddy = classes\Buddy\User::findBuddy($user->getEmail());
     <script src="js/jquery.min.js"></script>
     <script src="js/autocomplete.js"></script>
     <script src="js/bootstrap.js"></script>
-    <script src="https://kit.fontawesome.com/2b908491a1.js" crossorigin="anonymous"></script>
 </body>
 
 </html>

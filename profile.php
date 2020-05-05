@@ -116,6 +116,7 @@ if (!empty($_POST['uploadPicture'])) {
   <link rel="stylesheet" href="css/bootstrap.css">
   <link rel="stylesheet" href="css/phpbuddy.css">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700&display=swap">
+  <link rel="stylesheet" href="fonts/font-awesome-5/css/fontawesome-all.min.css">
   <title>IMD Buddy</title>
 </head>
 
@@ -254,5 +255,4 @@ if (!empty($_POST['uploadPicture'])) {
       </form>
     </div>
   </div>
-
 </body>

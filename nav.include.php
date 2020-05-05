@@ -54,10 +54,7 @@ $page = basename($_SERVER['PHP_SELF']);
                 </ul>
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <i class="fas fa-user"></i>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="profile.php"><?php echo htmlspecialchars($user->getFullname()); ?></a>
+                        <a class="nav-link" href="profile.php"><i class="fas fa-user"></i>&nbsp&nbsp<?php echo htmlspecialchars($user->getFullname()); ?></a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="logout.php">Log out</a>

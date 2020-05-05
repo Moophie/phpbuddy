@@ -50,6 +50,7 @@ if (!empty($_POST)) {
   <link rel="stylesheet" href="fonts/font-awesome-5/css/fontawesome-all.min.css">
   <link rel="stylesheet" href="css/login.css">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700&display=swap">
+  <link rel="stylesheet" href="fonts/font-awesome-5/css/fontawesome-all.min.css">
   <title>IMD Buddy: login</title>
 </head>
 
