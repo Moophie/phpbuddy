@@ -5,11 +5,6 @@ include_once(__DIR__ . "/bootstrap.include.php");
 require(__DIR__ . "/sendgrid/sendgrid-php.php");
 putenv("SENDGRID_API_KEY=***REMOVED***");
 
-//If there's no active session, redirect to login.php
-if (empty($_SESSION['user'])) {
-    header("Location: login.php");
-}
-
 $email = $_SESSION['user'];
 $user = new classes\Buddy\User($email);
 
@@ -38,9 +33,6 @@ if (!empty($_POST['getBuddy'])) {
     $conversation->setUser_1($user->getId());
     $conversation->setUser_2($_POST['buddy_id']);
     $conversation->saveConversation();
-
-    //Then redirect them to their chatwindow
-    //header("Location: chat.php");
 }
 
 if (!empty($_POST['acceptBuddy'])) {

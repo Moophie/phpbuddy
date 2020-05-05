@@ -2,11 +2,6 @@
 
 include_once(__DIR__ . "/bootstrap.include.php");
 
-//If there's no active session, redirect to login.php
-if (empty($_SESSION['user'])) {
-    header("Location: login.php");
-}
-
 //Create a new user based on the active user's email
 $user = new classes\Buddy\User($_SESSION['user']);
 

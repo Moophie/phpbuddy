@@ -4,3 +4,16 @@ namespace classes;
 
 spl_autoload_register();
 session_start();
+
+$page = basename($_SERVER['PHP_SELF']);
+
+//If there's no active session, redirect to login.php
+if($page == "login.php" || $page == "register.php"){
+    if (!empty($_SESSION['user'])) {
+        header("Location: index.php");
+    }
+} else {
+    if (empty($_SESSION['user'])) {
+        header("Location: login.php");
+    }
+}

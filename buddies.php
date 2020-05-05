@@ -2,11 +2,6 @@
 
 include_once(__DIR__ . "/bootstrap.include.php");
 
-//If there's no active session, redirect to login.php
-if (empty($_SESSION['user'])) {
-    header("Location: login.php");
-}
-
 //Get all users from the database
 $users = classes\Buddy\User::getAll();
 

@@ -2,11 +2,6 @@
 
 include_once(__DIR__ . "/bootstrap.include.php");
 
-//If there's no active session, redirect to login.php
-if (empty($_SESSION['user'])) {
-    header("Location: login.php");
-}
-
 //If someone clicks search, find the correct users based on the filters in the $_POST
 if (!empty($_POST)) {
     $found_users = classes\Buddy\User::searchUsers($_POST);
