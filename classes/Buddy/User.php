@@ -822,7 +822,7 @@ class User
         $statement->execute();
         $result = $statement->fetch(\PDO::FETCH_OBJ);
 
-        if(!empty($result)){
+        if (!empty($result)) {
             return true;
         } else {
             return false;

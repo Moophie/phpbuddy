@@ -116,7 +116,7 @@ class Event
 
     /**
      * Get the value of creator
-     */ 
+     */
     public function getCreator()
     {
         return $this->creator;
@@ -126,7 +126,7 @@ class Event
      * Set the value of creator
      *
      * @return  self
-     */ 
+     */
     public function setCreator($creator)
     {
         $this->creator = $creator;
@@ -192,12 +192,10 @@ class Event
         $statement->execute();
         $count = $statement->rowCount();
 
-        if($count >= $this->getMax()){
+        if ($count >= $this->getMax()) {
             return true;
         } else {
             return false;
         }
-
     }
-
 }

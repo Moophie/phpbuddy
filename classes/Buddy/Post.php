@@ -138,7 +138,7 @@ class Post
 
     /**
      * Get the value of upvotes
-     */ 
+     */
     public function getUpvotes()
     {
         return $this->upvotes;
@@ -148,7 +148,7 @@ class Post
      * Set the value of upvotes
      *
      * @return  self
-     */ 
+     */
     public function setUpvotes($upvotes)
     {
         $this->upvotes = $upvotes;
@@ -266,8 +266,9 @@ class Post
         return $count;
     }
 
-    public function addUpvote(){
-    
+    public function addUpvote()
+    {
+
         $conn = Db::getConnection();
         $statement = $conn->prepare("SELECT upvotes FROM posts WHERE id = :post_id");
         $statement->bindValue(":post_id", $this->getId());

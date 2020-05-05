@@ -7,4 +7,3 @@ include_once(__DIR__ . "/bootstrap.include.php");
 // Getting the reaction from Ajax and printing
 
 classes\Buddy\Message::reaction();
-

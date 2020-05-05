@@ -86,7 +86,7 @@ if (!empty($_POST)) {
 				<h2>Register Account Buddy application</h2>
 				<?php if (!empty($error)) : ?>
 					<div style="background-color:#F8D7DA; padding:10px; border-radius:10px;">
-					<p><?= $error ?></p>
+						<p><?= $error ?></p>
 
 					</div>
 				<?php endif; ?>
@@ -117,38 +117,34 @@ if (!empty($_POST)) {
 		</div>
 	</div>
 
-	
-<script>
-$(document).ready(function(){
-   $('#email').blur(function(){
 
-     var email = $(this).val();
+	<script>
+		$(document).ready(function() {
+			$('#email').blur(function() {
 
-     $.ajax({
-      url:'emailverification.php',
-      method:"POST",
-      data:{email:email},
-      success:function(data)
-      {
-       if(data != '0')
-       {
-        $('#availability').html('<span class="text-danger">Email niet beschikbaar</span>');
-        $('#submit').attr("disabled", true);
-       }
-       else
-       {
-        $('#availability').html('<span class="text-success">Email beschikbaar</span>');
-        $('#submit').attr("disabled", false);
-       }
-      }
-     })
+				var email = $(this).val();
 
-  });
- });
+				$.ajax({
+					url: 'emailverification.php',
+					method: "POST",
+					data: {
+						email: email
+					},
+					success: function(data) {
+						if (data != '0') {
+							$('#availability').html('<span class="text-danger">Email niet beschikbaar</span>');
+							$('#submit').attr("disabled", true);
+						} else {
+							$('#availability').html('<span class="text-success">Email beschikbaar</span>');
+							$('#submit').attr("disabled", false);
+						}
+					}
+				})
 
-</script>
+			});
+		});
+	</script>
 
 </body>
 
 </html>
-

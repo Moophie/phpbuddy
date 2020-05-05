@@ -21,19 +21,24 @@ $page = basename($_SERVER['PHP_SELF']);
                 <ul class="navbar-nav mr-auto">
 
                     <!-- Mark a link as "active" according to the current page -->
-                    <li class="nav-item <?php if ($page == "index.php") : echo "active"; endif; ?>">
+                    <li class="nav-item <?php if ($page == "index.php") : echo "active";
+                                        endif; ?>">
                         <a class="nav-link" href="index.php">Home</a>
                     </li>
-                    <li class="nav-item <?php if ($page == "chat.php") : echo "active"; endif; ?>">
+                    <li class="nav-item <?php if ($page == "chat.php") : echo "active";
+                                        endif; ?>">
                         <a class="nav-link" href="chat.php">Chat</a>
                     </li>
-                    <li class="nav-item <?php if ($page == "buddies.php") : echo "active"; endif; ?>">
+                    <li class="nav-item <?php if ($page == "buddies.php") : echo "active";
+                                        endif; ?>">
                         <a class="nav-link" href="buddies.php">Buddies</a>
                     </li>
-                    <li class="nav-item <?php if ($page == "forum.php") : echo "active"; endif; ?>">
+                    <li class="nav-item <?php if ($page == "forum.php") : echo "active";
+                                        endif; ?>">
                         <a class="nav-link" href="forum.php">Forums</a>
                     </li>
-                    <li class="nav-item <?php if ($page == "events.php") : echo "active"; endif; ?>">
+                    <li class="nav-item <?php if ($page == "events.php") : echo "active";
+                                        endif; ?>">
                         <a class="nav-link" href="events.php">Events</a>
                     </li>
                 </ul>
@@ -64,12 +69,14 @@ $page = basename($_SERVER['PHP_SELF']);
                 <?php else : ?>
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item">
-                            <a class="nav-link <?php if ($page == "login.php") : echo "active"; endif; ?>" href="login.php">
+                            <a class="nav-link <?php if ($page == "login.php") : echo "active";
+                                                endif; ?>" href="login.php">
                                 <i class="fas fa-user"></i> Log in</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link <?php if ($page == "register.php") : echo "active"; endif; ?>" href="register.php">
-                            <i class="fas fa-user-plus"></i> Sign up</a>
+                            <a class="nav-link <?php if ($page == "register.php") : echo "active";
+                                                endif; ?>" href="register.php">
+                                <i class="fas fa-user-plus"></i> Sign up</a>
                         </li>
                     </ul>
                 <?php endif; ?>

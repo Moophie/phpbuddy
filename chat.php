@@ -79,14 +79,17 @@ if (empty($_SESSION['user'])) {
                                 </span>
                                 <span class="reaction-btn <?= $message->id ?>">
                                     <!-- Default like button -->
-                                    <span class="reaction-btn-text <?= $message->id ?> <?php if (!empty($message->reaction)) {
+                                    <span class="reaction-btn-text <?= $message->id ?> <?php if (!empty($message->reaction)) :
                                                                                             echo "reaction-btn-text-" . strtolower($message->reaction);
                                                                                             echo " active";
-                                                                                        } ?>" message-id="<?= $message->id ?>"><?php if (!empty($message->reaction)) {
-                                                                                                                                echo $message->reaction;
-                                                                                                                            } else {
-                                                                                                                                echo "Like";
-                                                                                                                            } ?> </span> <!-- Default like button text,(Like, wow, sad..) default:Like  -->
+                                                                                        endif; ?>" message-id="<?= $message->id ?>">
+                                        <?php if (!empty($message->reaction)) :
+                                            echo $message->reaction;
+                                        else :
+                                            echo "Like";
+                                        endif; ?>
+                                    </span>
+                                    <!-- Default like button text,(Like, wow, sad..) default:Like  -->
                                     <ul class="emojies-box">
                                         <!-- Reaction buttons container-->
                                         <li class="emoji emo-like" data-reaction="Like" message-id="<?= $message->id ?>"></li>

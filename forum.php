@@ -55,10 +55,10 @@ if (!empty($_POST['editPost'])) {
     $post->editPost($_POST['id'], $_POST['content']);
 }
 
-if(!empty($_POST['upvote'])){
+if (!empty($_POST['upvote'])) {
     $post = new classes\Buddy\Post($_POST['id']);
     $post->addUpvote();
-    
+
     $upvote = new classes\Buddy\Upvote();
     $upvote->setPost_id($_POST['id']);
     $upvote->setUser_id($user->getId());
@@ -89,7 +89,7 @@ $faqPosts = classes\Buddy\Post::getFaqPosts();
     <div class="forum float-left" style="margin:10px 0px 0px 10px; border:1px black solid; width: 800px; padding:5px">
         <?php foreach ($allPosts as $post) : ?>
             <div class="post" data-id="<?php echo $post->id; ?>" style="border:1px black solid; max-width: 800px; margin-bottom:10px; padding:5px">
-            <p>Upvotes: <?php echo classes\Buddy\Post::countUpvotes($post->id); ?></p>
+                <p>Upvotes: <?php echo classes\Buddy\Post::countUpvotes($post->id); ?></p>
                 <strong><?php echo htmlspecialchars($post->op) ?></strong>
                 <br>
                 <i><?php echo htmlspecialchars($post->timestamp) ?></i>
@@ -109,7 +109,7 @@ $faqPosts = classes\Buddy\Post::getFaqPosts();
                     <?php
                     $reactions = classes\Buddy\Post::getReactions($post->id);
                     foreach ($reactions as $reaction) : ?>
-                    <p>Upvotes: <?php echo classes\Buddy\Post::countUpvotes($reaction->id); ?></p>
+                        <p>Upvotes: <?php echo classes\Buddy\Post::countUpvotes($reaction->id); ?></p>
                         <strong><?php echo htmlspecialchars($reaction->op) ?></strong>
                         <br>
                         <i><?php echo htmlspecialchars($reaction->timestamp) ?></i>

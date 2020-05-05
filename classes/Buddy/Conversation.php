@@ -108,8 +108,8 @@ class Conversation
             $statement->bindValue(":user_2", $this->getUser_2());
             $statement->execute();
 
-        else:
-            
+        else :
+
             $statement = $conn->prepare("UPDATE conversations SET active = 1 WHERE (user_1 = :user_1 AND user_2 = :user_2) OR (user_1 = :user_2 AND user_2 = :user_1)");
             $statement->bindValue(":user_1", $this->getUser_1());
             $statement->bindValue(":user_2", $this->getUser_2());

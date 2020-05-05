@@ -193,7 +193,8 @@ class Message
         return $result;
     }
 
-    public static function reaction(){
+    public static function reaction()
+    {
         $conn = Db::getConnection();
         $statement = $conn->prepare("UPDATE messages SET reaction = :reaction WHERE id = :message_id ");
         $statement->bindValue(":reaction",  $_POST['data_reaction']);
@@ -202,7 +203,8 @@ class Message
         return $result;
     }
 
-    public static function undoReaction(){
+    public static function undoReaction()
+    {
         $conn = Db::getConnection();
         $statement = $conn->prepare("UPDATE messages SET reaction = :reaction WHERE id = :message_id ");
         $statement->bindValue(":reaction",  "");

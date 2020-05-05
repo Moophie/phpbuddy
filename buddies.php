@@ -28,7 +28,6 @@ $users = classes\Buddy\User::getAll();
 </head>
 
 <body>
-
     <?php include_once("nav.include.php"); ?>
 
     <div class="container">

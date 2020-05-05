@@ -19,12 +19,12 @@ if (isset($_FILES['profileImg'])) {
     if ($_FILES['profileImg']['error'] > 0) {
         //For error messages: see http://php.net/manual/en/features.fileupload.errors.php
         switch ($_FILES['profileImg']['error']) {
-        case 1:
-        $msg = 'You can only upload 2MB';
-        break;
-        default:
-        $msg = 'Sorry, uw upload kon niet worden verwerkt.';
-            echo "<button onclick=\"location.href='index.php'\">Try again</button>";
+            case 1:
+                $msg = 'You can only upload 2MB';
+                break;
+            default:
+                $msg = 'Sorry, uw upload kon niet worden verwerkt.';
+                echo "<button onclick=\"location.href='index.php'\">Try again</button>";
         }
     } else {
         //Check MIME TYPE - http://php.net/manual/en/function.finfo-open.php
@@ -36,13 +36,12 @@ if (isset($_FILES['profileImg'])) {
         if (in_array($fileinfo, $allowedtypes)) {
 
             //Move uploaded file
-            $newfilename = 'uploads/'.$_FILES['profileImg']['name'];
+            $newfilename = 'uploads/' . $_FILES['profileImg']['name'];
 
             if (move_uploaded_file($_FILES['profileImg']['tmp_name'], $newfilename)) {
                 $user->profileImg();
 
-               header('location:profile.php');
-
+                header('location:profile.php');
             } else {
                 $msg = 'Sorry, de upload is mislukt.';
             }

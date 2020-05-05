@@ -16,5 +16,3 @@ if(!empty($_POST)){
 
     echo json_encode(($result));
 }
-
-?>

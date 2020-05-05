@@ -22,11 +22,9 @@ if (!empty($_POST)) {
         if ($user->getActive() == 1) {
           $_SESSION['user'] = $email;
           header("Location: index.php");
-
         } else {
           $error = "Please confirm your account";
         }
-
       } else {
         $error = "Wrong Captcha";
       }
