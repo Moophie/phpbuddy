@@ -83,8 +83,10 @@ body {
 
 .messageElement p {
     margin-top: 10px;
-    max-width: 440px;
+    max-width: 250px;
     word-wrap: break-word;
+    border-radius: 10px;
+    padding: 10px;
 }
 
 .messageContent small {

@@ -69,47 +69,50 @@ if (isset($_POST['like'])) {
                                     <strong class="float-left"><?= htmlspecialchars($message->fullname) ?></strong>
                                     <small class="float-right"><?= $message->timestamp; ?></small>
                                     <br>
-                                    <p class="float-left"><?= htmlspecialchars($message->content) ?></p>
-                                    <br>
-                                </div>
-                                <div class="container float-left">
-                                    <div class="header">
-                                    </div>
-                                    <div class="main">
-                                        <!-- Reaction system start -->
-                                        <div class="reaction-container">
-                                            <!-- container div for reaction system -->
-                                            <span class="like-emo <?= $message->id ?> ">
-                                                <!-- like emotions container -->
-                                                <?php if (!empty($message->reaction)) : ?>
-                                                    <span class="like-btn-<?= strtolower($message->reaction) ?>"></span>
-                                                <?php endif; ?>
-                                            </span>
-                                            <span class="reaction-btn <?= $message->id ?>">
-                                                <!-- Default like button -->
-                                                <span class="reaction-btn-text <?= $message->id ?> <?php if (!empty($message->reaction)) :
-                                                                                                        echo "reaction-btn-text-" . strtolower($message->reaction);
-                                                                                                        echo " active";
-                                                                                                    endif; ?>" message-id="<?= $message->id ?>">
-                                                    <?php if (!empty($message->reaction)) :
-                                                        echo $message->reaction;
-                                                    else :
-                                                        echo "Like";
-                                                    endif; ?>
+                                    <p class="float-left" style="<?php if ($message->sender_id == $user->getId()) {
+                                                                        echo "background-color:#009CE6; color:white";
+                                                                    } else {
+                                                                        echo "background-color:#E1E3E2";
+                                                                    } ?>">
+                                        <?= htmlspecialchars($message->content) ?>
+                                    </p>
+                                    <div class="container float-left">
+                                        <div class="main">
+                                            <!-- Reaction system start -->
+                                            <div class="reaction-container">
+                                                <!-- container div for reaction system -->
+                                                <span class="like-emo <?= $message->id ?> ">
+                                                    <!-- like emotions container -->
+                                                    <?php if (!empty($message->reaction)) : ?>
+                                                        <span class="like-btn-<?= strtolower($message->reaction) ?>"></span>
+                                                    <?php endif; ?>
                                                 </span>
-                                                <!-- Default like button text,(Like, wow, sad..) default:Like  -->
-                                                <ul class="emojies-box">
-                                                    <!-- Reaction buttons container-->
-                                                    <li class="emoji emo-like" data-reaction="Like" message-id="<?= $message->id ?>"></li>
-                                                    <li class="emoji emo-love" data-reaction="Love" message-id="<?= $message->id ?>"></li>
-                                                    <li class="emoji emo-haha" data-reaction="HaHa" message-id="<?= $message->id ?>"></li>
-                                                    <li class="emoji emo-wow" data-reaction="Wow" message-id="<?= $message->id ?>"></li>
-                                                    <li class="emoji emo-sad" data-reaction="Sad" message-id="<?= $message->id ?>"></li>
-                                                    <li class="emoji emo-angry" data-reaction="Angry" message-id="<?= $message->id ?>"></li>
-                                                </ul>
-                                            </span>
+                                                <span class="reaction-btn <?= $message->id ?>">
+                                                    <!-- Default like button -->
+                                                    <span class="reaction-btn-text <?= $message->id ?> <?php if (!empty($message->reaction)) :
+                                                                                                            echo "reaction-btn-text-" . strtolower($message->reaction);
+                                                                                                            echo " active";
+                                                                                                        endif; ?>" message-id="<?= $message->id ?>">
+                                                        <?php if (!empty($message->reaction)) :
+                                                            echo $message->reaction;
+                                                        else :
+                                                            echo "Like";
+                                                        endif; ?>
+                                                    </span>
+                                                    <!-- Default like button text,(Like, wow, sad..) default:Like  -->
+                                                    <ul class="emojies-box">
+                                                        <!-- Reaction buttons container-->
+                                                        <li class="emoji emo-like" data-reaction="Like" message-id="<?= $message->id ?>"></li>
+                                                        <li class="emoji emo-love" data-reaction="Love" message-id="<?= $message->id ?>"></li>
+                                                        <li class="emoji emo-haha" data-reaction="HaHa" message-id="<?= $message->id ?>"></li>
+                                                        <li class="emoji emo-wow" data-reaction="Wow" message-id="<?= $message->id ?>"></li>
+                                                        <li class="emoji emo-sad" data-reaction="Sad" message-id="<?= $message->id ?>"></li>
+                                                        <li class="emoji emo-angry" data-reaction="Angry" message-id="<?= $message->id ?>"></li>
+                                                    </ul>
+                                                </span>
+                                            </div>
+                                            <!-- Reaction system end -->
                                         </div>
-                                        <!-- Reaction system end -->
                                     </div>
                                 </div>
                             </div>
