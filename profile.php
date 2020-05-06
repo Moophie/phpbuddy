@@ -157,27 +157,154 @@ if (!empty($_POST['uploadPicture'])) {
         </div>
         <div class="form-group">
           <label for="location">Location</label>
-          <input type="text" id="location" name="location" class="form-control" value="<?= htmlspecialchars($user->getLocation()) ?>">
+          <select type="text" id="location" name="location" class="form-control">
+            <option disabled selected><?= htmlspecialchars($user->getLocation()) ?></option>
+            <option>Antwerpen</option>
+            <option>Henegouwen</option>
+            <option>Limburg</option>
+            <option>Luik</option>
+            <option>Luxemburg</option>
+            <option>Namen</option>
+            <option>Oost-Vlaanderen</option>
+            <option>Vlaams-Brabant</option>
+            <option>Waals-Brabant</option>
+            <option>West-Vlaanderen</option>
+          </select>
         </div>
         <div class="form-group">
           <label for="games">Games</label>
-          <input type="text" id="games" name="games" class="form-control" value="<?= htmlspecialchars($user->getGames()) ?>">
+          <select type="text" id="games" name="games" class="form-control">
+            <option disabled selected><?= htmlspecialchars($user->getGames()) ?></option>
+            <option>Animal Crossing</option>
+            <option>Apex Legends</option>
+            <option>Black Desert Online</option>
+            <option>CS:GO</option>
+            <option>Dota 2</option>
+            <option>Fortnite</option>
+            <option>Hearthstone</option>
+            <option>League of Legends</option>
+            <option>Minecraft</option>
+            <option>Overwatch</option>
+            <option>Pokemon</option>
+            <option>Rainbow Six</option>
+            <option>Super Smash Bros</option>
+            <option>World of Warcraft</option>
+            <option>I don't game</option>
+          </select>
         </div>
         <div class="form-group">
           <label for="music">Music</label>
-          <input type="text" id="music" name="music" class="form-control" value="<?= htmlspecialchars($user->getMusic()) ?>">
+          <select type="text" id="music" name="music" class="form-control">
+            <option disabled selected><?= htmlspecialchars($user->getMusic()) ?></option>
+            <option>Blues</option>
+            <option>Classical</option>
+            <option>Country</option>
+            <option>Dance</option>
+            <option>Disco</option>
+            <option>Drum & Bass</option>
+            <option>Dubstep</option>
+            <option>Folk</option>
+            <option>Funk</option>
+            <option>Hip Hop</option>
+            <option>House</option>
+            <option>Jazz</option>
+            <option>Metal</option>
+            <option>Pop</option>
+            <option>Punk</option>
+            <option>R&B</option>
+            <option>Rap</option>
+            <option>Reggae</option>
+            <option>Rock</option>
+            <option>Techno</option>
+            <option>Trance</option>
+            <option>Trap</option>
+          </select>
         </div>
         <div class="form-group">
-          <label for="films">Films</label>
-          <input type="text" id="films" name="films" class="form-control" value="<?= htmlspecialchars($user->getFilms()) ?>">
+          <label for="films">Film genre</label>
+          <select type="text" id="films" name="films" class="form-control">
+            <option disabled selected><?= htmlspecialchars($user->getFilms()) ?></option>
+            <option>Action</option>
+            <option>Adventure</option>
+            <option>Animation</option>
+            <option>Comedy</option>
+            <option>Documentary</option>
+            <option>Drama</option>
+            <option>Fantasy</option>
+            <option>Gangster</option>
+            <option>Historical Drama</option>
+            <option>Horror</option>
+            <option>Musical</option>
+            <option>Mystery</option>
+            <option>Romance</option>
+            <option>Romantic Comedy</option>
+            <option>Science Fiction</option>
+            <option>Superhero</option>
+            <option>Thriller</option>
+            <option>Western</option>
+          </select>
         </div>
         <div class="form-group">
-          <label for="books">Books</label>
-          <input type="text" id="books" name="books" class="form-control" value="<?= htmlspecialchars($user->getBooks()) ?>">
+          <label for="books">Book genre</label>
+          <select type="text" id="books" name="books" class="form-control">
+            <option disabled selected><?= htmlspecialchars($user->getBooks()) ?></option>
+            <option>Action</option>
+            <option>Adventure</option>
+            <option>Biography</option>
+            <option>Comics</option>
+            <option>Crime</option>
+            <option>Drama</option>
+            <option>Historical Fiction</option>
+            <option>History</option>
+            <option>Horror</option>
+            <option>Mystery</option>
+            <option>Poetry</option>
+            <option>Romance</option>
+            <option>Satire</option>
+            <option>Science Fiction</option>
+            <option>Science</option>
+            <option>Thriller</option>
+          </select>
         </div>
         <div class="form-group">
           <label for="hobby">Hobby</label>
-          <input type="text" id="hobby" name="hobby" class="form-control" value="<?= htmlspecialchars($user->getHobby()) ?>">
+          <select type="text" id="hobby" name="hobby" class="form-control">
+            <option disabled selected><?= htmlspecialchars($user->getHobby()) ?></option>
+            <option>Archery</option>
+            <option>Badminton</option>
+            <option>Birdwatching</option>
+            <option>Board Games</option>
+            <option>Card Games</option>
+            <option>Collecting</option>
+            <option>Cooking</option>
+            <option>Cosplay</option>
+            <option>Crafting</option>
+            <option>Dancing</option>
+            <option>Design</option>
+            <option>Drawing</option>
+            <option>Exercising</option>
+            <option>Fashion</option>
+            <option>Football</option>
+            <option>Gaming</option>
+            <option>Gardening</option>
+            <option>Hiking</option>
+            <option>Hockey</option>
+            <option>Ice Skating</option>
+            <option>Knitting</option>
+            <option>Painting</option>
+            <option>Photography</option>
+            <option>Playing music</option>
+            <option>Programming</option>
+            <option>Running</option>
+            <option>Sewing</option>
+            <option>Shopping</option>
+            <option>Swimming</option>
+            <option>Tennis</option>
+            <option>TTRPG (D&D, Pathfinder, etc...)</option>
+            <option>Volleyball</option>
+            <option>Walking</option>
+            <option>Woodworking</option>
+          </select>
         </div>
         <div class="form-group">
           <p>Study Preference</p>
