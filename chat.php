@@ -87,9 +87,13 @@ if (isset($_POST['like'])) {
                                                         <span class="like-btn-<?= strtolower($message->reaction) ?>"></span>
                                                     <?php endif; ?>
                                                 </span>
-                                                <span class="reaction-btn <?= $message->id ?>">
+                                                <span class="<?php if ($message->receiver_id == $user->getId()) {
+                                                                    echo "reaction-btn";
+                                                                } else {
+                                                                    echo "reaction-btn-locked";
+                                                                } ?> <?= $message->id ?>">
                                                     <!-- Default like button -->
-                                                    <span class="reaction-btn-text <?= $message->id ?> <?php if (!empty($message->reaction)) :
+                                                    <span class="reaction-btn-text-locked <?= $message->id ?> <?php if (!empty($message->reaction)) :
                                                                                                             echo "reaction-btn-text-" . strtolower($message->reaction);
                                                                                                             echo " active";
                                                                                                         endif; ?>" message-id="<?= $message->id ?>">

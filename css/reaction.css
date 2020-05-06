@@ -1,13 +1,14 @@
-.reaction-btn {
+.reaction-btn,
+.reaction-btn-locked {
     font-weight: bold;
     color: #7f7f7f;
     position: relative;
-    cursor: pointer;
     padding: 20px 20px 0 0;
 }
 
 .reaction-btn:hover {
     text-decoration: underline;
+    cursor: pointer;
 }
 
 .like-btn-default {
