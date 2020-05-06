@@ -143,6 +143,7 @@ $faq_posts = classes\Buddy\Post::getFaqPosts();
 
     <script src="js/jquery.min.js"></script>
     <script src="js/forum.js"></script>
+    <script src="js/bootstrap.js"></script>
 </body>
 
 </html>

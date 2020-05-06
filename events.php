@@ -101,6 +101,7 @@ $all_events = classes\Buddy\Event::getAllEvents();
     </div>
 
     <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.js"></script>
 </body>
 
 </html>

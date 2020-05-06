@@ -24,7 +24,7 @@ if (!empty($_POST)) {
 
 <body>
 
-    <?php include_once("nav.include.php"); ?>
+<?php include_once("nav.include.php"); ?>
 
     <div class="float-left" style="margin-right:40px;">
         <form action="" method="POST" class="border rounded" style="padding:20px; width:500px;">
@@ -99,6 +99,8 @@ if (!empty($_POST)) {
             <?php endforeach; ?>
         <?php endif; ?>
     </div>
-</body>
 
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.js"></script>
+</body>
 </html>
