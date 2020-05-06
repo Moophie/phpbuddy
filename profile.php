@@ -69,20 +69,26 @@ if (!empty($_POST['changeStatus'])) {
   $user->changeBuddy_status($_POST['buddy_status']);
 }
 
+
 if (!empty($_POST['uploadPicture'])) {
-  if (isset($_FILES['profile_img'])) {
+    try{
+      $user->saveProfile_img();
+    }catch(\Throwable $th){
+      $error = $th->getMessage();
+    }
+}
+
+  /*if (isset($_FILES['profile_img'])) {
     if ($_FILES['profile_img']['error'] > 0) {
-      //For error messages: see http://php.net/manual/en/features.fileupload.errors.php
       switch ($_FILES['profile_img']['error']) {
         case 1:
           $msg = 'You can only upload 2MB';
-          break;
-        default:
+        break;
+      default:
           $msg = 'Sorry, uw upload kon niet worden verwerkt.';
           echo "<button onclick=\"location.href='index.php'\">Try again</button>";
       }
     } else {
-      //Check MIME TYPE - http://php.net/manual/en/function.finfo-open.php
       $allowed_types = array('image/jpg', 'image/jpeg', 'image/png', 'image/gif');
       $file_name = $_FILES['profile_img']['tmp_name'];
       $finfo = new finfo(FILEINFO_MIME_TYPE);
@@ -105,7 +111,7 @@ if (!empty($_POST['uploadPicture'])) {
       }
     }
   }
-}
+}*/
 
 ?>
 
@@ -127,6 +133,9 @@ if (!empty($_POST['uploadPicture'])) {
   <div class="container">
     <div class="jumbotron" style=" height:450px; margin:20px;">
       <div class="float-left" style=" margin-left:50px;">
+      <?php if(isset($error)): ?>
+          <div class="error" style="color:red;"><?php echo $error; ?></div>
+      <?php endif; ?>
         <img src="./uploads/<?= htmlspecialchars($user->getProfile_img()) ?>" width="250px;" height="250px;" />
         <form enctype="multipart/form-data" action="" method="POST" style="margin-top:20px;">
           <div class="form-group">
