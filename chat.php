@@ -3,6 +3,7 @@
 include_once(__DIR__ . "/bootstrap.include.php");
 
 $user = new classes\Buddy\User($_SESSION['user']);
+$user_buddy = classes\Buddy\User::findBuddy($user->getEmail());
 
 if (!empty($_POST['content'])) {
     $time = date('Y-m-d H:i:s');
@@ -42,85 +43,83 @@ if (isset($_POST['like'])) {
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700&display=swap">
     <link rel="stylesheet" href="fonts/font-awesome-5/css/fontawesome-all.min.css">
     <title>Chat</title>
-    <style>
-        .chat {
-            border: solid black 1px;
-            margin-right: 30%;
-            margin-left: 30%;
-            padding: 20px;
-            max-width: 500px;
-        }
-    </style>
 </head>
 
 <body>
     <?php include_once("nav.include.php"); ?>
 
     <form action="" method="POST" class="chat">
-        <h2>Chat</h2>
-        <a href="index.php">Back to home</a>
-        <div class="messagebox">
-            <?php
-            $active_conversation = $user->getActiveConversations();
-            if (!empty($active_conversation)) :
-                $conversation = new classes\Buddy\Conversation();
-                $conversation->setId($active_conversation->id);
-                $messages = $conversation->getMessages();
+        <div class="chatbox">
+            <?php if (!empty($user->getBuddy_id())) : ?>
+                <h2 class="d-inline-block">Chat</h2>
+                <h4 class="float-right d-inline-block"><?php echo htmlspecialchars($user_buddy->fullname); ?></h4>
+                <div class="messagebox" style="min-height: 400px;">
+                    <?php
+                    $active_conversation = $user->getActiveConversations();
+                    if (!empty($active_conversation)) :
+                        $conversation = new classes\Buddy\Conversation();
+                        $conversation->setId($active_conversation->id);
+                        $messages = $conversation->getMessages();
 
-                //Print out all messages
-                foreach ($messages as $message) : ?>
-                    <p>
-                        <strong><?= htmlspecialchars($message->fullname) ?></strong>
-                        <br>
-                        <?= $message->timestamp; ?>
-                    </p>
-                    <p><?= htmlspecialchars($message->content) ?></p>
-                    <div class="container">
-                        <div class="header">
-                        </div>
-                        <div class="main">
-                            <!-- Reaction system start -->
-                            <div class="reaction-container">
-                                <!-- container div for reaction system -->
-                                <span class="like-emo <?= $message->id ?> ">
-                                    <!-- like emotions container -->
-                                    <?php if (!empty($message->reaction)) : ?>
-                                        <span class="like-btn-<?= strtolower($message->reaction) ?>"></span>
-                                    <?php endif; ?>
-                                </span>
-                                <span class="reaction-btn <?= $message->id ?>">
-                                    <!-- Default like button -->
-                                    <span class="reaction-btn-text <?= $message->id ?> <?php if (!empty($message->reaction)) :
-                                                                                            echo "reaction-btn-text-" . strtolower($message->reaction);
-                                                                                            echo " active";
-                                                                                        endif; ?>" message-id="<?= $message->id ?>">
-                                        <?php if (!empty($message->reaction)) :
-                                            echo $message->reaction;
-                                        else :
-                                            echo "Like";
-                                        endif; ?>
-                                    </span>
-                                    <!-- Default like button text,(Like, wow, sad..) default:Like  -->
-                                    <ul class="emojies-box">
-                                        <!-- Reaction buttons container-->
-                                        <li class="emoji emo-like" data-reaction="Like" message-id="<?= $message->id ?>"></li>
-                                        <li class="emoji emo-love" data-reaction="Love" message-id="<?= $message->id ?>"></li>
-                                        <li class="emoji emo-haha" data-reaction="HaHa" message-id="<?= $message->id ?>"></li>
-                                        <li class="emoji emo-wow" data-reaction="Wow" message-id="<?= $message->id ?>"></li>
-                                        <li class="emoji emo-sad" data-reaction="Sad" message-id="<?= $message->id ?>"></li>
-                                        <li class="emoji emo-angry" data-reaction="Angry" message-id="<?= $message->id ?>"></li>
-                                    </ul>
-                                </span>
+                        //Print out all messages
+                        foreach ($messages as $message) : ?>
+                            <p>
+                                <strong><?= htmlspecialchars($message->fullname) ?></strong>
+                                <br>
+                                <?= $message->timestamp; ?>
+                            </p>
+                            <p><?= htmlspecialchars($message->content) ?></p>
+                            <div class="container">
+                                <div class="header">
+                                </div>
+                                <div class="main">
+                                    <!-- Reaction system start -->
+                                    <div class="reaction-container">
+                                        <!-- container div for reaction system -->
+                                        <span class="like-emo <?= $message->id ?> ">
+                                            <!-- like emotions container -->
+                                            <?php if (!empty($message->reaction)) : ?>
+                                                <span class="like-btn-<?= strtolower($message->reaction) ?>"></span>
+                                            <?php endif; ?>
+                                        </span>
+                                        <span class="reaction-btn <?= $message->id ?>">
+                                            <!-- Default like button -->
+                                            <span class="reaction-btn-text <?= $message->id ?> <?php if (!empty($message->reaction)) :
+                                                                                                    echo "reaction-btn-text-" . strtolower($message->reaction);
+                                                                                                    echo " active";
+                                                                                                endif; ?>" message-id="<?= $message->id ?>">
+                                                <?php if (!empty($message->reaction)) :
+                                                    echo $message->reaction;
+                                                else :
+                                                    echo "Like";
+                                                endif; ?>
+                                            </span>
+                                            <!-- Default like button text,(Like, wow, sad..) default:Like  -->
+                                            <ul class="emojies-box">
+                                                <!-- Reaction buttons container-->
+                                                <li class="emoji emo-like" data-reaction="Like" message-id="<?= $message->id ?>"></li>
+                                                <li class="emoji emo-love" data-reaction="Love" message-id="<?= $message->id ?>"></li>
+                                                <li class="emoji emo-haha" data-reaction="HaHa" message-id="<?= $message->id ?>"></li>
+                                                <li class="emoji emo-wow" data-reaction="Wow" message-id="<?= $message->id ?>"></li>
+                                                <li class="emoji emo-sad" data-reaction="Sad" message-id="<?= $message->id ?>"></li>
+                                                <li class="emoji emo-angry" data-reaction="Angry" message-id="<?= $message->id ?>"></li>
+                                            </ul>
+                                        </span>
+                                    </div>
+                                    <!-- Reaction system end -->
+                                </div>
                             </div>
-                            <!-- Reaction system end -->
-                        </div>
-                        <br>
-                    </div>
-                <?php endforeach; ?>
-            <?php endif; ?>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
+                </div>
 
-            <textarea id="" cols="30" rows="1" class="messageText"></textarea>
-            <button class="sendMessage">Send</button>
+                <textarea id="messageText" cols="30" rows="1" class="messageText float-left"></textarea>
+                <button class="sendMessage float-left">Send</button>
+            <?php else : ?>
+                <h2 class="d-inline-block">You have no buddy to chat with!</h2>
+                <h6>Send a request to someone to open a chat with them.</h6>
+            <?php endif; ?>
+        </div>
     </form>
 
     <script src="js/jquery.min.js"></script>

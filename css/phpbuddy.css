@@ -53,3 +53,20 @@ body {
     width: 250px;
     height: 350px;
 }
+
+
+/* Chat CSS */
+
+.chatbox {
+    border: solid black 1px;
+    margin-right: 30%;
+    margin-left: 30%;
+    padding: 20px;
+    max-width: 500px;
+}
+
+.chatbox textarea,
+button {
+    position: relative;
+    top: -20px;
+}

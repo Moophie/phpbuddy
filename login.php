@@ -13,7 +13,6 @@ if (!empty($_POST)) {
         //If both fields are filled in, check if the login is correct
 
         if (classes\Buddy\User::checkPassword($email, $password)) {
-            session_start();
             $user = new classes\Buddy\User($email);
 
             if ($_POST['captcha'] == $_SESSION['digit']) {
