@@ -100,7 +100,6 @@ if (!empty($_POST['register'])) {
 					<label for="email">Your Email</label>
 					<input type="email" name="email" class="form-control email" placeholder="Your Email" pattern="[^@]+@[^@]+.[a-zA-Z]{2,6}" required>
 					<span id="availability"></span>
-
 					<i class="fas fa-envelope"></i>
 				</div>
 				<div class="form-group">
