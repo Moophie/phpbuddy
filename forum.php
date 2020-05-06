@@ -77,27 +77,36 @@ $faq_posts = classes\Buddy\Post::getFaqPosts();
         <h2>Forum</h2>
         <div class="forum-content">
             <?php foreach ($all_posts as $post) : ?>
-                <div class="jumbotron post" data-id="<?php echo $post->id; ?>">
-                    <p>Upvotes: <span class="upvote-counter" data-id="<?php echo $post->id; ?>"><?php echo classes\Buddy\Post::countUpvotes($post->id); ?></span></p>
-                    <strong><?php echo htmlspecialchars($post->op) ?></strong>
-                    <i class="float-right"><small><?php echo htmlspecialchars($post->timestamp) ?></small></i>
-                    <br>
-                    <?php if (strtotime($post->edited) > 0) : ?>
-                        <i><small>This post was edited on <?php echo date("d-m-Y H:i", strtotime($post->edited)); ?></small></i>
-                        <br>
-                    <?php endif; ?>
-                    <br>
-                    <p class="postText"><?php echo htmlspecialchars($post->content) ?></p>
-                    <p>Pin to FAQ <img class="pin" data-id="<?php echo $post->id; ?>" src="https://via.placeholder.com/30"></p>
-                    <?php if ($post->op == $user->getFullname()) : ?>
-                        <textarea class="editContent d-none" data-id="<?php echo $post->id; ?>" name="editContent"></textarea>
-                        <button class="editPost" data-id="<?php echo $post->id; ?>" data-visible="0">Edit</button>
-                        <button class="deletePost" data-id="<?php echo $post->id; ?>">Delete</button>
-                    <?php endif; ?>
+                <div class="jumbotron post d-flex justify-content-start float-left" data-id="<?php echo $post->id; ?>">
+                    <div class="post-actions d-flex flex-column justify-content-between align-items-center">
+                        <p><i class="pin fas fa-thumbtack" data-id="<?php echo $post->id; ?>"></i></p>
+                        <div class="d-flex flex-column align-items-center">
+                            <i class="fas fa-chevron-circle-up upvote" data-id="<?php echo $post->id; ?>"></i>
+                            <span class="upvote-counter" data-id="<?php echo $post->id; ?>"><?php echo classes\Buddy\Post::countUpvotes($post->id); ?></span>
+                            <i class="fas fa-chevron-circle-down downvote" data-id="<?php echo $post->id; ?>"></i>
+                        </div>
+                        <div></div>
+                    </div>
+                    <div class="d-flex flex-column post-body justify-content-start mb-3">
+                        <div class="d-flex justify-content-between">
+                            <strong><?php echo htmlspecialchars($post->op) ?></strong>
+                            <i><small><?php echo htmlspecialchars($post->timestamp) ?></small></i>
+                        </div>
+                        <?php if (strtotime($post->edited) > 0) : ?>
+                            <i><small>This post was edited on <?php echo date("d-m-Y H:i", strtotime($post->edited)); ?></small></i>
+                        <?php endif; ?>
+                        <p class="postText"><?php echo htmlspecialchars($post->content) ?></p>
+                        <div class="mt-auto">
+                            <?php if ($post->op == $user->getFullname()) : ?>
+                                <textarea class="editContent d-none" data-id="<?php echo $post->id; ?>" name="editContent"></textarea>
+                                <button class="editPost" data-id="<?php echo $post->id; ?>" data-visible="0">Edit</button>
+                                <button class="deletePost" data-id="<?php echo $post->id; ?>">Delete</button>
+                            <?php endif; ?>
 
-                    <button class="reactPost" data-id="<?php echo $post->id; ?>">React</button>
-                    <button class="upvote" data-id="<?php echo $post->id; ?>">Upvote</button>
-                    <button class="showDisc showPost" data-id="<?php echo $post->id; ?>">Show discussion</button>
+                            <button class="reactPost" data-id="<?php echo $post->id; ?>">React</button>
+                            <button class="showDisc showPost" data-id="<?php echo $post->id; ?>">Show discussion</button>
+                        </div>
+                    </div>
 
                     <div class="discussion d-none discPost" data-id="<?php echo $post->id; ?>" style="margin-left:20px;margin-top:10px;">
                         <?php
@@ -142,7 +151,7 @@ $faq_posts = classes\Buddy\Post::getFaqPosts();
                     <?php endif; ?>
                     <br>
                     <p class="postText"><?php echo htmlspecialchars($post->content) ?></p>
-                    <p>Unpin from FAQ <img class="unpin" data-id="<?php echo $post->id; ?>" src="https://via.placeholder.com/30"></p>
+                    <p><i class="unpin fas fa-thumbtack" data-id="<?php echo $post->id; ?>" style="color:red"></i></p>
 
                     <button class="reactPost" data-id="<?php echo $post->id; ?>">React</button>
                     <button class="upvote" data-id="<?php echo $post->id; ?>">Upvote</button>

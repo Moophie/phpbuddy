@@ -113,4 +113,17 @@ $(document).ready(function() {
             }
         })
     });
+
+    $(".downvote").on("click", function() {
+        var post_id = $(this).attr("data-id");
+
+        $.ajax({
+            type: "POST",
+            url: "upvote.php",
+            data: { upvote: 0, id: post_id },
+            success: function(data) {
+                $('[data-id="' + post_id + '"].upvote-counter').html(data);
+            }
+        })
+    });
 });

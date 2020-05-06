@@ -814,4 +814,20 @@ class User
 
         return $result;
     }
+
+    public function alreadyUpvoted($post_id) {
+        $conn = Db::getConnection();
+
+        $statement = $conn->prepare("SELECT * FROM upvotes WHERE post_id = :post_id AND user_id = :user_id");
+        $statement->bindValue(":post_id", $post_id);
+        $statement->bindValue(":user_id", $this->getId());
+        $statement->execute();
+        $count = $statement->rowCount();
+
+        if($count > 0){
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

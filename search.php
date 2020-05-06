@@ -78,7 +78,6 @@ if (!empty($_POST)) {
         </form>
     </div>
 
-
     <div class="float-left">
         <?php if (!empty($found_users)) : ?>
 

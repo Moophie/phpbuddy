@@ -73,20 +73,19 @@ class Upvote
     public function saveUpvote()
     {
         $conn = Db::getConnection();
-
-        $statement = $conn->prepare("SELECT * FROM upvotes WHERE post_id = :post_id AND user_id = :user_id");
+        $statement = $conn->prepare("INSERT INTO upvotes (post_id, user_id) VALUES (:post_id, :user_id)");
         $statement->bindValue(":post_id", $this->getPost_Id());
         $statement->bindValue(":user_id", $this->getUser_Id());
         $statement->execute();
-        $count = $statement->rowCount();
+    }
 
-        if ($count > 0) {
-            return $error = "You've already liked this post";
-        } else {
-            $statement = $conn->prepare("INSERT INTO upvotes (post_id, user_id) VALUES (:post_id, :user_id)");
-            $statement->bindValue(":post_id", $this->getPost_Id());
-            $statement->bindValue(":user_id", $this->getUser_Id());
-            $statement->execute();
-        }
+    public function deleteUpvote()
+    {
+        $conn = Db::getConnection();
+
+        $statement = $conn->prepare("DELETE FROM upvotes WHERE post_id= :post_id AND user_id = :user_id");
+        $statement->bindValue(":post_id", $this->getPost_Id());
+        $statement->bindValue(":user_id", $this->getUser_Id());
+        $statement->execute();
     }
 }

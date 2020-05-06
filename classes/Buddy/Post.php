@@ -282,4 +282,20 @@ class Post
         $statement->bindValue(":post_id", $this->getId());
         $statement->execute();
     }
+
+    public function removeUpvote()
+    {
+        $conn = Db::getConnection();
+        $statement = $conn->prepare("SELECT upvotes FROM posts WHERE id = :post_id");
+        $statement->bindValue(":post_id", $this->getId());
+        $statement->execute();
+        $amount_upvotes = $statement->fetch(\PDO::FETCH_OBJ);
+
+        $upvotes = $amount_upvotes->upvotes - 1;
+
+        $statement = $conn->prepare("UPDATE posts SET upvotes = :upvotes WHERE id = :post_id");
+        $statement->bindValue(":upvotes", $upvotes);
+        $statement->bindValue(":post_id", $this->getId());
+        $statement->execute();
+    }
 }

@@ -60,7 +60,7 @@ textarea {
 
 .post {
     width: 48%;
-    float: left;
+    height: 350px;
     background-color: lightgray;
 }
 
@@ -71,6 +71,20 @@ textarea {
 .post-box {
     background-color: lightgray;
     width: 47.5%;
+}
+
+.post .post-body {
+    width: 100%;
+}
+
+.post-actions {
+    height: 100%;
+    margin-right: 10px;
+}
+
+.upvote,
+.downvote {
+    cursor: pointer;
 }
 
 
