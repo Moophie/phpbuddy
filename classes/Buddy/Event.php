@@ -66,9 +66,12 @@ class Event
      */
     public function setTimestamp($timestamp)
     {
-        $this->timestamp = $timestamp;
+        $time = date('Y-m-d H:i:s');
 
-        return $this;
+        if((strtotime($timestamp) > strtotime($time) + 60*60)  && (strtotime($timestamp) < strtotime($time) + 60*60*24*365)) {
+            $this->timestamp = $timestamp;
+            return $this;
+        }
     }
 
     /**

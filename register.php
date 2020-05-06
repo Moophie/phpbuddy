@@ -87,7 +87,6 @@ if (!empty($_POST['register'])) {
 				<?php if (!empty($error)) : ?>
 					<div style="background-color:#F8D7DA; padding:10px; border-radius:10px;">
 						<p><?= $error ?></p>
-
 					</div>
 				<?php endif; ?>
 				<br>
