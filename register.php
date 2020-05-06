@@ -80,9 +80,9 @@ if (!empty($_POST['register'])) {
 
 	<?php include_once("nav.include.php") ?>
 
-	<div class="page-content">
-		<div class="form-v5-content">
-			<form class="form-detail" action="" method="post">
+	<div class="d-flex justify-content-center">
+		<div class="jumbotron" style="width:600px">
+			<form class="registerForm" action="" method="post">
 				<h2>Register Account Buddy application</h2>
 				<?php if (!empty($error)) : ?>
 					<div style="background-color:#F8D7DA; padding:10px; border-radius:10px;">
@@ -90,24 +90,25 @@ if (!empty($_POST['register'])) {
 
 					</div>
 				<?php endif; ?>
-				<div class="form-row">
+				<br>
+				<div class="form-group">
 					<label for="fullname">Full Name</label>
-					<input type="text" name="fullname" id="fullname" class="input-text" placeholder="Your Name" required>
+					<input type="text" name="fullname" id="fullname" class="form-control" placeholder="Your Name" required>
 					<i class="fas fa-user"></i>
 				</div>
-				<div class="form-row">
+				<div class="form-group">
 					<label for="email">Your Email</label>
-					<input type="email" name="email" class="input-text email" placeholder="Your Email" pattern="[^@]+@[^@]+.[a-zA-Z]{2,6}" required>
+					<input type="email" name="email" class="form-control email" placeholder="Your Email" pattern="[^@]+@[^@]+.[a-zA-Z]{2,6}" required>
 					<span id="availability"></span>
 
 					<i class="fas fa-envelope"></i>
 				</div>
-				<div class="form-row">
+				<div class="form-group">
 					<label for="password">Password</label>
-					<input type="password" name="password" id="password" class="input-text" placeholder="Your Password" required>
+					<input type="password" name="password" id="password" class="form-control" placeholder="Your Password" required>
 					<i class="fas fa-lock"></i>
 				</div>
-				<div class="form-row-last">
+				<div class="form-group">
 					<input type="submit" class="register" value="Register" name="register">
 				</div>
 				<div id="result"> </div>

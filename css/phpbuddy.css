@@ -23,6 +23,16 @@ body {
 }
 
 
+/* Register CSS */
+
+.registerForm .fas {
+    position: relative;
+    top: -28px;
+    right: 10px;
+    float: right;
+}
+
+
 /* Forum CSS */
 
 .forum {
