@@ -1,6 +1,7 @@
 <?php
 
-include_once(__DIR__ . "/bootstrap.include.php");
+spl_autoload_register();
+session_start();
 
 if (!empty($_POST["keyword"])) :
     $keyword = $_POST["keyword"] . "%";

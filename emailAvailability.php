@@ -1,6 +1,7 @@
 <?php
 
-include_once(__DIR__ . "/bootstrap.include.php");
+spl_autoload_register();
+session_start();
 
 if (isset($_POST["emailAvailability"])) :
 
