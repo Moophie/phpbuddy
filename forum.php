@@ -83,60 +83,78 @@ $faq_posts = classes\Buddy\Post::getFaqPosts();
 <body>
     <?php include_once("nav.include.php"); ?>
 
-    <div class="forum float-left jumbotron">
-        <?php foreach ($all_posts as $post) : ?>
-            <div class="post" data-id="<?php echo $post->id; ?>" style="border:1px black solid; max-width: 800px; margin-bottom:10px; padding:5px">
-                <p>Upvotes: <?php echo classes\Buddy\Post::countUpvotes($post->id); ?></p>
-                <strong><?php echo htmlspecialchars($post->op) ?></strong>
-                <br>
-                <i><?php echo htmlspecialchars($post->timestamp) ?></i>
-                <p class="postText"><?php echo htmlspecialchars($post->content) ?></p>
-                <p>Pin to FAQ <img class="pin" data-id="<?php echo $post->id; ?>" src="https://via.placeholder.com/30"></p>
-                <?php if ($post->op == $user->getFullname()) : ?>
-                    <textarea class="editContent d-none" data-id="<?php echo $post->id; ?>" name="editContent"></textarea>
-                    <button class="editPost" data-id="<?php echo $post->id; ?>" data-visible="0">Edit</button>
-                    <button class="deletePost" data-id="<?php echo $post->id; ?>">Delete</button>
-                <?php endif; ?>
+    <div class="float-left jumbotron forum">
+        <h2>Forum</h2>
+        <div class="forum-content">
+            <?php foreach ($all_posts as $post) : ?>
+                <div class="jumbotron post" data-id="<?php echo $post->id; ?>">
+                    <p>Upvotes: <?php echo classes\Buddy\Post::countUpvotes($post->id); ?></p>
+                    <strong><?php echo htmlspecialchars($post->op) ?></strong>
+                    <br>
+                    <i><?php echo htmlspecialchars($post->timestamp) ?></i>
+                    <br>
+                    <br>
+                    <p class="postText"><?php echo htmlspecialchars($post->content) ?></p>
+                    <p>Pin to FAQ <img class="pin" data-id="<?php echo $post->id; ?>" src="https://via.placeholder.com/30"></p>
+                    <?php if ($post->op == $user->getFullname()) : ?>
+                        <textarea class="editContent d-none" data-id="<?php echo $post->id; ?>" name="editContent"></textarea>
+                        <button class="editPost" data-id="<?php echo $post->id; ?>" data-visible="0">Edit</button>
+                        <button class="deletePost" data-id="<?php echo $post->id; ?>">Delete</button>
+                    <?php endif; ?>
 
-                <button class="reactPost" data-id="<?php echo $post->id; ?>">React</button>
-                <button class="upvote" data-id="<?php echo $post->id; ?>">Upvote</button>
-                <button class="showDisc" data-id="<?php echo $post->id; ?>">Show discussion</button>
+                    <button class="reactPost" data-id="<?php echo $post->id; ?>">React</button>
+                    <button class="upvote" data-id="<?php echo $post->id; ?>">Upvote</button>
+                    <button class="showDisc showPost" data-id="<?php echo $post->id; ?>">Show discussion</button>
 
-                <div class="discussion d-none" data-id="<?php echo $post->id; ?>" style="margin-left:20px;margin-top:10px;">
-                    <?php
-                    $reactions = classes\Buddy\Post::getReactions($post->id);
-                    foreach ($reactions as $reaction) : ?>
-                        <p>Upvotes: <?php echo classes\Buddy\Post::countUpvotes($reaction->id); ?></p>
-                        <strong><?php echo htmlspecialchars($reaction->op) ?></strong>
-                        <br>
-                        <i><?php echo htmlspecialchars($reaction->timestamp) ?></i>
-                        <p class="postText"><?php echo htmlspecialchars($reaction->content) ?></p>
-                        <p><button class="upvote" data-id="<?php echo $reaction->id; ?>">Upvote</button></p>
-                    <?php endforeach ?>
+                    <div class="discussion d-none discPost" data-id="<?php echo $post->id; ?>" style="margin-left:20px;margin-top:10px;">
+                        <?php
+                        $reactions = classes\Buddy\Post::getReactions($post->id);
+                        foreach ($reactions as $reaction) : ?>
+                            <p>Upvotes: <?php echo classes\Buddy\Post::countUpvotes($reaction->id); ?></p>
+                            <strong><?php echo htmlspecialchars($reaction->op) ?></strong>
+                            <br>
+                            <i><?php echo htmlspecialchars($reaction->timestamp) ?></i>
+                            <p class="postText"><?php echo htmlspecialchars($reaction->content) ?></p>
+                            <p><button class="upvote" data-id="<?php echo $reaction->id; ?>">Upvote</button></p>
+                        <?php endforeach ?>
+                    </div>
                 </div>
-            </div>
-        <?php endforeach; ?>
-
-
-        <form action="" method="POST">
-            <textarea name="postContent"></textarea>
-            <input class="postParent" name="postParent" type="text" value="0" hidden>
-            <br>
-            <input class="submitPost" name="submitPost" type="submit" value="New post">
-        </form>
+            <?php endforeach; ?>
+        </div>
+        <div class="jumbotron post-box">
+            <form action="" method="POST">
+                <textarea name="postContent" cols="50" rows="4"></textarea>
+                <input class="postParent" name="postParent" type="text" value="0" hidden>
+                <input class="submitPost float-right" name="submitPost" type="submit" value="New post">
+            </form>
+        </div>
     </div>
-
-
-
-    <div class="faq float-right jumbotron">
-        <h3 style="color:black">FAQ</h3>
+    <div class="float-right jumbotron faq">
+        <h2>FAQ</h2>
         <?php foreach ($faq_posts as $post) : ?>
-            <div class="post" data-id="<?php echo $post->id; ?>" style="border:1px black solid; max-width: 800px; margin-bottom:10px; padding:5px">
+            <div class="jumbotron post" data-id="<?php echo $post->id; ?>">
                 <strong><?php echo htmlspecialchars($post->op) ?></strong>
                 <br>
                 <i><?php echo htmlspecialchars($post->timestamp) ?></i>
                 <p class="postText"><?php echo htmlspecialchars($post->content) ?></p>
                 <p>Unpin from FAQ <img class="unpin" data-id="<?php echo $post->id; ?>" src="https://via.placeholder.com/30"></p>
+
+                <button class="reactPost" data-id="<?php echo $post->id; ?>">React</button>
+                <button class="upvote" data-id="<?php echo $post->id; ?>">Upvote</button>
+                <button class="showDisc showFaq" data-id="<?php echo $post->id; ?>">Show discussion</button>
+
+                <div class="discussion d-none discFaq" data-id="<?php echo $post->id; ?>" style="margin-left:20px;margin-top:10px;">
+                        <?php
+                        $reactions = classes\Buddy\Post::getReactions($post->id);
+                        foreach ($reactions as $reaction) : ?>
+                            <p>Upvotes: <?php echo classes\Buddy\Post::countUpvotes($reaction->id); ?></p>
+                            <strong><?php echo htmlspecialchars($reaction->op) ?></strong>
+                            <br>
+                            <i><?php echo htmlspecialchars($reaction->timestamp) ?></i>
+                            <p class="postText"><?php echo htmlspecialchars($reaction->content) ?></p>
+                            <p><button class="upvote" data-id="<?php echo $reaction->id; ?>">Upvote</button></p>
+                        <?php endforeach ?>
+                    </div>
             </div>
         <?php endforeach; ?>
     </div>

@@ -125,7 +125,7 @@ if (!empty($_POST['uploadPicture'])) {
   <?php include_once("nav.include.php"); ?>
 
   <div class="container">
-    <div class="jumbotron" style=" height:450px; margin:20px;">
+    <div class="jumbotron" style=" height:400px; margin:20px;">
       <div class="float-left" style=" margin-left:50px;">
         <img src="./uploads/<?= htmlspecialchars($user->getProfile_img()) ?>" width="250px;" height="250px;" />
         <form enctype="multipart/form-data" action="" method="POST" style="margin-top:20px;">
@@ -145,7 +145,7 @@ if (!empty($_POST['uploadPicture'])) {
   </div>
 
   <div class="container">
-    <div class="jumbotron float-left" style="width:50%; height:950px; margin:20px;">
+    <div class="jumbotron float-left" style="width:50%; height:900px; margin:20px;">
 
       <form action="" method="POST">
 
@@ -153,7 +153,7 @@ if (!empty($_POST['uploadPicture'])) {
         <br>
         <div class="form-group">
           <label for="bio">Biography</label>
-          <textarea name="bio" id="bio" class="form-control"><?= htmlspecialchars($user->getBio()) ?></textarea>
+          <textarea name="bio" id="bio" class="form-control" rows="3" cols="50"><?= htmlspecialchars($user->getBio()) ?></textarea>
         </div>
         <div class="form-group">
           <label for="location">Location</label>

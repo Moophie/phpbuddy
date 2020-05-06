@@ -76,12 +76,24 @@ $(document).ready(function() {
     $(".showDisc").on("click", function() {
         var post_id = $(this).attr("data-id");
 
-        if ($('[data-id="' + post_id + '"] .discussion').hasClass("d-none")) {
-            $('[data-id="' + post_id + '"] .d-none.discussion').removeClass("d-none").addClass("d-block");
-            $('[data-id="' + post_id + '"] .showDisc').html("Hide discussion");
-        } else {
-            $('[data-id="' + post_id + '"] .d-block.discussion').removeClass("d-block").addClass("d-none");
-            $('[data-id="' + post_id + '"] .showDisc').html("Show discussion");
+        if ($(this).hasClass("showFaq")) {
+            if ($('[data-id="' + post_id + '"] .discussion.discFaq').hasClass("d-none")) {
+                $('[data-id="' + post_id + '"] .d-none.discussion.discFaq').removeClass("d-none").addClass("d-block");
+                $('[data-id="' + post_id + '"] .showDisc.showFaq').html("Hide discussion");
+            } else {
+                $('[data-id="' + post_id + '"] .d-block.discussion.discFaq').removeClass("d-block").addClass("d-none");
+                $('[data-id="' + post_id + '"] .showDisc.showFaq').html("Show discussion");
+            }
+        }
+
+        if ($(this).hasClass("showPost")) {
+            if ($('[data-id="' + post_id + '"] .discussion.discPost').hasClass("d-none")) {
+                $('[data-id="' + post_id + '"] .d-none.discussion.discPost').removeClass("d-none").addClass("d-block");
+                $('[data-id="' + post_id + '"] .showDisc.showPost').html("Hide discussion");
+            } else {
+                $('[data-id="' + post_id + '"] .d-block.discussion.discPost').removeClass("d-block").addClass("d-none");
+                $('[data-id="' + post_id + '"] .showDisc.showPost').html("Show discussion");
+            }
         }
     });
 
