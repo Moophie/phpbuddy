@@ -63,10 +63,53 @@ body {
     margin-left: 30%;
     padding: 20px;
     max-width: 500px;
+    height: 750px;
 }
 
-.chatbox textarea,
-button {
+.messagebox {
+    max-height: 600px;
+    overflow-y: scroll;
+    margin-bottom: 20px;
+}
+
+.messageContent {
+    display: block;
+    clear: both;
+}
+
+.messageElement .container {
+    margin-bottom: 20px;
+}
+
+.messageElement p {
+    margin-top: 10px;
+    max-width: 440px;
+    word-wrap: break-word;
+}
+
+.messageContent small {
     position: relative;
-    top: -20px;
+    top: 3px;
+}
+
+
+/* Navbar CSS */
+
+.unreadMessages {
+    color: red;
+    position: relative;
+    top: -38px;
+    left: 35px;
+}
+
+.unreadMessages span {
+    color: white;
+    position: relative;
+    left: -11px;
+    top: -1.5px;
+    font-size: 0.8em;
+}
+
+.nav-item {
+    height: 40px;
 }

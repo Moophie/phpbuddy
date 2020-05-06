@@ -804,4 +804,14 @@ class User
             return false;
         }
     }
+
+    public function checkUnreadMessages(){
+        $conn = Db::getConnection();
+        $statement = $conn->prepare("SELECT id FROM messages WHERE receiver_id = :user_id AND message_read = 0");
+        $statement->bindValue(":user_id", $this->getId());
+        $statement->execute();
+        $result = $statement->fetchAll(\PDO::FETCH_OBJ);
+
+        return $result;
+    }
 }

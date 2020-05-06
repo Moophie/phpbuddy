@@ -50,3 +50,8 @@ $(document).ready(function() {
         }
     })
 });
+
+function updateScroll() {
+    var messagebox = document.querySelector(".messagebox");
+    messagebox.scrollTop = messagebox.scrollHeight;
+}

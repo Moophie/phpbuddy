@@ -102,14 +102,15 @@ class Conversation
         if (empty($result)) :
 
             $statement = $conn->prepare("INSERT INTO conversations (user_1, user_2, active) VALUES (:user_1, :user_2, 1)");
-        $statement->bindValue(":user_1", $this->getUser_1());
-        $statement->bindValue(":user_2", $this->getUser_2());
-        $statement->execute(); else :
+            $statement->bindValue(":user_1", $this->getUser_1());
+            $statement->bindValue(":user_2", $this->getUser_2());
+            $statement->execute();
+        else :
 
             $statement = $conn->prepare("UPDATE conversations SET active = 1 WHERE (user_1 = :user_1 AND user_2 = :user_2) OR (user_1 = :user_2 AND user_2 = :user_1)");
-        $statement->bindValue(":user_1", $this->getUser_1());
-        $statement->bindValue(":user_2", $this->getUser_2());
-        $statement->execute();
+            $statement->bindValue(":user_1", $this->getUser_1());
+            $statement->bindValue(":user_2", $this->getUser_2());
+            $statement->execute();
 
         endif;
 
@@ -120,10 +121,31 @@ class Conversation
     public function getMessages()
     {
         $conn = Db::getConnection();
-        $statement = $conn->prepare("SELECT messages.id, messages.content, messages.reaction, messages.timestamp, users.fullname FROM messages, users WHERE messages.sender_id = users.id AND conversation_id = :conversation_id ORDER BY messages.id ASC");
+        $statement = $conn->prepare("SELECT messages.id, messages.sender_id, messages.receiver_id, messages.content, messages.reaction, messages.timestamp, messages.message_read, users.fullname FROM messages, users WHERE messages.sender_id = users.id AND conversation_id = :conversation_id ORDER BY messages.id ASC");
         $statement->bindValue(":conversation_id", $this->getId());
         $statement->execute();
         $result = $statement->fetchAll(\PDO::FETCH_OBJ);
+
+        return $result;
+    }
+
+    public function readMessages($user_id)
+    {
+        $conn = Db::getConnection();
+        $statement = $conn->prepare("UPDATE messages SET message_read = 1 WHERE conversation_id = :conversation_id AND receiver_id = :user_id");
+        $statement->bindValue(":conversation_id", $this->getId());
+        $statement->bindValue(":user_id", $user_id);
+        $statement->execute();
+    }
+
+    public function getPartner($user_id)
+    {
+        $conn = Db::getConnection();
+        $statement = $conn->prepare("SELECT users.fullname, users.id FROM conversations, users WHERE (conversations.user_1 = users.id OR conversations.user_2 = users.id) AND conversations.id = :conversation_id AND users.id <> :user_id");
+        $statement->bindValue(":conversation_id", $this->getId());
+        $statement->bindValue(":user_id", $user_id);
+        $statement->execute();
+        $result = $statement->fetch(\PDO::FETCH_OBJ);
 
         return $result;
     }

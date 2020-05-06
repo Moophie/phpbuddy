@@ -6,6 +6,11 @@ include_once(__DIR__ . "/bootstrap.include.php");
 //PHP_SELF returns the path, basename shortens it to the filename
 $page = basename($_SERVER['PHP_SELF']);
 
+if (!empty($_SESSION['user'])) {
+    $user = new classes\Buddy\User($_SESSION['user']);
+    $unread_messages = $user->checkUnreadMessages();
+    $unread_amount = count($unread_messages);
+}
 ?>
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -30,6 +35,9 @@ $page = basename($_SERVER['PHP_SELF']);
                     <li class="nav-item <?php if ($page == "chat.php") : echo "active";
                                         endif; ?>">
                         <a class="nav-link" href="chat.php">Chat</a>
+                        <?php if($unread_amount > 0): ?>
+                        <div class="unreadMessages d-inline fas fa-circle"><span><?php echo $unread_amount; ?></span></div>
+                        <?php endif; ?>
                     </li>
                     <li class="nav-item <?php if ($page == "buddies.php") : echo "active";
                                         endif; ?>">
