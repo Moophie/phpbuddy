@@ -80,9 +80,12 @@ $faq_posts = classes\Buddy\Post::getFaqPosts();
                 <div class="jumbotron post" data-id="<?php echo $post->id; ?>">
                     <p>Upvotes: <span class="upvote-counter" data-id="<?php echo $post->id; ?>"><?php echo classes\Buddy\Post::countUpvotes($post->id); ?></span></p>
                     <strong><?php echo htmlspecialchars($post->op) ?></strong>
+                    <i class="float-right"><small><?php echo htmlspecialchars($post->timestamp) ?></small></i>
                     <br>
-                    <i><?php echo htmlspecialchars($post->timestamp) ?></i>
-                    <br>
+                    <?php if (strtotime($post->edited) > 0) : ?>
+                        <i><small>This post was edited on <?php echo date("d-m-Y H:i", strtotime($post->edited)); ?></small></i>
+                        <br>
+                    <?php endif; ?>
                     <br>
                     <p class="postText"><?php echo htmlspecialchars($post->content) ?></p>
                     <p>Pin to FAQ <img class="pin" data-id="<?php echo $post->id; ?>" src="https://via.placeholder.com/30"></p>
@@ -102,8 +105,13 @@ $faq_posts = classes\Buddy\Post::getFaqPosts();
                         foreach ($reactions as $reaction) : ?>
                             <p>Upvotes: <span class="upvote-counter" data-id="<?php echo $reaction->id; ?>"><?php echo classes\Buddy\Post::countUpvotes($reaction->id); ?></span></p>
                             <strong><?php echo htmlspecialchars($reaction->op) ?></strong>
+                            <i class="float-right"><small><?php echo htmlspecialchars($reaction->timestamp) ?></small></i>
                             <br>
-                            <i><?php echo htmlspecialchars($reaction->timestamp) ?></i>
+                            <?php if (strtotime($reaction->edited) > 0) : ?>
+                                <i><small>This post was edited on <?php echo date("d-m-Y H:i", strtotime($reaction->edited)); ?></small></i>
+                                <br>
+                            <?php endif; ?>
+                            <br>
                             <p class="postText"><?php echo htmlspecialchars($reaction->content) ?></p>
                             <p><button class="upvote" data-id="<?php echo $reaction->id; ?>">Upvote</button></p>
                         <?php endforeach ?>
@@ -126,8 +134,13 @@ $faq_posts = classes\Buddy\Post::getFaqPosts();
                 <div class="jumbotron post" data-id="<?php echo $post->id; ?>">
                     <p>Upvotes: <span class="upvote-counter" data-id="<?php echo $post->id; ?>"><?php echo classes\Buddy\Post::countUpvotes($post->id); ?></span></p>
                     <strong><?php echo htmlspecialchars($post->op) ?></strong>
+                    <i class="float-right"><small><?php echo htmlspecialchars($post->timestamp) ?></small></i>
                     <br>
-                    <i><?php echo htmlspecialchars($post->timestamp) ?></i>
+                    <?php if (strtotime($post->edited) > 0) : ?>
+                        <i><small>This post was edited on <?php echo date("d-m-Y H:i", strtotime($post->edited)); ?></small></i>
+                        <br>
+                    <?php endif; ?>
+                    <br>
                     <p class="postText"><?php echo htmlspecialchars($post->content) ?></p>
                     <p>Unpin from FAQ <img class="unpin" data-id="<?php echo $post->id; ?>" src="https://via.placeholder.com/30"></p>
 
@@ -141,8 +154,13 @@ $faq_posts = classes\Buddy\Post::getFaqPosts();
                         foreach ($reactions as $reaction) : ?>
                             <p>Upvotes: <span class="upvote-counter" data-id="<?php echo $reaction->id; ?>"><?php echo classes\Buddy\Post::countUpvotes($reaction->id); ?></span></p>
                             <strong><?php echo htmlspecialchars($reaction->op) ?></strong>
+                            <i class="float-right"><small><?php echo htmlspecialchars($reaction->timestamp) ?></small></i>
                             <br>
-                            <i><?php echo htmlspecialchars($reaction->timestamp) ?></i>
+                            <?php if (strtotime($reaction->edited) > 0) : ?>
+                                <i><small>This post was edited on <?php echo date("d-m-Y H:i", strtotime($reaction->edited)); ?></small></i>
+                                <br>
+                            <?php endif; ?>
+                            <br>
                             <p class="postText"><?php echo htmlspecialchars($reaction->content) ?></p>
                             <p><button class="upvote" data-id="<?php echo $reaction->id; ?>">Upvote</button></p>
                         <?php endforeach ?>

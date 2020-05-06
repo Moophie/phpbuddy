@@ -234,10 +234,14 @@ class Post
 
     public function editPost($id, $content)
     {
+
+        $timestamp = date('Y-m-d H:i:s');
+
         $conn = Db::getConnection();
-        $statement = $conn->prepare("UPDATE posts SET content = :content WHERE id = :id");
+        $statement = $conn->prepare("UPDATE posts SET content = :content, edited = :timestamp WHERE id = :id");
         $statement->bindValue(":id", $id);
         $statement->bindValue(":content", $content);
+        $statement->bindValue(":timestamp", $timestamp);
         $statement->execute();
     }
 
