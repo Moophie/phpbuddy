@@ -109,7 +109,7 @@ $(document).ready(function() {
             url: "upvote.php",
             data: { upvote: 1, id: post_id },
             success: function(data) {
-                $('[data-id="' + post_id + '"] .upvote-counter').html(data);
+                $('[data-id="' + post_id + '"].upvote-counter').html(data);
             }
         })
     });

@@ -77,9 +77,8 @@ $faq_posts = classes\Buddy\Post::getFaqPosts();
         <h2>Forum</h2>
         <div class="forum-content">
             <?php foreach ($all_posts as $post) : ?>
-                <?php $upvote_counter = classes\Buddy\Post::countUpvotes($post->id); ?>
                 <div class="jumbotron post" data-id="<?php echo $post->id; ?>">
-                    <p>Upvotes: <span class="upvote-counter" data-id="<?php echo $post->id; ?>"><?php echo $upvote_counter; ?></span></p>
+                    <p>Upvotes: <span class="upvote-counter" data-id="<?php echo $post->id; ?>"><?php echo classes\Buddy\Post::countUpvotes($post->id); ?></span></p>
                     <strong><?php echo htmlspecialchars($post->op) ?></strong>
                     <br>
                     <i><?php echo htmlspecialchars($post->timestamp) ?></i>
@@ -101,7 +100,7 @@ $faq_posts = classes\Buddy\Post::getFaqPosts();
                         <?php
                         $reactions = classes\Buddy\Post::getReactions($post->id);
                         foreach ($reactions as $reaction) : ?>
-                            <p>Upvotes: <?php echo classes\Buddy\Post::countUpvotes($reaction->id); ?></p>
+                            <p>Upvotes: <span class="upvote-counter" data-id="<?php echo $reaction->id; ?>"><?php echo classes\Buddy\Post::countUpvotes($reaction->id); ?></span></p>
                             <strong><?php echo htmlspecialchars($reaction->op) ?></strong>
                             <br>
                             <i><?php echo htmlspecialchars($reaction->timestamp) ?></i>
@@ -125,8 +124,7 @@ $faq_posts = classes\Buddy\Post::getFaqPosts();
             <h2>FAQ</h2>
             <?php foreach ($faq_posts as $post) : ?>
                 <div class="jumbotron post" data-id="<?php echo $post->id; ?>">
-                    <?php $upvote_counter = classes\Buddy\Post::countUpvotes($post->id); ?>
-                    <p>Upvotes: <span class="upvote-counter" data-id="<?php echo $post->id; ?>"><?php echo $upvote_counter; ?></span></p>
+                    <p>Upvotes: <span class="upvote-counter" data-id="<?php echo $post->id; ?>"><?php echo classes\Buddy\Post::countUpvotes($post->id); ?></span></p>
                     <strong><?php echo htmlspecialchars($post->op) ?></strong>
                     <br>
                     <i><?php echo htmlspecialchars($post->timestamp) ?></i>
@@ -141,7 +139,7 @@ $faq_posts = classes\Buddy\Post::getFaqPosts();
                         <?php
                         $reactions = classes\Buddy\Post::getReactions($post->id);
                         foreach ($reactions as $reaction) : ?>
-                            <p>Upvotes: <?php echo classes\Buddy\Post::countUpvotes($reaction->id); ?></p>
+                            <p>Upvotes: <span class="upvote-counter" data-id="<?php echo $reaction->id; ?>"><?php echo classes\Buddy\Post::countUpvotes($reaction->id); ?></span></p>
                             <strong><?php echo htmlspecialchars($reaction->op) ?></strong>
                             <br>
                             <i><?php echo htmlspecialchars($reaction->timestamp) ?></i>
