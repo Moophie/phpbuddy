@@ -69,11 +69,11 @@ if (isset($_POST['like'])) {
                                     <strong class="float-left"><?= htmlspecialchars($message->fullname) ?></strong>
                                     <small class="float-right"><?= $message->timestamp; ?></small>
                                     <br>
-                                    <p class="float-left" style="<?php if ($message->sender_id == $user->getId()) {
-                                                                        echo "background-color:#009CE6; color:white";
+                                    <p class="float-left" <?php if ($message->sender_id == $user->getId()) {
+                                                                        echo 'style="background-color:#009CE6; color:white"';
                                                                     } else {
-                                                                        echo "background-color:#E1E3E2";
-                                                                    } ?>">
+                                                                        echo 'style="background-color:#E1E3E2"';
+                                                                    } ?>>
                                         <?= htmlspecialchars($message->content) ?>
                                     </p>
                                     <div class="container float-left">
