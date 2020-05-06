@@ -5,11 +5,13 @@ include_once(__DIR__ . "/bootstrap.include.php");
 $user = new classes\Buddy\User($_SESSION['user']);
 
 $active_conversation = $user->getActiveConversations();
-$conversation = new classes\Buddy\Conversation();
-$conversation->setId($active_conversation->id);
-$conversation->readMessages($user->getId());
-$messages = $conversation->getMessages();
-$chat_partner = $conversation->getPartner($user->getId());
+if ($active_conversation) {
+    $conversation = new classes\Buddy\Conversation();
+    $conversation->setId($active_conversation->id);
+    $conversation->readMessages($user->getId());
+    $messages = $conversation->getMessages();
+    $chat_partner = $conversation->getPartner($user->getId());
+}
 
 if (!empty($_POST['content'])) {
     $time = date('Y-m-d H:i:s');
@@ -70,10 +72,10 @@ if (isset($_POST['like'])) {
                                     <small class="float-right"><?= $message->timestamp; ?></small>
                                     <br>
                                     <p class="float-left" <?php if ($message->sender_id == $user->getId()) {
-                                                                        echo 'style="background-color:#009CE6; color:white"';
-                                                                    } else {
-                                                                        echo 'style="background-color:#E1E3E2"';
-                                                                    } ?>>
+                                                                echo 'style="background-color:#009CE6; color:white"';
+                                                            } else {
+                                                                echo 'style="background-color:#E1E3E2"';
+                                                            } ?>>
                                         <?= htmlspecialchars($message->content) ?>
                                     </p>
                                     <div class="container float-left">
@@ -93,10 +95,14 @@ if (isset($_POST['like'])) {
                                                                     echo "reaction-btn-locked";
                                                                 } ?> <?= $message->id ?>">
                                                     <!-- Default like button -->
-                                                    <span class="reaction-btn-text-locked <?= $message->id ?> <?php if (!empty($message->reaction)) :
-                                                                                                            echo "reaction-btn-text-" . strtolower($message->reaction);
-                                                                                                            echo " active";
-                                                                                                        endif; ?>" message-id="<?= $message->id ?>">
+                                                    <span class="<?php if ($message->receiver_id == $user->getId()) {
+                                                                    echo "reaction-btn-text";
+                                                                } else {
+                                                                    echo "reaction-btn-text-locked";
+                                                                } ?> <?= $message->id ?> <?= $message->id ?> <?php if (!empty($message->reaction)) :
+                                                                                                                    echo "reaction-btn-text-" . strtolower($message->reaction);
+                                                                                                                    echo " active";
+                                                                                                                endif; ?>" message-id="<?= $message->id ?>">
                                                         <?php if (!empty($message->reaction)) :
                                                             echo $message->reaction;
                                                         else :
