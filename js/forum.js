@@ -7,7 +7,9 @@ $(document).ready(function() {
             type: "POST",
             url: "forum.php",
             data: { pinFaq: 1, id: post_id },
-            success: function(response) {}
+            success: function(response) {
+
+            }
         })
     });
 
@@ -19,7 +21,9 @@ $(document).ready(function() {
             type: "POST",
             url: "forum.php",
             data: { pinFaq: 0, id: post_id },
-            success: function(response) {}
+            success: function(response) {
+
+            }
         })
     });
 
@@ -99,13 +103,14 @@ $(document).ready(function() {
 
     $(".upvote").on("click", function() {
         var post_id = $(this).attr("data-id");
-        console.log(post_id);
 
         $.ajax({
             type: "POST",
-            url: "forum.php",
+            url: "upvote.php",
             data: { upvote: 1, id: post_id },
-            success: function(response) {}
+            success: function(data) {
+                $('[data-id="' + post_id + '"] .upvote-counter').html(data);
+            }
         })
     });
 });

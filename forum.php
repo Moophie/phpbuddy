@@ -52,16 +52,6 @@ if (!empty($_POST['editPost'])) {
     $post->editPost($_POST['id'], $_POST['content']);
 }
 
-if (!empty($_POST['upvote'])) {
-    $post = new classes\Buddy\Post($_POST['id']);
-    $post->addUpvote();
-
-    $upvote = new classes\Buddy\Upvote();
-    $upvote->setPost_id($_POST['id']);
-    $upvote->setUser_id($user->getId());
-    $upvote->saveUpvote();
-}
-
 $all_posts = classes\Buddy\Post::getAllPosts();
 $faq_posts = classes\Buddy\Post::getFaqPosts();
 
@@ -87,8 +77,9 @@ $faq_posts = classes\Buddy\Post::getFaqPosts();
         <h2>Forum</h2>
         <div class="forum-content">
             <?php foreach ($all_posts as $post) : ?>
+                <?php $upvote_counter = classes\Buddy\Post::countUpvotes($post->id); ?>
                 <div class="jumbotron post" data-id="<?php echo $post->id; ?>">
-                    <p>Upvotes: <?php echo classes\Buddy\Post::countUpvotes($post->id); ?></p>
+                    <p>Upvotes: <span class="upvote-counter" data-id="<?php echo $post->id; ?>"><?php echo $upvote_counter; ?></span></p>
                     <strong><?php echo htmlspecialchars($post->op) ?></strong>
                     <br>
                     <i><?php echo htmlspecialchars($post->timestamp) ?></i>
@@ -129,21 +120,24 @@ $faq_posts = classes\Buddy\Post::getFaqPosts();
             </form>
         </div>
     </div>
-    <div class="float-right jumbotron faq">
-        <h2>FAQ</h2>
-        <?php foreach ($faq_posts as $post) : ?>
-            <div class="jumbotron post" data-id="<?php echo $post->id; ?>">
-                <strong><?php echo htmlspecialchars($post->op) ?></strong>
-                <br>
-                <i><?php echo htmlspecialchars($post->timestamp) ?></i>
-                <p class="postText"><?php echo htmlspecialchars($post->content) ?></p>
-                <p>Unpin from FAQ <img class="unpin" data-id="<?php echo $post->id; ?>" src="https://via.placeholder.com/30"></p>
+    <div class="faq-container">
+        <div class="float-right jumbotron faq">
+            <h2>FAQ</h2>
+            <?php foreach ($faq_posts as $post) : ?>
+                <div class="jumbotron post" data-id="<?php echo $post->id; ?>">
+                    <?php $upvote_counter = classes\Buddy\Post::countUpvotes($post->id); ?>
+                    <p>Upvotes: <span class="upvote-counter" data-id="<?php echo $post->id; ?>"><?php echo $upvote_counter; ?></span></p>
+                    <strong><?php echo htmlspecialchars($post->op) ?></strong>
+                    <br>
+                    <i><?php echo htmlspecialchars($post->timestamp) ?></i>
+                    <p class="postText"><?php echo htmlspecialchars($post->content) ?></p>
+                    <p>Unpin from FAQ <img class="unpin" data-id="<?php echo $post->id; ?>" src="https://via.placeholder.com/30"></p>
 
-                <button class="reactPost" data-id="<?php echo $post->id; ?>">React</button>
-                <button class="upvote" data-id="<?php echo $post->id; ?>">Upvote</button>
-                <button class="showDisc showFaq" data-id="<?php echo $post->id; ?>">Show discussion</button>
+                    <button class="reactPost" data-id="<?php echo $post->id; ?>">React</button>
+                    <button class="upvote" data-id="<?php echo $post->id; ?>">Upvote</button>
+                    <button class="showDisc showFaq" data-id="<?php echo $post->id; ?>">Show discussion</button>
 
-                <div class="discussion d-none discFaq" data-id="<?php echo $post->id; ?>" style="margin-left:20px;margin-top:10px;">
+                    <div class="discussion d-none discFaq" data-id="<?php echo $post->id; ?>" style="margin-left:20px;margin-top:10px;">
                         <?php
                         $reactions = classes\Buddy\Post::getReactions($post->id);
                         foreach ($reactions as $reaction) : ?>
@@ -155,8 +149,9 @@ $faq_posts = classes\Buddy\Post::getFaqPosts();
                             <p><button class="upvote" data-id="<?php echo $reaction->id; ?>">Upvote</button></p>
                         <?php endforeach ?>
                     </div>
-            </div>
-        <?php endforeach; ?>
+                </div>
+            <?php endforeach; ?>
+        </div>
     </div>
 
     <script src="js/jquery.min.js"></script>

@@ -206,7 +206,7 @@ class Post
     {
         $conn = Db::getConnection();
 
-        $statement = $conn->prepare("SELECT * FROM posts WHERE parent = 0 ORDER BY upvotes DESC");
+        $statement = $conn->prepare("SELECT * FROM posts WHERE parent = 0 ORDER BY timestamp DESC");
         $statement->execute();
         $result = $statement->fetchAll(\PDO::FETCH_OBJ);
 
