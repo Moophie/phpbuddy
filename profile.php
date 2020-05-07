@@ -78,41 +78,6 @@ if (!empty($_POST['uploadPicture'])) {
     }
 }
 
-  /*if (isset($_FILES['profile_img'])) {
-    if ($_FILES['profile_img']['error'] > 0) {
-      switch ($_FILES['profile_img']['error']) {
-        case 1:
-          $msg = 'You can only upload 2MB';
-        break;
-      default:
-          $msg = 'Sorry, uw upload kon niet worden verwerkt.';
-          echo "<button onclick=\"location.href='index.php'\">Try again</button>";
-      }
-    } else {
-      $allowed_types = array('image/jpg', 'image/jpeg', 'image/png', 'image/gif');
-      $file_name = $_FILES['profile_img']['tmp_name'];
-      $finfo = new finfo(FILEINFO_MIME_TYPE);
-      $file_info = $finfo->file($file_name);
-
-      if (in_array($file_info, $allowed_types)) {
-
-        //Move uploaded file
-        $new_file_name = 'uploads/' . $_FILES['profile_img']['name'];
-
-        if (move_uploaded_file($_FILES['profile_img']['tmp_name'], $new_file_name)) {
-          $user->saveProfile_img();
-
-          header('location:profile.php');
-        } else {
-          $msg = 'Sorry, de upload is mislukt.';
-        }
-      } else {
-        $msg = 'Sorry, enkel afbeeldingen zijn toegestaan.';
-      }
-    }
-  }
-}*/
-
 ?>
 
 <head>
@@ -133,10 +98,11 @@ if (!empty($_POST['uploadPicture'])) {
   <div class="container">
     <div class="jumbotron" style=" height:450px; margin:20px;">
       <div class="float-left" style=" margin-left:50px;">
-      <?php if(isset($error)): ?>
-          <div class="error" style="color:red;"><?php echo $error; ?></div>
-      <?php endif; ?>
+       
         <img src="./uploads/<?= htmlspecialchars($user->getProfile_img()) ?>" width="250px;" height="250px;" />
+        <?php if(isset($error)): ?>
+            <div style="color:white; background-color:red; margin-top:10px; text-align:center;"><?php echo $error; ?></div>
+        <?php endif; ?>
         <form enctype="multipart/form-data" action="" method="POST" style="margin-top:20px;">
           <div class="form-group">
             <input type="file" id="profile_img" name="profile_img" capture="camera" required />
@@ -144,6 +110,7 @@ if (!empty($_POST['uploadPicture'])) {
           <div class="form-group">
             <input type="submit" value="Upload" name="uploadPicture" />
           </div>
+      
         </form>
       </div>
       <div>

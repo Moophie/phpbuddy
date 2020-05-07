@@ -780,7 +780,7 @@ class User
             return $img;
 
         }else{
-            throw new Exception("You can only upload a image!");
+            throw new \Exception("You can only upload a image!");
         }
     }
 
