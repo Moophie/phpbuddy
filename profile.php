@@ -71,12 +71,19 @@ if (!empty($_POST['changeStatus'])) {
 
 
 if (!empty($_POST['uploadPicture'])) {
-    try{
-      $user->saveProfile_img();
-    }catch(\Throwable $th){
-      $error = $th->getMessage();
-    }
+  try {
+    $user->saveProfile_img();
+  } catch (\Throwable $th) {
+    $error = $th->getMessage();
+  }
 }
+
+$locationArray = array("Antwerpen", "Henegouwen", "Limburg", "Luik", "Luxemburg", "Namen", "Oost-Vlaanderen", "Vlaams-Brabant", "Waals-Brabant", "West-Vlaanderen");
+$gamesArray = array("Animal Crossing", "Apex Legends", "Black Desert Online", "CS:GO", "Dota 2", "Fortnite", "Hearthstone", "League of Legends", "Minecraft", "Overwatch", "Pokemon", "Rainbow Six", "Super Smash Bros", "World of Warcraft", "I don't game.");
+$musicArray = array("Blues", "Classical", "Country", "Dance", "Disco", "Drum & Bass", "Dubstep", "Folk", "Funk", "Hip Hop", "House", "Jazz", "Metal", "Pop", "Punk", "R&B", "Rap", "Reggae", "Rock", "Techno", "Trance", "Trap");
+$filmsArray = array("Action", "Adventure", "Animation", "Comedy", "Documentary", "Drama", "Fantasy", "Gangster", "Historical Drama", "Horror", "Musical", "Mystery", "Romance", "Romantic Comedy", "Science Fiction", "Superhero", "Thriller", "Western");
+$booksArray = array("Action", "Adventure", "Biography", "Comics", "Crime", "Drama", "Historical Fiction", "History", "Horror", "Mystery", "Poetry", "Romance", "Satire", "Science Fiction", "Science", "Thriller");
+$hobbyArray = array("Archery", "Badminton", "Birdwatching", "Board Games", "Card Games", "Collecting", "Cooking", "Cosplay", "Crafting", "Dancing", "Design", "Drawing", "Exercising", "Fashion", "Football", "Gaming", "Gardening", "Hiking", "Hockey", "Ice Skating", "Knitting", "Painting", "Photography", "Playing music", "Programming", "Running", "Sewing", "Shopping", "Swimming", "Tennis", "TTRPG", "Volleyball", "Walking", "Woodworking");
 
 ?>
 
@@ -93,15 +100,15 @@ if (!empty($_POST['uploadPicture'])) {
 
 <body>
 
-<?php include_once("nav.include.php"); ?>
+  <?php include_once("nav.include.php"); ?>
 
   <div class="container">
     <div class="jumbotron" style=" height:400px; margin:20px;">
       <div class="float-left" style=" margin-left:50px;">
-       
+
         <img src="./uploads/<?= htmlspecialchars($user->getProfile_img()) ?>" width="250px;" height="250px;" />
-        <?php if(isset($error)): ?>
-            <div style="color:white; background-color:red; margin-top:10px; text-align:center;"><?php echo $error; ?></div>
+        <?php if (isset($error)) : ?>
+          <div style="color:white; background-color:red; margin-top:10px; text-align:center;"><?php echo $error; ?></div>
         <?php endif; ?>
         <form enctype="multipart/form-data" action="" method="POST" style="margin-top:20px;">
           <div class="form-group">
@@ -110,7 +117,7 @@ if (!empty($_POST['uploadPicture'])) {
           <div class="form-group">
             <input type="submit" value="Upload" name="uploadPicture" />
           </div>
-      
+
         </form>
       </div>
       <div>
@@ -134,152 +141,61 @@ if (!empty($_POST['uploadPicture'])) {
         <div class="form-group">
           <label for="location">Location</label>
           <select type="text" id="location" name="location" class="form-control">
-            <option disabled selected><?= htmlspecialchars($user->getLocation()) ?></option>
-            <option>Antwerpen</option>
-            <option>Henegouwen</option>
-            <option>Limburg</option>
-            <option>Luik</option>
-            <option>Luxemburg</option>
-            <option>Namen</option>
-            <option>Oost-Vlaanderen</option>
-            <option>Vlaams-Brabant</option>
-            <option>Waals-Brabant</option>
-            <option>West-Vlaanderen</option>
+            <?php foreach ($locationArray as $location) : ?>
+              <option <?php if ($location == $user->getLocation()) {
+                        echo "selected";
+                      } ?>><?php echo htmlspecialchars($location) ?></option>
+            <?php endforeach; ?>
           </select>
         </div>
         <div class="form-group">
           <label for="games">Games</label>
           <select type="text" id="games" name="games" class="form-control">
-            <option disabled selected><?= htmlspecialchars($user->getGames()) ?></option>
-            <option>Animal Crossing</option>
-            <option>Apex Legends</option>
-            <option>Black Desert Online</option>
-            <option>CS:GO</option>
-            <option>Dota 2</option>
-            <option>Fortnite</option>
-            <option>Hearthstone</option>
-            <option>League of Legends</option>
-            <option>Minecraft</option>
-            <option>Overwatch</option>
-            <option>Pokemon</option>
-            <option>Rainbow Six</option>
-            <option>Super Smash Bros</option>
-            <option>World of Warcraft</option>
-            <option>I don't game</option>
+            <?php foreach ($gamesArray as $game) : ?>
+              <option <?php if ($game == $user->getGames()) {
+                        echo "selected";
+                      } ?>><?php echo htmlspecialchars($game) ?></option>
+            <?php endforeach; ?>
           </select>
         </div>
         <div class="form-group">
           <label for="music">Music</label>
           <select type="text" id="music" name="music" class="form-control">
-            <option disabled selected><?= htmlspecialchars($user->getMusic()) ?></option>
-            <option>Blues</option>
-            <option>Classical</option>
-            <option>Country</option>
-            <option>Dance</option>
-            <option>Disco</option>
-            <option>Drum & Bass</option>
-            <option>Dubstep</option>
-            <option>Folk</option>
-            <option>Funk</option>
-            <option>Hip Hop</option>
-            <option>House</option>
-            <option>Jazz</option>
-            <option>Metal</option>
-            <option>Pop</option>
-            <option>Punk</option>
-            <option>R&B</option>
-            <option>Rap</option>
-            <option>Reggae</option>
-            <option>Rock</option>
-            <option>Techno</option>
-            <option>Trance</option>
-            <option>Trap</option>
+            <?php foreach ($musicArray as $music) : ?>
+              <option <?php if ($music == $user->getMusic()) {
+                        echo "selected";
+                      } ?>><?php echo htmlspecialchars($music) ?></option>
+            <?php endforeach; ?>
           </select>
         </div>
         <div class="form-group">
           <label for="films">Film genre</label>
           <select type="text" id="films" name="films" class="form-control">
-            <option disabled selected><?= htmlspecialchars($user->getFilms()) ?></option>
-            <option>Action</option>
-            <option>Adventure</option>
-            <option>Animation</option>
-            <option>Comedy</option>
-            <option>Documentary</option>
-            <option>Drama</option>
-            <option>Fantasy</option>
-            <option>Gangster</option>
-            <option>Historical Drama</option>
-            <option>Horror</option>
-            <option>Musical</option>
-            <option>Mystery</option>
-            <option>Romance</option>
-            <option>Romantic Comedy</option>
-            <option>Science Fiction</option>
-            <option>Superhero</option>
-            <option>Thriller</option>
-            <option>Western</option>
+            <?php foreach ($filmsArray as $film) : ?>
+              <option <?php if ($film == $user->getFilms()) {
+                        echo "selected";
+                      } ?>><?php echo htmlspecialchars($film) ?></option>
+            <?php endforeach; ?>
           </select>
         </div>
         <div class="form-group">
           <label for="books">Book genre</label>
           <select type="text" id="books" name="books" class="form-control">
-            <option disabled selected><?= htmlspecialchars($user->getBooks()) ?></option>
-            <option>Action</option>
-            <option>Adventure</option>
-            <option>Biography</option>
-            <option>Comics</option>
-            <option>Crime</option>
-            <option>Drama</option>
-            <option>Historical Fiction</option>
-            <option>History</option>
-            <option>Horror</option>
-            <option>Mystery</option>
-            <option>Poetry</option>
-            <option>Romance</option>
-            <option>Satire</option>
-            <option>Science Fiction</option>
-            <option>Science</option>
-            <option>Thriller</option>
+            <?php foreach ($booksArray as $book) : ?>
+              <option <?php if ($book == $user->getBooks()) {
+                        echo "selected";
+                      } ?>><?php echo htmlspecialchars($book) ?></option>
+            <?php endforeach; ?>
           </select>
         </div>
         <div class="form-group">
           <label for="hobby">Hobby</label>
           <select type="text" id="hobby" name="hobby" class="form-control">
-            <option disabled selected><?= htmlspecialchars($user->getHobby()) ?></option>
-            <option>Archery</option>
-            <option>Badminton</option>
-            <option>Birdwatching</option>
-            <option>Board Games</option>
-            <option>Card Games</option>
-            <option>Collecting</option>
-            <option>Cooking</option>
-            <option>Cosplay</option>
-            <option>Crafting</option>
-            <option>Dancing</option>
-            <option>Design</option>
-            <option>Drawing</option>
-            <option>Exercising</option>
-            <option>Fashion</option>
-            <option>Football</option>
-            <option>Gaming</option>
-            <option>Gardening</option>
-            <option>Hiking</option>
-            <option>Hockey</option>
-            <option>Ice Skating</option>
-            <option>Knitting</option>
-            <option>Painting</option>
-            <option>Photography</option>
-            <option>Playing music</option>
-            <option>Programming</option>
-            <option>Running</option>
-            <option>Sewing</option>
-            <option>Shopping</option>
-            <option>Swimming</option>
-            <option>Tennis</option>
-            <option>TTRPG (D&D, Pathfinder, etc...)</option>
-            <option>Volleyball</option>
-            <option>Walking</option>
-            <option>Woodworking</option>
+            <?php foreach ($hobbyArray as $hobby) : ?>
+              <option <?php if ($hobby == $user->getHobby()) {
+                        echo "selected";
+                      } ?>><?php echo htmlspecialchars($hobby) ?></option>
+            <?php endforeach; ?>
           </select>
         </div>
         <div class="form-group">
