@@ -60,7 +60,6 @@ textarea {
 
 .post {
     width: 48%;
-    height: 350px;
     background-color: lightgray;
 }
 
@@ -75,6 +74,7 @@ textarea {
 
 .post .post-body {
     width: 100%;
+    height: 100%;
 }
 
 .post-actions {
@@ -85,6 +85,19 @@ textarea {
 .upvote,
 .downvote {
     cursor: pointer;
+}
+
+.discussion {
+    max-height: 500px;
+    overflow-y: scroll;
+}
+
+.discussion .post-actions {
+    height: 100%;
+}
+
+.postText {
+    word-break: break-all;
 }
 
 

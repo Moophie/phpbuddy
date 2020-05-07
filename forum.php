@@ -75,54 +75,77 @@ $faq_posts = classes\Buddy\Post::getFaqPosts();
 
     <div class="float-left jumbotron forum">
         <h2>Forum</h2>
-        <div class="forum-content">
+        <div class="forum-content d-flex flex-wrap align-items-start">
             <?php foreach ($all_posts as $post) : ?>
-                <div class="jumbotron post d-flex justify-content-start float-left" data-id="<?php echo $post->id; ?>">
-                    <div class="post-actions d-flex flex-column justify-content-between align-items-center">
-                        <p><i class="pin fas fa-thumbtack" data-id="<?php echo $post->id; ?>"></i></p>
-                        <div class="d-flex flex-column align-items-center">
-                            <i class="fas fa-chevron-circle-up upvote" data-id="<?php echo $post->id; ?>"></i>
-                            <span class="upvote-counter" data-id="<?php echo $post->id; ?>"><?php echo classes\Buddy\Post::countUpvotes($post->id); ?></span>
-                            <i class="fas fa-chevron-circle-down downvote" data-id="<?php echo $post->id; ?>"></i>
+                <div class="jumbotron post d-flex flex-column" data-id="<?php echo $post->id; ?>" style="min-height:200px;">
+                    <div class="d-flex" style="width:100%; height: 200px">
+                        <div class="post-actions d-flex flex-column justify-content-between align-items-center">
+                            <p><i class="pin fas fa-thumbtack" data-id="<?php echo $post->id; ?>"></i></p>
+                            <div class="d-flex flex-column align-items-center">
+                                <i class="fas fa-chevron-circle-up upvote" data-id="<?php echo $post->id; ?>"></i>
+                                <span class="upvote-counter" data-id="<?php echo $post->id; ?>"><?php echo classes\Buddy\Post::countUpvotes($post->id); ?></span>
+                                <i class="fas fa-chevron-circle-down downvote" data-id="<?php echo $post->id; ?>"></i>
+                            </div>
+                            <div></div>
                         </div>
-                        <div></div>
-                    </div>
-                    <div class="d-flex flex-column post-body justify-content-start mb-3">
-                        <div class="d-flex justify-content-between">
-                            <strong><?php echo htmlspecialchars($post->op) ?></strong>
-                            <i><small><?php echo htmlspecialchars($post->timestamp) ?></small></i>
-                        </div>
-                        <?php if (strtotime($post->edited) > 0) : ?>
-                            <i><small>This post was edited on <?php echo date("d-m-Y H:i", strtotime($post->edited)); ?></small></i>
-                        <?php endif; ?>
-                        <p class="postText"><?php echo htmlspecialchars($post->content) ?></p>
-                        <div class="mt-auto">
-                            <?php if ($post->op == $user->getFullname()) : ?>
-                                <textarea class="editContent d-none" data-id="<?php echo $post->id; ?>" name="editContent"></textarea>
-                                <button class="editPost" data-id="<?php echo $post->id; ?>" data-visible="0">Edit</button>
-                                <button class="deletePost" data-id="<?php echo $post->id; ?>">Delete</button>
+                        <div class="d-flex flex-column post-body justify-content-start mb-3">
+                            <div class="d-flex justify-content-between">
+                                <strong><?php echo htmlspecialchars($post->op) ?></strong>
+                                <i><small><?php echo htmlspecialchars($post->timestamp) ?></small></i>
+                            </div>
+                            <?php if (strtotime($post->edited) > 0) : ?>
+                                <i><small>This post was edited on <?php echo date("d-m-Y H:i", strtotime($post->edited)); ?></small></i>
+                            <?php else : ?>
+                                <br>
                             <?php endif; ?>
+                            <p class="postText"><?php echo htmlspecialchars($post->content) ?></p>
+                            <div class="mt-auto">
+                                <?php if ($post->op == $user->getFullname()) : ?>
+                                    <textarea class="editContent d-none" data-id="<?php echo $post->id; ?>" name="editContent"></textarea>
+                                    <button class="editPost" data-id="<?php echo $post->id; ?>" data-visible="0">Edit</button>
+                                    <button class="deletePost" data-id="<?php echo $post->id; ?>">Delete</button>
+                                <?php endif; ?>
 
-                            <button class="reactPost" data-id="<?php echo $post->id; ?>">React</button>
-                            <button class="showDisc showPost" data-id="<?php echo $post->id; ?>">Show discussion</button>
+                                <button class="reactPost" data-id="<?php echo $post->id; ?>">React</button>
+                                <button class="showDisc showPost" data-id="<?php echo $post->id; ?>">Show discussion</button>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="discussion d-none discPost" data-id="<?php echo $post->id; ?>" style="margin-left:20px;margin-top:10px;">
+                    <div class="discussion d-none discPost" data-id="<?php echo $post->id; ?>" style="margin-left: 20px; margin-top:10px;">
                         <?php
                         $reactions = classes\Buddy\Post::getReactions($post->id);
                         foreach ($reactions as $reaction) : ?>
-                            <p>Upvotes: <span class="upvote-counter" data-id="<?php echo $reaction->id; ?>"><?php echo classes\Buddy\Post::countUpvotes($reaction->id); ?></span></p>
-                            <strong><?php echo htmlspecialchars($reaction->op) ?></strong>
-                            <i class="float-right"><small><?php echo htmlspecialchars($reaction->timestamp) ?></small></i>
-                            <br>
-                            <?php if (strtotime($reaction->edited) > 0) : ?>
-                                <i><small>This post was edited on <?php echo date("d-m-Y H:i", strtotime($reaction->edited)); ?></small></i>
-                                <br>
-                            <?php endif; ?>
-                            <br>
-                            <p class="postText"><?php echo htmlspecialchars($reaction->content) ?></p>
-                            <p><button class="upvote" data-id="<?php echo $reaction->id; ?>">Upvote</button></p>
+                            <div class="d-flex" style="width:100%;height:60%">
+                                <div class="post-actions d-flex flex-column justify-content-between align-items-center">
+                                    <div></div>
+                                    <div class="d-flex flex-column align-items-center">
+                                        <i class="fas fa-chevron-circle-up upvote" data-id="<?php echo $reaction->id; ?>"></i>
+                                        <span class="upvote-counter" data-id="<?php echo $reaction->id; ?>"><?php echo classes\Buddy\Post::countUpvotes($reaction->id); ?></span>
+                                        <i class="fas fa-chevron-circle-down downvote" data-id="<?php echo $reaction->id; ?>"></i>
+                                    </div>
+                                    <div></div>
+                                </div>
+                                <div class="d-flex flex-column post-body justify-content-start mb-3">
+                                    <div class="d-flex justify-content-between">
+                                        <strong><?php echo htmlspecialchars($reaction->op) ?></strong>
+                                        <i><small><?php echo htmlspecialchars($reaction->timestamp) ?></small></i>
+                                    </div>
+                                    <?php if (strtotime($reaction->edited) > 0) : ?>
+                                        <i><small>This post was edited on <?php echo date("d-m-Y H:i", strtotime($reaction->edited)); ?></small></i>
+                                    <?php else : ?>
+                                        <br>
+                                    <?php endif; ?>
+                                    <p class="postText"><?php echo htmlspecialchars($reaction->content) ?></p>
+                                    <div class="mt-auto">
+                                        <?php if ($reaction->op == $user->getFullname()) : ?>
+                                            <textarea class="editContent d-none" data-id="<?php echo $reaction->id; ?>" name="editContent"></textarea>
+                                            <button class="editPost" data-id="<?php echo $reaction->id; ?>" data-visible="0">Edit</button>
+                                            <button class="deletePost" data-id="<?php echo $reaction->id; ?>">Delete</button>
+                                        <?php endif; ?>
+                                    </div>
+                                </div>
+                            </div>
                         <?php endforeach ?>
                     </div>
                 </div>
@@ -140,38 +163,74 @@ $faq_posts = classes\Buddy\Post::getFaqPosts();
         <div class="float-right jumbotron faq">
             <h2>FAQ</h2>
             <?php foreach ($faq_posts as $post) : ?>
-                <div class="jumbotron post" data-id="<?php echo $post->id; ?>">
-                    <p>Upvotes: <span class="upvote-counter" data-id="<?php echo $post->id; ?>"><?php echo classes\Buddy\Post::countUpvotes($post->id); ?></span></p>
-                    <strong><?php echo htmlspecialchars($post->op) ?></strong>
-                    <i class="float-right"><small><?php echo htmlspecialchars($post->timestamp) ?></small></i>
-                    <br>
-                    <?php if (strtotime($post->edited) > 0) : ?>
-                        <i><small>This post was edited on <?php echo date("d-m-Y H:i", strtotime($post->edited)); ?></small></i>
-                        <br>
-                    <?php endif; ?>
-                    <br>
-                    <p class="postText"><?php echo htmlspecialchars($post->content) ?></p>
-                    <p><i class="unpin fas fa-thumbtack" data-id="<?php echo $post->id; ?>" style="color:red"></i></p>
+                <div class="jumbotron post d-flex flex-column" data-id="<?php echo $post->id; ?>" style="min-height:200px;">
+                    <div class="d-flex" style="width:100%; height: 200px">
+                        <div class="post-actions d-flex flex-column justify-content-between align-items-center">
+                            <p><i class="pin fas fa-thumbtack" style="color:red" data-id="<?php echo $post->id; ?>"></i></p>
+                            <div class="d-flex flex-column align-items-center">
+                                <i class="fas fa-chevron-circle-up upvote" data-id="<?php echo $post->id; ?>"></i>
+                                <span class="upvote-counter" data-id="<?php echo $post->id; ?>"><?php echo classes\Buddy\Post::countUpvotes($post->id); ?></span>
+                                <i class="fas fa-chevron-circle-down downvote" data-id="<?php echo $post->id; ?>"></i>
+                            </div>
+                            <div></div>
+                        </div>
+                        <div class="d-flex flex-column post-body justify-content-start mb-3">
+                            <div class="d-flex justify-content-between">
+                                <strong><?php echo htmlspecialchars($post->op) ?></strong>
+                                <i><small><?php echo htmlspecialchars($post->timestamp) ?></small></i>
+                            </div>
+                            <?php if (strtotime($post->edited) > 0) : ?>
+                                <i><small>This post was edited on <?php echo date("d-m-Y H:i", strtotime($post->edited)); ?></small></i>
+                            <?php else : ?>
+                                <br>
+                            <?php endif; ?>
+                            <p class="postText"><?php echo htmlspecialchars($post->content) ?></p>
+                            <div class="mt-auto">
+                                <?php if ($post->op == $user->getFullname()) : ?>
+                                    <textarea class="editContent d-none" data-id="<?php echo $post->id; ?>" name="editContent"></textarea>
+                                    <button class="editPost" data-id="<?php echo $post->id; ?>" data-visible="0">Edit</button>
+                                    <button class="deletePost" data-id="<?php echo $post->id; ?>">Delete</button>
+                                <?php endif; ?>
 
-                    <button class="reactPost" data-id="<?php echo $post->id; ?>">React</button>
-                    <button class="upvote" data-id="<?php echo $post->id; ?>">Upvote</button>
-                    <button class="showDisc showFaq" data-id="<?php echo $post->id; ?>">Show discussion</button>
-
-                    <div class="discussion d-none discFaq" data-id="<?php echo $post->id; ?>" style="margin-left:20px;margin-top:10px;">
+                                <button class="reactPost" data-id="<?php echo $post->id; ?>">React</button>
+                                <button class="showDisc showFaq" data-id="<?php echo $post->id; ?>">Show discussion</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="discussion d-none discFaq" data-id="<?php echo $post->id; ?>" style="margin-left: 20px; margin-top:10px;">
                         <?php
                         $reactions = classes\Buddy\Post::getReactions($post->id);
                         foreach ($reactions as $reaction) : ?>
-                            <p>Upvotes: <span class="upvote-counter" data-id="<?php echo $reaction->id; ?>"><?php echo classes\Buddy\Post::countUpvotes($reaction->id); ?></span></p>
-                            <strong><?php echo htmlspecialchars($reaction->op) ?></strong>
-                            <i class="float-right"><small><?php echo htmlspecialchars($reaction->timestamp) ?></small></i>
-                            <br>
-                            <?php if (strtotime($reaction->edited) > 0) : ?>
-                                <i><small>This post was edited on <?php echo date("d-m-Y H:i", strtotime($reaction->edited)); ?></small></i>
-                                <br>
-                            <?php endif; ?>
-                            <br>
-                            <p class="postText"><?php echo htmlspecialchars($reaction->content) ?></p>
-                            <p><button class="upvote" data-id="<?php echo $reaction->id; ?>">Upvote</button></p>
+                            <div class="d-flex" style="width:100%;height:60%">
+                                <div class="post-actions d-flex flex-column justify-content-between align-items-center">
+                                    <div></div>
+                                    <div class="d-flex flex-column align-items-center">
+                                        <i class="fas fa-chevron-circle-up upvote" data-id="<?php echo $reaction->id; ?>"></i>
+                                        <span class="upvote-counter" data-id="<?php echo $reaction->id; ?>"><?php echo classes\Buddy\Post::countUpvotes($reaction->id); ?></span>
+                                        <i class="fas fa-chevron-circle-down downvote" data-id="<?php echo $reaction->id; ?>"></i>
+                                    </div>
+                                    <div></div>
+                                </div>
+                                <div class="d-flex flex-column post-body justify-content-start mb-3">
+                                    <div class="d-flex justify-content-between">
+                                        <strong><?php echo htmlspecialchars($reaction->op) ?></strong>
+                                        <i><small><?php echo htmlspecialchars($reaction->timestamp) ?></small></i>
+                                    </div>
+                                    <?php if (strtotime($reaction->edited) > 0) : ?>
+                                        <i><small>This post was edited on <?php echo date("d-m-Y H:i", strtotime($reaction->edited)); ?></small></i>
+                                    <?php else : ?>
+                                        <br>
+                                    <?php endif; ?>
+                                    <p class="postText"><?php echo htmlspecialchars($reaction->content) ?></p>
+                                    <div class="mt-auto">
+                                        <?php if ($reaction->op == $user->getFullname()) : ?>
+                                            <textarea class="editContent d-none" data-id="<?php echo $reaction->id; ?>" name="editContent"></textarea>
+                                            <button class="editPost" data-id="<?php echo $reaction->id; ?>" data-visible="0">Edit</button>
+                                            <button class="deletePost" data-id="<?php echo $reaction->id; ?>">Delete</button>
+                                        <?php endif; ?>
+                                    </div>
+                                </div>
+                            </div>
                         <?php endforeach ?>
                     </div>
                 </div>
