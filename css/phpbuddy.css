@@ -11,7 +11,7 @@ body {
 }
 
 .navbar {
-    margin-bottom: 10px;
+    margin-bottom: 20px;
 }
 
 .jumbotron {
@@ -171,4 +171,34 @@ textarea {
 
 .nav-item {
     height: 40px;
+}
+
+
+/* Search CSS */
+
+.search-form {
+    margin-left: 20px;
+    width: 20vw;
+    height: 88Vh;
+}
+
+.search-form form {
+    padding: 20px;
+}
+
+.search-results {
+    overflow-y: scroll;
+    height: 88vh;
+    width: 75vw;
+    margin-right: 20px;
+}
+
+.search-result {
+    margin-right: 20px;
+    background-color: lightgray;
+    max-height: 250px;
+}
+
+.search-form form>div {
+    margin-bottom: 10px;
 }
