@@ -92,7 +92,7 @@ $user_buddy = classes\Buddy\User::findBuddy($user->getEmail());
 
 <body>
 
-    <?php include_once("nav.include.php"); ?>
+<?php include_once("nav.include.php") ?>
 
     <div class="container" style="height:250px;">
         <div class="jumbotron float-left" style="width:50%; height:230px;">

@@ -122,7 +122,7 @@ if (!empty($_POST['uploadPicture'])) {
 
 <body>
 
-  <?php include_once("nav.include.php"); ?>
+<?php include_once("nav.include.php"); ?>
 
   <div class="container">
     <div class="jumbotron" style=" height:400px; margin:20px;">
@@ -385,4 +385,6 @@ if (!empty($_POST['uploadPicture'])) {
       </form>
     </div>
   </div>
+  <script src="js/jquery.min.js"></script>
+  <script src="js/bootstrap.js"></script>
 </body>

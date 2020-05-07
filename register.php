@@ -118,6 +118,7 @@ if (!empty($_POST['register'])) {
 
 	<script src="js/jquery.min.js"></script>
 	<script src="js/register.js"></script>
+	<script src="js/bootstrap.js"></script>
 </body>
 
 </html>
