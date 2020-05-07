@@ -8,10 +8,17 @@ putenv("SENDGRID_API_KEY=***REMOVED***");
 $email = $_SESSION['user'];
 $user = new classes\Buddy\User($email);
 
-//Get all the users from the database except for the active user
-$potential_matches = $user->getAllExceptUser();
-$registered_count = $user->totalRegistration();
-$total_buddy_count = $user->totalBuddies();
+if (!empty($_POST['unmatch'])) {
+    $conn = classes\Buddy\Db::getConnection();
+
+    if ($_POST['buddy_id'] == $user->getId()) {
+        $user->unmatch();
+    } else {
+        $user->unmatch();
+    }
+
+    $user->removeConversation();
+}
 
 //If someone sends a buddy suggestion
 if (!empty($_POST['getBuddy'])) {
@@ -51,19 +58,13 @@ if (!empty($_POST['acceptBuddy'])) {
     }
 }
 
-if (!empty($_POST['unmatch'])) {
-    $conn = classes\Buddy\Db::getConnection();
-
-    if ($_POST['buddy_id'] == $user->getId()) {
-        $user->unmatch();
-    } else {
-        $user->unmatch();
-    }
-
-    $user->removeConversation();
-}
+//Get all the users from the database except for the active user
+$potential_matches = $user->getAllExceptUser();
+$registered_count = classes\Buddy\User::totalRegistration();
+$total_buddy_relations = classes\Buddy\User::totalBuddies();
 
 $user_buddy = classes\Buddy\User::findBuddy($user->getEmail());
+
 
 ?>
 
@@ -110,11 +111,12 @@ $user_buddy = classes\Buddy\User::findBuddy($user->getEmail());
         </div>
         <div class="jumbotron float-right" style="width:40%; height:230px;">
             <h4>Buddy application statistics</h4>
+            <br>
             <div>
                 <p><strong>Registered users:</strong> <?php echo $registered_count ?> <?php ?> </p>
             </div>
             <div>
-                <p><strong>Buddy relations:</strong> <?php echo $total_buddy_count ?> </p>
+                <p><strong>Buddy relations:</strong> <?php echo $total_buddy_relations ?> </p>
             </div>
         </div>
     </div>

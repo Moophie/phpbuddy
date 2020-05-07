@@ -148,7 +148,7 @@ class User
         if ($existing_emails > 0) {
             return $error = "Email already in use";
 
-        //Check if the email ends on student.thomasmore.be
+            //Check if the email ends on student.thomasmore.be
         } elseif (!(substr($email, -22) === "@student.thomasmore.be")) {
             return $error = "Not a valid Thomas More email";
         } else {
@@ -666,7 +666,7 @@ class User
         return $result;
     }
 
-    public function totalRegistration()
+    public static function totalRegistration()
     {
         //Database connection
         $conn = Db::getConnection();
@@ -685,7 +685,7 @@ class User
         return $total_registration;
     }
 
-    public function totalBuddies()
+    public static function totalBuddies()
     {
         //Database connection
         $conn = Db::getConnection();
@@ -695,16 +695,27 @@ class User
         $statement->execute();
 
         //Fetch all rows as an array indexed by column name
-        $buddies = $statement->fetchAll(\PDO::FETCH_OBJ);
+        $users = $statement->fetchAll(\PDO::FETCH_OBJ);
 
-        //Count all buddies
-        $total_buddy_count = count($buddies);
+        $count = 0;
+
+        foreach ($users as $user) {
+            $statement = $conn->prepare("SELECT * FROM users WHERE id = :buddy_id AND buddy_id = :user_id");
+            $statement->bindValue(":buddy_id", $user->buddy_id);
+            $statement->bindValue(":user_id", $user->id);
+            $statement->execute();
+            $result = $statement->fetch();
+
+            if(!empty($result)){
+                $count += 1;
+            }
+        }
 
         //Divide by 2 to get amount of buddy relations
-        $total_buddy_count = floor($total_buddy_count / 2);
+        $total_buddy_relations = $count / 2;
 
         //Return the result from the query
-        return $total_buddy_count;
+        return $total_buddy_relations;
     }
 
     public function getActiveConversations()
@@ -805,7 +816,8 @@ class User
         }
     }
 
-    public function checkUnreadMessages(){
+    public function checkUnreadMessages()
+    {
         $conn = Db::getConnection();
         $statement = $conn->prepare("SELECT id FROM messages WHERE receiver_id = :user_id AND message_read = 0");
         $statement->bindValue(":user_id", $this->getId());
@@ -815,7 +827,8 @@ class User
         return $result;
     }
 
-    public function alreadyUpvoted($post_id) {
+    public function alreadyUpvoted($post_id)
+    {
         $conn = Db::getConnection();
 
         $statement = $conn->prepare("SELECT * FROM upvotes WHERE post_id = :post_id AND user_id = :user_id");
@@ -824,7 +837,7 @@ class User
         $statement->execute();
         $count = $statement->rowCount();
 
-        if($count > 0){
+        if ($count > 0) {
             return true;
         } else {
             return false;
