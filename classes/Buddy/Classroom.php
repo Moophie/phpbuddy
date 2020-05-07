@@ -118,6 +118,12 @@ class classroom
         $statement->execute();
         $search = $statement->fetchAll();
 
+        $count = count($search);
+
+        if($count<1){
+            throw new \Exception("No classrooms found!");
+        }
+
         return $search;
     }
 

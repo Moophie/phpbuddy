@@ -2,7 +2,12 @@
 
 include_once(__DIR__ . "/bootstrap.include.php");
 
-$classrooms = classes\Buddy\Classroom::getClassrooms($_GET['search']);
+try{
+    $classrooms = classes\Buddy\Classroom::getClassrooms($_GET['search']);
+
+}catch(\Throwable $th){
+    $error = $th->getMessage();    
+}
 ?>
 
 <!DOCTYPE html>
@@ -23,21 +28,24 @@ $classrooms = classes\Buddy\Classroom::getClassrooms($_GET['search']);
     <?php include_once("nav.include.php"); ?>
 
     <div class="container">
+
         <div class="jumbotron center" style="margin-top:20px;">
+            <?php if(isset($error)):?>
+                <h2><?php echo $error ?></h2>    
+            <?php else:?>
             <h2>Found Classrooms</h2>
         </div>
-        <?php if ($classrooms > 0) :  foreach ($classrooms as $classroom) : ?>
+
+            <?php foreach ($classrooms as $classroom) : ?>
                 <div class="jumbotron float-left" style="width:300px; margin-left:20px;">
                     <h4>Classroom: <?php echo $classroom['name']; ?> </h4>
                     <p>Building: <?php echo $classroom['building']; ?></p>
                     <p>Floor: <?php echo $classroom['floor']; ?></p>
                     <p>Class Number: <?php echo $classroom['room_number']; ?></p>
                 </div>
-
             <?php endforeach; ?>
-        <?php else : ?>
-            <p>No classrooms found!</p>
-        <?php endif; ?>
+
+            <?php endif; ?>
     </div>
 
 </body>
