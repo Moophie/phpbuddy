@@ -565,7 +565,7 @@ class User
                 $parameter = ":" . $key;
 
                 //Add the filter and the parameter to the SQL query string
-                $sql .= " AND $key = $parameter";
+                $sql .= " AND $key LIKE $parameter";
             }
         }
 
@@ -578,6 +578,7 @@ class User
         //Can't be merged with other foreach, because this happens after the prepare(), while the string construction has to happen before the prepare()
         foreach ($filters as $key => $filter) {
             if (!empty($filter)) {
+                $filter = "%" . $filter . "%";
                 $parameter = ":" . $key;
                 $statement->bindValue($parameter, $filter);
             }
