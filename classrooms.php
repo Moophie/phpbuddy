@@ -4,6 +4,7 @@ include_once(__DIR__ . "/bootstrap.include.php");
 
 try{
     $classrooms = classes\Buddy\Classroom::getClassrooms($_GET['search']);
+    str_replace("//", ".", $classrooms);
 
 }catch(\Throwable $th){
     $error = $th->getMessage();    
@@ -38,10 +39,10 @@ try{
 
             <?php foreach ($classrooms as $classroom) : ?>
                 <div class="jumbotron float-left" style="width:300px; margin-left:20px;">
-                    <h4>Classroom: <?php echo $classroom['name']; ?> </h4>
-                    <p>Building: <?php echo $classroom['building']; ?></p>
-                    <p>Floor: <?php echo $classroom['floor']; ?></p>
-                    <p>Class Number: <?php echo $classroom['room_number']; ?></p>
+                    <h4>Classroom: <?php echo htmlspecialchars($classroom['name']); ?> </h4>
+                    <p>Building: <?php echo htmlspecialchars($classroom['building']); ?></p>
+                    <p>Floor: <?php echo htmlspecialchars($classroom['floor']); ?></p>
+                    <p>Class Number: <?php echo htmlspecialchars($classroom['room_number']); ?></p>
                 </div>
             <?php endforeach; ?>
 
