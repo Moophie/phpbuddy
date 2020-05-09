@@ -41,7 +41,6 @@ $users = classes\Buddy\User::getAll();
                             <div class="pl-3 pt-2 pr-2 pb-2 w-75 border-left">
                                 <h4 class="text-primary"><?= htmlspecialchars($user->fullname); ?></h4>
                                 <h5 class="text-info">IMD 3</h5>
-                                <p class="text-right m-0"><a href="#" class="btn btn-primary"><i class="far fa-user"></i> View Profile</a></p>
                             </div>
                         </div>
                         <?php
