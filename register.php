@@ -14,8 +14,6 @@ if (!empty($_POST['register'])) {
     $password = $_POST['password'];
     $email = strtolower($_POST['email']);
 
-    //Encrypt the password
-    $hash = password_hash($_POST['password'], PASSWORD_BCRYPT);
 
     $user = new classes\Buddy\User($email);
 
@@ -23,8 +21,9 @@ if (!empty($_POST['register'])) {
     //setEmail returns an error message if the email is not a valid email or if it's not unique
     $valid_email = $user->setEmail($email);
     $user->setFullname($fullname);
-    $user->setPassword($hash);
+    $user->setPassword($password);
 
+	
     //If setEmail returns a string, show the error message
     if (gettype($valid_email) == "string") {
         $error = $valid_email;
@@ -49,7 +48,9 @@ if (!empty($_POST['register'])) {
         //Let him know he's registered
         $error = "You have been succesfully registered! A confirmation mail has been sent to your email account.";
 
-        $user = new classes\Buddy\User($email);
+		$user = new classes\Buddy\User($email);
+		
+		
 
         if ($user->getActive() == 1) {
             session_start();

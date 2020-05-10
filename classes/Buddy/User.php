@@ -164,6 +164,9 @@ class User
      */
     public function getPassword()
     {
+
+
+
         return $this->password;
     }
 
@@ -174,6 +177,8 @@ class User
      */
     public function setPassword($password)
     {
+        //Encrypt the password
+        $password = password_hash($password, PASSWORD_BCRYPT);
         $this->password = $password;
 
         return $this;
@@ -707,7 +712,7 @@ class User
             $statement->execute();
             $result = $statement->fetch();
 
-            if(!empty($result)){
+            if (!empty($result)) {
                 $count += 1;
             }
         }
@@ -781,8 +786,8 @@ class User
 
         $allowed = array('jpg', 'jpeg', 'png');
 
-        if(in_array($fileActualExt, $allowed)){
-            $fileDestination = 'uploads/'.$fileName;
+        if (in_array($fileActualExt, $allowed)) {
+            $fileDestination = 'uploads/' . $fileName;
             move_uploaded_file($fileTmpName, $fileDestination);
 
             $conn = Db::getConnection();
@@ -790,8 +795,7 @@ class User
             $statement->bindValue(":email", $this->getEmail());
             $img = $statement->execute();
             return $img;
-
-        }else{
+        } else {
             throw new \Exception("You can only upload a image!");
         }
     }
