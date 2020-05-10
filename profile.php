@@ -111,9 +111,9 @@ $hobbyArray = array("Archery", "Badminton", "Birdwatching", "Board Games", "Card
         <?php if (isset($error)) : ?>
           <div style="font-size: 15px; background-color:#F8D7DA; padding:10px; border-radius:10px; margin-top:10px;"><?php echo $error; ?></div>
         <?php endif; ?>
-        <form enctype="multipart/form-data" action="" method="POST" style="margin-top:20px;">
+        <form enctype="multipart/form-data" action="" method="POST" style="margin-top:20px; border:none;">
           <div class="form-group">
-            <input type="file" id="profile_img" name="profile_img" capture="camera" required />
+            <input style="color:gray; border:none;" type="file" id="profile_img" name="profile_img" capture="camera" required />
           </div>
           <div class="form-group">
             <input type="submit" value="Upload" name="uploadPicture" />

@@ -102,12 +102,12 @@ $faq_posts = classes\Buddy\Post::getFaqPosts();
                             <div class="mt-auto">
                                 <?php if ($post->op == $user->getFullname()) : ?>
                                     <textarea class="editContent d-none" data-id="<?php echo $post->id; ?>" name="editContent"></textarea>
-                                    <button class="editPost" data-id="<?php echo $post->id; ?>" data-visible="0">Edit</button>
-                                    <button class="deletePost" data-id="<?php echo $post->id; ?>">Delete</button>
+                                    <button class="editPost btn btn-success" data-id="<?php echo $post->id; ?>" data-visible="0">Edit</button>
+                                    <button class="deletePost btn btn-danger" style="margin-right:50px;" data-id="<?php echo $post->id; ?>">Delete</button>
                                 <?php endif; ?>
 
-                                <button class="reactPost" data-id="<?php echo $post->id; ?>">React</button>
-                                <button class="showDisc showPost" data-id="<?php echo $post->id; ?>">Show discussion</button>
+                                <button class="btn btn-light reactPost" data-id="<?php echo $post->id; ?>">React</button>
+                                <button class="btn btn-light showDisc showPost" data-id="<?php echo $post->id; ?>">Show discussion</button>
                             </div>
                         </div>
                     </div>
@@ -140,8 +140,8 @@ $faq_posts = classes\Buddy\Post::getFaqPosts();
                                     <div class="mt-auto">
                                         <?php if ($reaction->op == $user->getFullname()) : ?>
                                             <textarea class="editContent d-none" data-id="<?php echo $reaction->id; ?>" name="editContent"></textarea>
-                                            <button class="editPost" data-id="<?php echo $reaction->id; ?>" data-visible="0">Edit</button>
-                                            <button class="deletePost" data-id="<?php echo $reaction->id; ?>">Delete</button>
+                                            <button class="btn-success editPost" style="border:none;border-radius:0.3rem;" data-id="<?php echo $reaction->id; ?>" data-visible="0">Edit</button>
+                                            <button class="btn-danger deletePost" style="border:none;border-radius:0.3rem;" data-id="<?php echo $reaction->id; ?>">Delete</button>
                                         <?php endif; ?>
                                     </div>
                                 </div>
@@ -155,7 +155,7 @@ $faq_posts = classes\Buddy\Post::getFaqPosts();
             <form action="" method="POST">
                 <textarea name="postContent" cols="50" rows="4"></textarea>
                 <input class="postParent" name="postParent" type="text" value="0" hidden>
-                <input class="submitPost float-right" name="submitPost" type="submit" value="New post">
+                <input class="btn btn-light submitPost float-right" name="submitPost" type="submit" value="New post">
             </form>
         </div>
     </div>
@@ -188,12 +188,12 @@ $faq_posts = classes\Buddy\Post::getFaqPosts();
                             <div class="mt-auto">
                                 <?php if ($post->op == $user->getFullname()) : ?>
                                     <textarea class="editContent d-none" data-id="<?php echo $post->id; ?>" name="editContent"></textarea>
-                                    <button class="editPost" data-id="<?php echo $post->id; ?>" data-visible="0">Edit</button>
-                                    <button class="deletePost" data-id="<?php echo $post->id; ?>">Delete</button>
+                                    <button style="border:none;border-radius:0.3rem;" class="btn-success editPost" data-id="<?php echo $post->id; ?>" data-visible="0">Edit</button>
+                                    <button style="border:none;border-radius:0.3rem;" class="btn-danger deletePost" data-id="<?php echo $post->id; ?>">Delete</button>
                                 <?php endif; ?>
-
-                                <button class="reactPost" data-id="<?php echo $post->id; ?>">React</button>
-                                <button class="showDisc showFaq" data-id="<?php echo $post->id; ?>">Show discussion</button>
+                                <br>
+                                <button style="border:none;border-radius:0.3rem;margin-bottom:5px;margin-top:5px;" class="btn-light reactPost" data-id="<?php echo $post->id; ?>">React</button>
+                                <button style="border:none;border-radius:0.3rem;" class="btn-light showDisc showFaq" data-id="<?php echo $post->id; ?>">Show discussion</button>
                             </div>
                         </div>
                     </div>
@@ -225,8 +225,8 @@ $faq_posts = classes\Buddy\Post::getFaqPosts();
                                     <div class="mt-auto">
                                         <?php if ($reaction->op == $user->getFullname()) : ?>
                                             <textarea class="editContent d-none" data-id="<?php echo $reaction->id; ?>" name="editContent"></textarea>
-                                            <button class="editPost" data-id="<?php echo $reaction->id; ?>" data-visible="0">Edit</button>
-                                            <button class="deletePost" data-id="<?php echo $reaction->id; ?>">Delete</button>
+                                            <button style="border:none;border-radius:0.3rem;" class="btn-success editPost" data-id="<?php echo $reaction->id; ?>" data-visible="0">Edit</button>
+                                            <button style="border:none;border-radius:0.3rem;" class=" btn-danger deletePost" data-id="<?php echo $reaction->id; ?>">Delete</button>
                                         <?php endif; ?>
                                     </div>
                                 </div>

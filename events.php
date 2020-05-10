@@ -72,7 +72,7 @@ $all_events = classes\Buddy\Event::getAllEvents();
                     <input type="datetime-local" class="form-control" id="time" name="time" required>
                 </div>
                 <div class="form-group">
-                    <input type="submit" value="Create Event" name="createEvent">
+                    <input class="btn btn-dark" type="submit" value="Create Event" name="createEvent">
                 </div>
             </form>
         </div>
@@ -99,7 +99,7 @@ $all_events = classes\Buddy\Event::getAllEvents();
                             <form action="" method="POST">
                                 <input type="text" name="eventId" value="<?php echo $event->id ?>" hidden>
                                 <input type="text" name="maxP" value="<?php echo $event->max ?>" hidden>
-                                <input type="submit" name="joinEvent" value="Join">
+                                <input class="btn btn-success" type="submit" name="joinEvent" value="Join">
                             </form>
                         <?php endif; ?>
                     <?php else : ?>

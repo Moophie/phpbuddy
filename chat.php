@@ -128,8 +128,8 @@ if (isset($_POST['like'])) {
                         <?php endforeach; ?>
                     <?php endif; ?>
                 </div>
-                <textarea id="messageText" cols="30" rows="1" class="messageText float-left"></textarea>
-                <button class="sendMessage float-left">Send</button>
+                <textarea id="messageText" cols="30" rows="1" class="messageText float-left" style="margin-right:30px; padding-bottom:10px;"></textarea>
+                <button class="sendMessage btn btn-dark">Send</button>
             <?php else : ?>
                 <h2 class="d-inline-block">You have no buddy to chat with!</h2>
                 <h6>Send a request to someone or wait for someone else to ask you.</h6>

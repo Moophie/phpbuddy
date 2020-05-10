@@ -74,7 +74,7 @@ if (!empty($_GET)) {
                     </div>
                 </div>
                 <div class="form-group">
-                    <input type="submit" value="Search">
+                    <input class="btn btn-dark" type="submit" value="Search">
                 </div>
             </form>
         </div>
