@@ -109,7 +109,6 @@ if (isset($_POST['like'])) {
                                                             echo "Like";
                                                         endif; ?>
                                                     </span>
-                                                    <!-- Default like button text,(Like, wow, sad..) default:Like  -->
                                                     <ul class="emojies-box">
                                                         <!-- Reaction buttons container-->
                                                         <li class="emoji emo-like" data-reaction="Like" message-id="<?= $message->id ?>"></li>

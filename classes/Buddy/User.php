@@ -164,6 +164,9 @@ class User
      */
     public function getPassword()
     {
+
+
+
         return $this->password;
     }
 
@@ -173,7 +176,11 @@ class User
      * @return  self
      */
     public function setPassword($password)
+    
     {
+
+                    //Encrypt the password
+    $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
         $this->password = $password;
 
         return $this;
