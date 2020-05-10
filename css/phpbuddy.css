@@ -202,3 +202,48 @@ textarea {
 .search-form form>div {
     margin-bottom: 10px;
 }
+
+/*  Index */
+.matches {
+    margin: 20px;
+    padding: 4%;
+    border-radius: 0.3rem;
+    box-shadow: 2px 2px 10px 2px #aaaaaa;
+}
+
+.img-match{
+    height: 150px;
+    width: 150px;
+    object-fit: cover;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.common{
+    color: lightgray;
+}
+
+h6{
+    text-align: center;
+    margin: 10px;
+    color: gray;
+}
+
+h5{
+    margin-bottom: 20px;
+}
+
+.button-sbm{
+    margin-top: 20px;
+    padding: 5px;
+    padding-left: 50px;
+    padding-right: 50px;
+    border-radius: 0.5rem;
+    border: none;
+    background-color: #007BFF;
+    color: white;
+}
+
+.button-sbm:hover{
+    background-color: #1a6ec9;
+}
