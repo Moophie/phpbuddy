@@ -779,7 +779,7 @@ class User
         $fileName = $_FILES['profile_img']['name'];
         $fileTmpName = $_FILES['profile_img']['tmp_name'];
         //$fileSize = $_FILES['file']['size'];
-        //$fileError = $_FILES['file']['error'];
+        $fileError = $_FILES['profile_img']['error'];
 
         $fileExt = explode('.', $fileName);
         $fileActualExt = strtolower(end($fileExt));
@@ -787,16 +787,18 @@ class User
         $allowed = array('jpg', 'jpeg', 'png');
 
         if (in_array($fileActualExt, $allowed)) {
-            $fileDestination = 'uploads/' . $fileName;
-            move_uploaded_file($fileTmpName, $fileDestination);
+            if ($fileError === 0) {
+                $fileDestination = 'uploads/' . $fileName;
+                move_uploaded_file($fileTmpName, $fileDestination);
 
-            $conn = Db::getConnection();
-            $statement = $conn->prepare("UPDATE users  SET profile_img = ('" . $_FILES['profile_img']['name'] . "') WHERE email = :email");
-            $statement->bindValue(":email", $this->getEmail());
-            $img = $statement->execute();
-            return $img;
+                $conn = Db::getConnection();
+                $statement = $conn->prepare("UPDATE users  SET profile_img = ('" . $_FILES['profile_img']['name'] . "') WHERE email = :email");
+                $statement->bindValue(":email", $this->getEmail());
+                $img = $statement->execute();
+                return $img;
+            }
         } else {
-            throw new \Exception("You can only upload a image!");
+            throw new \Exception("Your image is too big or isn't a image!");
         }
     }
 
