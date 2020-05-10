@@ -53,8 +53,20 @@ if (!empty($_POST['acceptBuddy'])) {
         $user->removeBuddy();
         $user->removeConversation();
 
-        //Prompt box for rejecting reason
-        echo "<script>var reason = prompt('Would you like telling the reason for this rejection?', 'Write reason here');</script>";
+        $mail_content = "Unfortunately, " .  $user->getFullname() . " has denied your request to be buddies.";
+
+        if(!empty($_POST['reason'])){
+            $mail_content = "Unfortunately, " .  $user->getFullname() . " has denied your request to be buddies.\nReason:\n" . $_POST['reason'];
+        }
+
+        $sgmail = new \SendGrid\Mail\Mail();
+        $sgmail->setFrom("michael.van.lierde@hotmail.com", "IMD Buddy");
+        $sgmail->setSubject("Someone has rejected your buddy request");
+        $sgmail->addTo($_POST['buddy_email'], $_POST['buddy_name']);
+        $sgmail->addContent("text/plain", $mail_content);
+
+        $sendgrid = new \SendGrid(getenv('SENDGRID_API_KEY'));
+        $sendgrid->send($sgmail);
     }
 }
 
@@ -180,6 +192,8 @@ $user_buddy = classes\Buddy\User::findBuddy($user->getEmail());
                             </form>
                             <form action="" method="POST">
                                 <input type="text" name="buddy_email" value="<?= htmlspecialchars($match->email) ?>" hidden>
+                                <input type="text" name="buddy_name" value="<?= htmlspecialchars($match->fullname) ?>" hidden>
+                                <input class="reject-reason" type="text" name="reason" value="" hidden>
                                 <input class="button-reject" type="submit" name="acceptBuddy" value="Reject">
                             </form>
                         <?php else : ?>
@@ -262,7 +276,7 @@ $user_buddy = classes\Buddy\User::findBuddy($user->getEmail());
 
 
         <script src="js/jquery.min.js"></script>
-        <script src="js/autocomplete.js"></script>
+        <script src="js/index.js"></script>
         <script src="js/bootstrap.js"></script>
 </body>
 
