@@ -166,7 +166,7 @@ $faq_posts = classes\Buddy\Post::getFaqPosts();
                 <div class="jumbotron post d-flex flex-column" data-id="<?php echo $post->id; ?>" style="min-height:200px;">
                     <div class="d-flex" style="width:100%; height: 200px">
                         <div class="post-actions d-flex flex-column justify-content-between align-items-center">
-                            <p><i class="pin fas fa-thumbtack" style="color:red" data-id="<?php echo $post->id; ?>"></i></p>
+                            <p><i class="unpin fas fa-thumbtack" style="color:red" data-id="<?php echo $post->id; ?>"></i></p>
                             <div class="d-flex flex-column align-items-center">
                                 <i class="fas fa-chevron-circle-up upvote" data-id="<?php echo $post->id; ?>"></i>
                                 <span class="upvote-counter" data-id="<?php echo $post->id; ?>"><?php echo classes\Buddy\Post::countUpvotes($post->id); ?></span>

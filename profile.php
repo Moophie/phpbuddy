@@ -106,7 +106,7 @@ $hobbyArray = array("Archery", "Badminton", "Birdwatching", "Board Games", "Card
     <div class="jumbotron" style=" height:400px; margin:20px;">
       <div class="float-left" style=" margin-left:50px;">
 
-        <img src="./uploads/<?= htmlspecialchars($user->getProfile_img()) ?>" width="250px;" height="250px;" />
+        <img src="./uploads/<?= htmlspecialchars($user->getProfile_img()) ?>" width="250px;" height="250px;" style="border-radius: 10px"/>
         <?php if (isset($error)) : ?>
           <div style="color:white; background-color:red; margin-top:10px; text-align:center;"><?php echo $error; ?></div>
         <?php endif; ?>
@@ -120,9 +120,9 @@ $hobbyArray = array("Archery", "Badminton", "Birdwatching", "Board Games", "Card
 
         </form>
       </div>
-      <div>
+      <div class="float-left">
         <h2><?= htmlspecialchars($user->getFullname()); ?></h2>
-        <h6> Web Developer and Designer </h6>
+        <p>Web <?php echo htmlspecialchars($user->getStudy_pref()) ?></p>
       </div>
     </div>
   </div>
@@ -217,7 +217,7 @@ $hobbyArray = array("Archery", "Badminton", "Birdwatching", "Board Games", "Card
           </div>
         </div>
         <div class="form-group">
-          <input type="submit" value="Submit" name="updateProfile">
+          <input type="submit" value="Save" name="updateProfile">
         </div>
     </div>
   </div>

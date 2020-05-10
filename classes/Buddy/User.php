@@ -637,7 +637,7 @@ class User
         }
 
         if ($this->getStudy_pref() == $potential_match->study_pref) {
-            $score += 10;
+            $score += 15;
         }
 
         //If the score is above a certain number, return the potential match as an object

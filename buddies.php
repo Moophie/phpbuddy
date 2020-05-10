@@ -34,11 +34,11 @@ $users = classes\Buddy\User::getAll();
             <?php foreach ($users as $user) : ?>
                 <li class="list-group-item">
                     <div class="col-md-12">
-                        <div class="d-flex flex-row border rounded">
+                        <div class="d-flex flex-row">
                             <div class="p-0 w-25">
                                 <img src="./uploads/<?= htmlspecialchars($user->profile_img); ?>" class="img-thumbnail border-0" />
                             </div>
-                            <div class="pl-3 pt-2 pr-2 pb-2 w-75 border-left">
+                            <div class="pl-3 pt-2 pr-2 pb-2 w-75">
                                 <h4 class="text-primary"><?= htmlspecialchars($user->fullname); ?></h4>
                                 <h5 class="text-info">IMD 3</h5>
                             </div>
@@ -50,7 +50,7 @@ $users = classes\Buddy\User::getAll();
 
                         //Check if there is a buddy, then print out the buddy's fullname
                         if (!empty($buddy)) : ?>
-                            <div class="border rounded">
+                            <div class="">
                                 <p><strong>My buddy is: </strong> <?= htmlspecialchars($buddy->fullname) ?></p>
                             </div>
                         <?php endif; ?>

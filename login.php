@@ -6,33 +6,33 @@ include_once(__DIR__ . "/bootstrap.include.php");
 if (!empty($_POST)) {
 
   //Put fields in variables
-    $email = $_POST['email'];
-    $password = $_POST['password'];
+  $email = $_POST['email'];
+  $password = $_POST['password'];
 
-    if (!empty($email) && !empty($password)) {
-        //If both fields are filled in, check if the login is correct
+  if (!empty($email) && !empty($password)) {
+    //If both fields are filled in, check if the login is correct
 
-        if (classes\Buddy\User::checkPassword($email, $password)) {
-            $user = new classes\Buddy\User($email);
+    if (classes\Buddy\User::checkPassword($email, $password)) {
+      $user = new classes\Buddy\User($email);
 
-            if ($_POST['captcha'] == $_SESSION['digit']) {
-                if ($user->getActive() == 1) {
-                    $_SESSION['user'] = $email;
-                    header("Location: index.php");
-                } else {
-                    $error = "Please confirm your account";
-                }
-            } else {
-                $error = "Wrong Captcha";
-            }
+      if ($_POST['captcha'] == $_SESSION['digit']) {
+        if ($user->getActive() == 1) {
+          $_SESSION['user'] = $email;
+          header("Location: index.php");
         } else {
-            $error = "Sorry, we couldn't log you in.";
+          $error = "Please confirm your account";
         }
+      } else {
+        $error = "Wrong Captcha";
+      }
     } else {
+      $error = "Sorry, we couldn't log you in.";
+    }
+  } else {
 
     //If one of the fields is empty, generate an error
-        $error = "Email and password are required.";
-    }
+    $error = "Email and password are required.";
+  }
 }
 
 ?>
@@ -86,12 +86,12 @@ if (!empty($_POST)) {
                   </div>
 
 
-                  <p><img src="./captcha.php" width="120" height="30" alt="CAPTCHA"></p>
-                  <p><input type="text" size="6" maxlength="5" name="captcha" value=""><br>
-                    <small>Copy the digits from the image into this box</small></p>
+                  <p><img src="./captcha.php" width="120" height="30" alt="CAPTCHA">
+                    <input type="text" size="6" maxlength="5" name="captcha" value=""></p>
+                  <p><small>Copy the digits from the image into the box</small></p>
 
                   <input type="submit" value="LOGIN" class="btn btn-lg btn-primary btn-block btn-login text-uppercase font-weight-bold mb-2">
-                 
+
                   <div class="text-center">
                 </form>
               </div>
@@ -101,8 +101,8 @@ if (!empty($_POST)) {
       </div>
     </div>
   </div>
-<script src="js/jquery.min.js"></script>
-<script src="js/bootstrap.js"></script>
+  <script src="js/jquery.min.js"></script>
+  <script src="js/bootstrap.js"></script>
 
 </body>
 
