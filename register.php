@@ -91,7 +91,7 @@ if (!empty($_POST['register'])) {
 					</div>
 				<?php endif; ?>
 				<?php if (isset($succesfull)) : ?>
-          <div style="font-size: 15px; background-color:#7FFF00; padding:10px; border-radius:10px;"><?php echo $succesfull; ?></div>
+          <div style="font-size: 15px; background-color:#90EE90; padding:10px; border-radius:10px;"><?php echo $succesfull; ?></div>
         <?php endif; ?>
 				<br>
 				<div class="form-group">
