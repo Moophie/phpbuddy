@@ -247,3 +247,33 @@ h5{
 .button-sbm:hover{
     background-color: #1a6ec9;
 }
+
+.button-accept{
+    margin-top: 20px;
+    padding: 5px;
+    padding-left: 50px;
+    padding-right: 50px;
+    border-radius: 0.5rem;
+    border: none;
+    background-color: green;
+    color: white;
+}
+
+.button-reject{
+    margin-top: 20px;
+    padding: 5px;
+    padding-left: 50px;
+    padding-right: 50px;
+    border-radius: 0.5rem;
+    border: none;
+    background-color: red;
+    color: white;
+}
+
+.button-accept:hover{
+    background-color: darkgreen;
+}
+
+.button-reject:hover{
+    background-color: darkred;
+}

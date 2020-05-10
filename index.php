@@ -176,11 +176,11 @@ $user_buddy = classes\Buddy\User::findBuddy($user->getEmail());
                                         <?php if ($match->buddy_id == $user->getId()) : ?>
                                             <form action="" method="POST">
                                                 <input type="text" name="buddy_id" value="<?= htmlspecialchars($match->id) ?>" hidden>
-                                                <input type="submit" name="acceptBuddy" value="Accept">
+                                                <input class="button-accept" type="submit" name="acceptBuddy" value="Accept">
                                             </form>
                                             <form action="" method="POST">
                                                 <input type="text" name="buddy_email" value="<?= htmlspecialchars($match->email) ?>" hidden>
-                                                <input type="submit" name="acceptBuddy" value="Reject">
+                                                <input class="button-reject" type="submit" name="acceptBuddy" value="Reject">
                                             </form>
                                         <?php else : ?>
                                             <form action="" method="POST">
