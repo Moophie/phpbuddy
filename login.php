@@ -70,7 +70,7 @@ if (!empty($_POST)) {
 
                 <?php if (isset($error)) : ?>
                   <div class="col-md-9 col-lg-8 mx-auto">
-                    <h3 class="login-heading mb-4" style="font-size: 1rem;color: red; text-align: center;"><?php echo $error; ?></h3>
+                    <h3 class="login-heading mb-4" style="font-size: 15px; background-color:#F8D7DA; padding:10px; border-radius:10px;"><?php echo $error; ?></h3>
                   </div>
                 <?php endif; ?>
 

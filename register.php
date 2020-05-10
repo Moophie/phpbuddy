@@ -86,7 +86,7 @@ if (!empty($_POST['register'])) {
 			<form class="registerForm" action="" method="post">
 				<h2>Register Account Buddy application</h2>
 				<?php if (!empty($error)) : ?>
-					<div style="background-color:#F8D7DA; padding:10px; border-radius:10px;">
+					<div style="font-size: 15px; background-color:#F8D7DA; padding:10px; border-radius:10px;">
 						<p><?= $error ?></p>
 					</div>
 				<?php endif; ?>

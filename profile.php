@@ -108,7 +108,7 @@ $hobbyArray = array("Archery", "Badminton", "Birdwatching", "Board Games", "Card
 
         <img src="./uploads/<?= htmlspecialchars($user->getProfile_img()) ?>" width="250px;" height="250px;" />
         <?php if (isset($error)) : ?>
-          <div style="color:white; background-color:red; margin-top:10px; text-align:center;"><?php echo $error; ?></div>
+          <div style="font-size: 15px; background-color:#F8D7DA; padding:10px; border-radius:10px;"><?php echo $error; ?></div>
         <?php endif; ?>
         <form enctype="multipart/form-data" action="" method="POST" style="margin-top:20px;">
           <div class="form-group">
