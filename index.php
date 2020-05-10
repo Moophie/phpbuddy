@@ -113,12 +113,12 @@ $user_buddy = classes\Buddy\User::findBuddy($user->getEmail());
         </div>
     </div>
     <div class="container" >
-        <div class="jumbotron">
+        <div class="jumbotron" style="height: 125px;">
             <h2>Find your classroom here:</h2>
-            <form action="classrooms.php" method="get">
+            <form action="classrooms.php" method="GET">
                 <input type="text" name="search" class="search" placeholder="Z3.04" autocomplete="off">
-                <input type="submit" name="submit_search" value="search" class="search_submit">
-                <div class="suggestions"></div>
+                <input type="submit" name="submit_search" value="Search" class="search_submit">
+                <div class="suggestions" style="z-index: 1000; position:relative"></div>
             </form>
         </div>
     </div>

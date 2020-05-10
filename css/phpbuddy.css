@@ -279,3 +279,8 @@ h5 {
 .button-reject:hover {
     background-color: darkred;
 }
+
+.search,
+.search_submit {
+    padding: 5px;
+}

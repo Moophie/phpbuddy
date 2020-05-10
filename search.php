@@ -3,8 +3,8 @@
 include_once(__DIR__ . "/bootstrap.include.php");
 
 //If someone clicks search, find the correct users based on the filters in the $_POST
-if (!empty($_POST)) {
-    $found_users = classes\Buddy\User::searchUsers($_POST);
+if (!empty($_GET)) {
+    $found_users = classes\Buddy\User::searchUsers($_GET);
 }
 
 ?>
@@ -28,7 +28,7 @@ if (!empty($_POST)) {
 
     <div class="d-flex justify-content-between">
         <div class="search-form jumbotron">
-            <form action="" method="POST">
+            <form action="" method="GET">
                 <h1>Search</h1>
                 <div class="form-label-group">
                     <label for="fullname">Full name</label>
