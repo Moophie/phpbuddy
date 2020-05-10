@@ -1,35 +1,41 @@
 <?php
-// Adapted for The Art of Web: www.the-art-of-web.com
-// Please acknowledge use of this code by including this header.
 
-// initialise image with dimensions of 120 x 30 pixels
-$image = @imagecreatetruecolor(120, 30) or die("Cannot Initialize new GD image stream");
 
-// set background to white and allocate drawing colours
-$background = imagecolorallocate($image, 0xFF, 0xFF, 0xFF);
-imagefill($image, 0, 0, $background);
-$linecolor = imagecolorallocate($image, 0xCC, 0xCC, 0xCC);
-$textcolor = imagecolorallocate($image, 0x33, 0x33, 0x33);
+//create an image with a width and height from 120 x 30 pixels
+$captchaimage = @imagecreatetruecolor(120, 30) or die("Cannot create image");
 
-// draw random lines on canvas
+// set the background to white and assign drawing colors (0xFF = white)
+$background = imagecolorallocate($captchaimage, 0xFF, 0xFF, 0xFF);
+imagefill($captchaimage, 0, 0, $background);
+
+//Get the color from the lines in the captcha (0xCC = light grey)
+$colorlines = imagecolorallocate($captchaimage, 0xCC, 0xCC, 0xCC);
+
+//creates the text on the image (0x33 = dark color)
+$textcolor = imagecolorallocate($captchaimage, 0x33, 0x33, 0x33);
+
+// draw 6 random lines on the image
 for ($i = 0; $i < 6; $i++) {
-    imagesetthickness($image, rand(1, 3));
-    imageline($image, 0, rand(0, 30), 120, rand(0, 30), $linecolor);
+    //create the thickness of the lines wiith randomize
+    imagesetthickness($captchaimage, rand(1, 3));
+    // create position from the lines on the image
+    imageline($captchaimage, 0, rand(0, 30), 120, rand(0, 30), $colorlines);
 }
 
 session_start();
 
-// add random digits to canvas
+// add random digits to image
 $digit = '';
 for ($x = 15; $x <= 95; $x += 20) {
     $digit .= ($num = rand(0, 9));
-    imagechar($image, rand(3, 5), $x, rand(2, 14), $num, $textcolor);
+    //the numbers are random and in the color given above
+    imagechar($captchaimage, rand(3, 5), $x, rand(2, 14), $num, $textcolor);
 }
 
-// record digits in session variable
+// set numbers in session variable
 $_SESSION['digit'] = $digit;
 
-// display image and clean up
+// display image
 header('Content-type: image/png');
-imagepng($image);
-imagedestroy($image);
+imagepng($captchaimage);
+imagedestroy($captchaimage);
