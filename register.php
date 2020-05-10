@@ -34,7 +34,7 @@ if (!empty($_POST['register'])) {
         $link = "http://" . $_SERVER['HTTP_HOST'] . dirname($_SERVER['REQUEST_URI']) . "/verify.php?code=" . $validation_string;
 
         $sgmail = new \SendGrid\Mail\Mail();
-        $sgmail->setFrom("michael.van.lierde@hotmail.com", "IMD Buddy");
+        $sgmail->setFrom("no-reply@imdbuddy.be", "IMD Buddy");
         $sgmail->setSubject("Confirm registration");
         $sgmail->addTo($user->getEmail(), $user->getFullname());
         $sgmail->addContent("text/html", "<a href=" . $link . ">Click to confirm your email!</a>");

@@ -33,7 +33,7 @@ if (!empty($_POST['getBuddy'])) {
     $conversation->saveConversation();
 
     $sgmail = new \SendGrid\Mail\Mail();
-    $sgmail->setFrom("michael.van.lierde@hotmail.com", "IMD Buddy");
+    $sgmail->setFrom("no-reply@imdbuddy.be", "IMD Buddy");
     $sgmail->setSubject("Someone sent you a buddy request!");
     $sgmail->addTo($_POST['buddy_email'], $_POST['buddy_name']);
     $sgmail->addContent("text/plain", "You've received a buddy request on IMD Buddy from " .  $user->getFullname());
@@ -60,7 +60,7 @@ if (!empty($_POST['acceptBuddy'])) {
         }
 
         $sgmail = new \SendGrid\Mail\Mail();
-        $sgmail->setFrom("michael.van.lierde@hotmail.com", "IMD Buddy");
+        $sgmail->setFrom("no-reply@imdbuddy.be", "IMD Buddy");
         $sgmail->setSubject("Someone has rejected your buddy request");
         $sgmail->addTo($_POST['buddy_email'], $_POST['buddy_name']);
         $sgmail->addContent("text/plain", $mail_content);
