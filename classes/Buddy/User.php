@@ -778,6 +778,7 @@ class User
     {
         $fileName = $_FILES['profile_img']['name'];
         $fileTmpName = $_FILES['profile_img']['tmp_name'];
+        $fileSize = $_FILES['profile_img']['size'];
         $fileError = $_FILES['profile_img']['error'];
 
         $fileExt = explode('.', $fileName);
@@ -785,7 +786,11 @@ class User
 
         $allowed = array('jpg', 'jpeg', 'png');
 
-        if (in_array($fileActualExt, $allowed)) {
+        if (!(in_array($fileActualExt, $allowed))) {
+            throw new \Exception("The file has to be an image.");
+        } elseif ($fileSize > 2000000) {
+            throw new \Exception("Your image is too big.");
+        } else {
             if ($fileError === 0) {
                 $fileDestination = 'uploads/' . $fileName;
                 move_uploaded_file($fileTmpName, $fileDestination);
@@ -796,8 +801,6 @@ class User
                 $img = $statement->execute();
                 return $img;
             }
-        } else {
-            throw new \Exception("Your image is too big or isn't a image!");
         }
     }
 

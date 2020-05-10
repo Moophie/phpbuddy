@@ -104,12 +104,12 @@ $hobbyArray = array("Archery", "Badminton", "Birdwatching", "Board Games", "Card
   <?php include_once("nav.include.php"); ?>
 
   <div class="container">
-    <div class="jumbotron" style=" height:400px; margin:20px;">
+    <div class="jumbotron" style=" height:500px; margin:20px;">
       <div class="float-left" style=" margin-left:50px;">
 
         <img src="./uploads/<?= htmlspecialchars($user->getProfile_img()) ?>" width="250px;" height="250px;" style="border-radius: 10px"/>
         <?php if (isset($error)) : ?>
-          <div style="font-size: 15px; background-color:#F8D7DA; padding:10px; border-radius:10px;"><?php echo $error; ?></div>
+          <div style="font-size: 15px; background-color:#F8D7DA; padding:10px; border-radius:10px; margin-top:10px;"><?php echo $error; ?></div>
         <?php endif; ?>
         <form enctype="multipart/form-data" action="" method="POST" style="margin-top:20px;">
           <div class="form-group">
