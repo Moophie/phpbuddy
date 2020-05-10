@@ -98,7 +98,7 @@ $faq_posts = classes\Buddy\Post::getFaqPosts();
                             <?php else : ?>
                                 <br>
                             <?php endif; ?>
-                            <p class="postText"><?php echo htmlspecialchars($post->content) ?></p>
+                            <p class="postText" data-id="<?php echo $post->id; ?>"><?php echo htmlspecialchars($post->content) ?></p>
                             <div class="mt-auto">
                                 <?php if ($post->op == $user->getFullname()) : ?>
                                     <textarea class="editContent d-none" data-id="<?php echo $post->id; ?>" name="editContent"></textarea>
@@ -116,7 +116,7 @@ $faq_posts = classes\Buddy\Post::getFaqPosts();
                         <?php
                         $reactions = classes\Buddy\Post::getReactions($post->id);
                         foreach ($reactions as $reaction) : ?>
-                            <div class="d-flex" style="width:100%;height:60%">
+                            <div class="d-flex" data-id="<?php echo $reaction->id; ?>" style="width:100%;height:60%">
                                 <div class="post-actions d-flex flex-column justify-content-between align-items-center">
                                     <div></div>
                                     <div class="d-flex flex-column align-items-center">
@@ -136,7 +136,7 @@ $faq_posts = classes\Buddy\Post::getFaqPosts();
                                     <?php else : ?>
                                         <br>
                                     <?php endif; ?>
-                                    <p class="postText"><?php echo htmlspecialchars($reaction->content) ?></p>
+                                    <p class="postText" data-id="<?php echo $reaction->id; ?>"><?php echo htmlspecialchars($reaction->content) ?></p>
                                     <div class="mt-auto">
                                         <?php if ($reaction->op == $user->getFullname()) : ?>
                                             <textarea class="editContent d-none" data-id="<?php echo $reaction->id; ?>" name="editContent"></textarea>
@@ -166,7 +166,7 @@ $faq_posts = classes\Buddy\Post::getFaqPosts();
                 <div class="jumbotron post d-flex flex-column" data-id="<?php echo $post->id; ?>" style="min-height:200px;">
                     <div class="d-flex" style="width:100%; height: 200px">
                         <div class="post-actions d-flex flex-column justify-content-between align-items-center">
-                            <p><i class="pin fas fa-thumbtack" style="color:red" data-id="<?php echo $post->id; ?>"></i></p>
+                            <p><i class="unpin fas fa-thumbtack" style="color:red" data-id="<?php echo $post->id; ?>"></i></p>
                             <div class="d-flex flex-column align-items-center">
                                 <i class="fas fa-chevron-circle-up upvote" data-id="<?php echo $post->id; ?>"></i>
                                 <span class="upvote-counter" data-id="<?php echo $post->id; ?>"><?php echo classes\Buddy\Post::countUpvotes($post->id); ?></span>
@@ -184,7 +184,7 @@ $faq_posts = classes\Buddy\Post::getFaqPosts();
                             <?php else : ?>
                                 <br>
                             <?php endif; ?>
-                            <p class="postText"><?php echo htmlspecialchars($post->content) ?></p>
+                            <p class="postText" data-id="<?php echo $post->id; ?>"><?php echo htmlspecialchars($post->content) ?></p>
                             <div class="mt-auto">
                                 <?php if ($post->op == $user->getFullname()) : ?>
                                     <textarea class="editContent d-none" data-id="<?php echo $post->id; ?>" name="editContent"></textarea>
@@ -201,7 +201,7 @@ $faq_posts = classes\Buddy\Post::getFaqPosts();
                         <?php
                         $reactions = classes\Buddy\Post::getReactions($post->id);
                         foreach ($reactions as $reaction) : ?>
-                            <div class="d-flex" style="width:100%;height:60%">
+                            <div class="d-flex" data-id="<?php echo $reaction->id; ?>" style="width:100%;height:60%">
                                 <div class="post-actions d-flex flex-column justify-content-between align-items-center">
                                     <div></div>
                                     <div class="d-flex flex-column align-items-center">
@@ -221,7 +221,7 @@ $faq_posts = classes\Buddy\Post::getFaqPosts();
                                     <?php else : ?>
                                         <br>
                                     <?php endif; ?>
-                                    <p class="postText"><?php echo htmlspecialchars($reaction->content) ?></p>
+                                    <p class="postText" data-id="<?php echo $reaction->id; ?>"><?php echo htmlspecialchars($reaction->content) ?></p>
                                     <div class="mt-auto">
                                         <?php if ($reaction->op == $user->getFullname()) : ?>
                                             <textarea class="editContent d-none" data-id="<?php echo $reaction->id; ?>" name="editContent"></textarea>

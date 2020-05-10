@@ -61,7 +61,7 @@ if (isset($_POST['like'])) {
             <?php if (!empty($active_conversation)) : ?>
                 <h2 class="d-inline-block">Chat</h2>
                 <h4 class="float-right d-inline-block"><?php echo htmlspecialchars($chat_partner->fullname); ?></h4>
-                <div class="messagebox" style="min-height: 400px;">
+                <div class="messagebox" style="min-height: 400px; padding-right:10px;">
                     <?php
                     if (!empty($active_conversation)) :
                         //Print out all messages

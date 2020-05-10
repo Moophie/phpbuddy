@@ -44,18 +44,18 @@ $(document).ready(function() {
     $(".editPost").on("click", function() {
 
         var post_id = $(this).attr("data-id");
-        var visible = $(this).attr("data-visible");
+        var visible = $('[data-id="' + post_id + '"].editPost').attr("data-visible");
         var content = $(' [data-id="' + post_id + '"].editContent').val();
 
         if (visible == "0") {
             $('[data-id="' + post_id + '"].d-none.editContent').removeClass("d-none").addClass("d-block");
-            $(this).attr("data-visible", "1");
-            $(this).html("Save");
+            $('[data-id="' + post_id + '"].editPost').attr("data-visible", "1");
+            $('[data-id="' + post_id + '"].editPost').html("Save");
         }
 
         if (visible == "1") {
 
-            $(this).html("Edit");
+            $('[data-id="' + post_id + '"].editPost').html("Edit");
             $.ajax({
                 type: "POST",
                 url: "forum.php",
@@ -63,7 +63,7 @@ $(document).ready(function() {
                 success: function(response) {
                     $('[data-id="' + post_id + '"].postText').html(content);
                     $('[data-id="' + post_id + '"].d-block.editContent').removeClass("d-block").addClass("d-none");
-                    $(this).attr("data-visible", "0");
+                    $('[data-id="' + post_id + '"].editPost').attr("data-visible", "0");
                 }
             })
         }

@@ -84,7 +84,7 @@ if (!empty($_POST['register'])) {
 	<div class="d-flex justify-content-center">
 		<div class="jumbotron" style="width:600px">
 			<form class="registerForm" action="" method="post">
-				<h2>Register Account Buddy application</h2>
+				<h2>Register Account</h2>
 				<?php if (!empty($error)) : ?>
 					<div style="background-color:#F8D7DA; padding:10px; border-radius:10px;">
 						<p><?= $error ?></p>
