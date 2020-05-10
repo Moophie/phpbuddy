@@ -42,7 +42,7 @@ $(document).ready(function() {
     });
 
     $(".editPost").on("click", function() {
-
+        //Get the id so it can be used to change the right post
         var post_id = $(this).attr("data-id");
         var visible = $('[data-id="' + post_id + '"].editPost').attr("data-visible");
         var content = $(' [data-id="' + post_id + '"].editContent').val();
@@ -61,6 +61,7 @@ $(document).ready(function() {
                 url: "forum.php",
                 data: { editPost: 1, id: post_id, content: content },
                 success: function(response) {
+                    //Change the post text to the new edited content
                     $('[data-id="' + post_id + '"].postText').html(content);
                     $('[data-id="' + post_id + '"].d-block.editContent').removeClass("d-block").addClass("d-none");
                     $('[data-id="' + post_id + '"].editPost').attr("data-visible", "0");
@@ -80,6 +81,7 @@ $(document).ready(function() {
     $(".showDisc").on("click", function() {
         var post_id = $(this).attr("data-id");
 
+        //Open or close the FAQ discussion, depending on if it was already shown or not
         if ($(this).hasClass("showFaq")) {
             if ($('[data-id="' + post_id + '"] .discussion.discFaq').hasClass("d-none")) {
                 $('[data-id="' + post_id + '"] .d-none.discussion.discFaq').removeClass("d-none").addClass("d-block");
@@ -90,6 +92,7 @@ $(document).ready(function() {
             }
         }
 
+        //Open or close the discussion, depending on if it was already shown or not
         if ($(this).hasClass("showPost")) {
             if ($('[data-id="' + post_id + '"] .discussion.discPost').hasClass("d-none")) {
                 $('[data-id="' + post_id + '"] .d-none.discussion.discPost').removeClass("d-none").addClass("d-block");
@@ -101,6 +104,7 @@ $(document).ready(function() {
         }
     });
 
+    //Upvote AJAX
     $(".upvote").on("click", function() {
         var post_id = $(this).attr("data-id");
 
@@ -114,6 +118,7 @@ $(document).ready(function() {
         })
     });
 
+    //Removing your own upvote AJAX
     $(".downvote").on("click", function() {
         var post_id = $(this).attr("data-id");
 
