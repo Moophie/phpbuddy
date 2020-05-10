@@ -118,7 +118,6 @@ $hobbyArray = array("Archery", "Badminton", "Birdwatching", "Board Games", "Card
           <div class="form-group">
             <input type="submit" value="Upload" name="uploadPicture" />
           </div>
-
         </form>
       </div>
       <div class="float-left">

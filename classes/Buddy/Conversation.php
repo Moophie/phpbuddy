@@ -92,6 +92,7 @@ class Conversation
 
     public function saveConversation()
     {
+        //Check if the conversation already exists
         $conn = Db::getConnection();
         $statement = $conn->prepare("SELECT id FROM conversations WHERE (user_1 = :user_1 AND user_2 = :user_2) OR (user_1 = :user_2 AND user_2 = :user_1)");
         $statement->bindValue(":user_1", $this->getUser_1());
@@ -100,13 +101,13 @@ class Conversation
         $result = $statement->fetch(\PDO::FETCH_OBJ);
 
         if (empty($result)) :
-
+            //If it doesn't create a new conversation
             $statement = $conn->prepare("INSERT INTO conversations (user_1, user_2, active) VALUES (:user_1, :user_2, 1)");
             $statement->bindValue(":user_1", $this->getUser_1());
             $statement->bindValue(":user_2", $this->getUser_2());
             $statement->execute();
         else :
-
+            //If it already exists, update the conversation to active
             $statement = $conn->prepare("UPDATE conversations SET active = 1 WHERE (user_1 = :user_1 AND user_2 = :user_2) OR (user_1 = :user_2 AND user_2 = :user_1)");
             $statement->bindValue(":user_1", $this->getUser_1());
             $statement->bindValue(":user_2", $this->getUser_2());
@@ -129,6 +130,7 @@ class Conversation
         return $result;
     }
 
+    //Function that updates the messages to be "read" when they're displayed on the user's page
     public function readMessages($user_id)
     {
         $conn = Db::getConnection();
@@ -138,6 +140,7 @@ class Conversation
         $statement->execute();
     }
 
+    //Function that grabs the chat-partners name and id
     public function getPartner($user_id)
     {
         $conn = Db::getConnection();
