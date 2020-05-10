@@ -476,8 +476,8 @@ class User
         //Make email case insensitive
         $new_email = strtolower($new_email);
 
-        $insert = $conn->prepare("UPDATE users SET email = :new_email WHERE email = :email");
-        $insert->bindValue(':email', $this->getEmail());
+        $insert = $conn->prepare("UPDATE users SET email = :new_email WHERE id = :id");
+        $insert->bindValue(':id', $this->getId());
         $insert->bindValue(':new_email', $new_email);
         $insert->execute();
 

@@ -15,6 +15,7 @@ if (!empty($_POST['changePassword'])) {
 
     //Change it to the new password
     $user->changePassword($new_password);
+    $succesfull_password = "Your password is succesfully changed.";
   } else {
     $error_password = "We couldn't change the password.";
   }
@@ -35,9 +36,9 @@ if (!empty($_POST['changeEmail'])) {
     if (gettype($valid_email) == "string") {
       $error_mail = $valid_email;
     } else {
-
       //If the setter returns an object, change the email in the database
       $user->changeEmail($new_email);
+      $succesfull_mail = "Your email is succesfully changed.";
     }
   } else {
     $error_mail = "Wrong password";
@@ -108,7 +109,7 @@ $hobbyArray = array("Archery", "Badminton", "Birdwatching", "Board Games", "Card
 
         <img src="./uploads/<?= htmlspecialchars($user->getProfile_img()) ?>" width="250px;" height="250px;" />
         <?php if (isset($error)) : ?>
-          <div style="color:white; background-color:red; margin-top:10px; text-align:center;"><?php echo $error; ?></div>
+          <div style="font-size: 15px; background-color:#F8D7DA; padding:10px; border-radius:10px;"><?php echo $error; ?></div>
         <?php endif; ?>
         <form enctype="multipart/form-data" action="" method="POST" style="margin-top:20px;">
           <div class="form-group">
@@ -226,9 +227,15 @@ $hobbyArray = array("Archery", "Badminton", "Birdwatching", "Board Games", "Card
     <div class="jumbotron float-right" style="width:40%; height:600px; margin:20px;">
       <form method="POST" action="">
         <p style="color:red">
-          <?php if (!empty($error_mail)) :
-            echo $error_mail;
-          endif; ?>
+          <?php if (!empty($error_mail)) : ?>
+            <div style="font-size: 15px; background-color:#F8D7DA; padding:10px; border-radius:10px;">
+              <p><?= $error_mail ?></p>
+            </div>
+          <?php endif; ?>
+          <?php if (isset($succesfull_mail)) : ?>
+            <div style="font-size: 15px; background-color:#90EE90; padding:10px; border-radius:10px;"><?php echo $succesfull_mail; ?></div>
+          <?php endif; ?>
+
         </p>
         <div class="form-group">
           <label for="emailpassword">Current password</label>
@@ -243,9 +250,12 @@ $hobbyArray = array("Archery", "Badminton", "Birdwatching", "Board Games", "Card
         <form method="POST" action="">
           <div class="form-group">
             <p style="color:red">
-              <?php if (!empty($error_password)) :
-                echo $error_password;
-              endif; ?>
+              <?php if (!empty($error_password)) : ?>
+                <div style="font-size: 15px; background-color:#F8D7DA; padding:10px; border-radius:10px;"><?php echo $error_password; ?></div>
+              <?php endif; ?>
+              <?php if (isset($succesfull_password)) : ?>
+                <div style="font-size: 15px; background-color:#90EE90; padding:10px; border-radius:10px;"><?php echo $succesfull_password; ?></div>
+              <?php endif; ?>
             </p>
             <label for="old_password">Current password</label>
             <input type="password" name="old_password" id="old_password" class="form-control">
