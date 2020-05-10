@@ -182,6 +182,7 @@ class Event
         return $result;
     }
 
+    //Function that counts the amount of people that are participating in a certain event
     public function amountParticipants()
     {
         $conn = Db::getConnection();

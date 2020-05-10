@@ -3,6 +3,7 @@
 include_once(__DIR__ . "/bootstrap.include.php");
 
 require(__DIR__ . "/sendgrid/sendgrid-php.php");
+//Put the sendgrid API key in an envelope
 putenv("SENDGRID_API_KEY=***REMOVED***");
 
 //Check if values have been sent
@@ -13,8 +14,6 @@ if (!empty($_POST['register'])) {
     $fullname = $_POST['fullname'];
     $password = $_POST['password'];
     $email = strtolower($_POST['email']);
-
-
     $user = new classes\Buddy\User($email);
 
     //Set the user's properties
@@ -28,17 +27,22 @@ if (!empty($_POST['register'])) {
     if (gettype($valid_email) == "string") {
         $error = $valid_email;
     } else {
-        $n = 20;
+		$n = 20;
+		//Generate a random validation string
         $validation_string = bin2hex(random_bytes($n));
-        $user->setValidation_string($validation_string);
+		$user->setValidation_string($validation_string);
+		//Create the confirmation link
         $link = "http://" . $_SERVER['HTTP_HOST'] . dirname($_SERVER['REQUEST_URI']) . "/verify.php?code=" . $validation_string;
 
-        $sgmail = new \SendGrid\Mail\Mail();
+		$sgmail = new \SendGrid\Mail\Mail();
+		//Set the sender to the domain (authenticated on sendgrid)
         $sgmail->setFrom("no-reply@imdbuddy.be", "IMD Buddy");
         $sgmail->setSubject("Confirm registration");
-        $sgmail->addTo($user->getEmail(), $user->getFullname());
+		$sgmail->addTo($user->getEmail(), $user->getFullname());
+		//Confirm mail link
         $sgmail->addContent("text/html", "<a href=" . $link . ">Click to confirm your email!</a>");
 
+		//Get the API key from the envelope
         $sendgrid = new \SendGrid(getenv('SENDGRID_API_KEY'));
         $sendgrid->send($sgmail);
 
@@ -50,8 +54,6 @@ if (!empty($_POST['register'])) {
 
 		$user = new classes\Buddy\User($email);
 		
-		
-
         if ($user->getActive() == 1) {
             session_start();
             $_SESSION['user'] = $email;

@@ -1,4 +1,3 @@
-// AJAX call for autocomplete 
 $(document).ready(function() {
     // AJAX call for autocomplete 
     $(".search").keyup(function() {
@@ -8,6 +7,7 @@ $(document).ready(function() {
             data: 'keyword=' + $(this).val(),
             success: function(data) {
                 $(".suggestions").show();
+                //Put the returned data in the suggestion box
                 $(".suggestions").html(data);
                 $(".search-box").css("background", "#FFF");
             }
@@ -21,7 +21,7 @@ $(document).ready(function() {
     });
 });
 
-//To select class name
+//Put the selected classroom in the input field and hide the suggestion box when someone clicks on a suggestion
 function selectClass(val) {
     $(".search").val(val);
     $(".suggestions").hide();

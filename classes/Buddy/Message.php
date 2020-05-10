@@ -190,6 +190,7 @@ class Message
         return $result;
     }
 
+    //Add a reaction emoji
     public static function reaction()
     {
         $conn = Db::getConnection();
@@ -200,6 +201,7 @@ class Message
         return $result;
     }
 
+    //Remove a reaction emoji
     public static function undoReaction()
     {
         $conn = Db::getConnection();

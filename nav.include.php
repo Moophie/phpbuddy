@@ -6,11 +6,13 @@ include_once(__DIR__ . "/bootstrap.include.php");
 //PHP_SELF returns the path, basename shortens it to the filename
 $page = basename($_SERVER['PHP_SELF']);
 
+//Get the amount of unread messages
 if (!empty($_SESSION['user'])) {
     $user = new classes\Buddy\User($_SESSION['user']);
     $unread_messages = $user->checkUnreadMessages();
     $unread_amount = count($unread_messages);
 }
+
 ?>
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">

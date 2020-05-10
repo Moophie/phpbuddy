@@ -4,10 +4,11 @@ include_once(__DIR__ . "/bootstrap.include.php");
 
 if (!empty($_POST['createEvent'])) {
     $user = new classes\Buddy\User($_SESSION['user']);
-
+    //Get the current time
     $time = date('Y-m-d H:i:s');
     $event = new classes\Buddy\Event();
     $event->setTitle($_POST['title']);
+    //Set the event time and check if it is valid
     if (empty($event->setTimestamp($_POST['time']))) {
         $error = "Date and time must be at least one hour from now and can't be further away than 1 year.";
     }

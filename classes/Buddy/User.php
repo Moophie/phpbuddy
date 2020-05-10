@@ -724,6 +724,7 @@ class User
         return $total_buddy_relations;
     }
 
+    //Function that finds all conversations a user is a part of
     public function getActiveConversations()
     {
         $conn = Db::getConnection();
@@ -767,6 +768,7 @@ class User
     public function unmatch()
     {
         $conn = Db::getConnection();
+        //Remove the buddy_id both for the user and the other person
         $statement = $conn->prepare("UPDATE users SET buddy_id = 0 WHERE email = :email OR id = :buddy_id");
         $statement->bindValue(":buddy_id", $this->getBuddy_id());
         $statement->bindValue(":email", $this->getEmail());
@@ -774,27 +776,34 @@ class User
         return $unmatch;
     }
 
+
     public function saveProfile_img()
     {
+        //Put all $_FILES array values in seperate variables
         $fileName = $_FILES['profile_img']['name'];
         $fileTmpName = $_FILES['profile_img']['tmp_name'];
         $fileSize = $_FILES['profile_img']['size'];
         $fileError = $_FILES['profile_img']['error'];
 
+        //Get the file extension
         $fileExt = explode('.', $fileName);
         $fileActualExt = strtolower(end($fileExt));
 
+        //Make an array with allowed extensions
         $allowed = array('jpg', 'jpeg', 'png');
 
         if (!(in_array($fileActualExt, $allowed))) {
+            //If the file is not a valid extension
             throw new \Exception("The file has to be an image.");
         } elseif ($fileSize > 2000000) {
+            //If the file is too big
             throw new \Exception("Your image is too big.");
         } else {
             if ($fileError === 0) {
                 $fileDestination = 'uploads/' . $fileName;
                 move_uploaded_file($fileTmpName, $fileDestination);
 
+                //Put the file path in the database
                 $conn = Db::getConnection();
                 $statement = $conn->prepare("UPDATE users  SET profile_img = ('" . $_FILES['profile_img']['name'] . "') WHERE email = :email");
                 $statement->bindValue(":email", $this->getEmail());
@@ -804,6 +813,7 @@ class User
         }
     }
 
+    //Function that updates the user to active if the validation url has been clicked
     public static function verify()
     {
         $conn = Db::getConnection();
@@ -827,6 +837,7 @@ class User
         return $result;
     }
 
+    //Check if user has already joined an event
     public function checkJoinedEvent($event_id)
     {
         $conn = Db::getConnection();
@@ -854,6 +865,7 @@ class User
         return $result;
     }
 
+    //Check if a user has already upvoted a post
     public function alreadyUpvoted($post_id)
     {
         $conn = Db::getConnection();

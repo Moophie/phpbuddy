@@ -110,6 +110,7 @@ class classroom
         return $this;
     }
 
+    //Function that searches for classrooms based on a search term
     public static function getClassrooms($search)
     {
         $conn = Db::getConnection();
@@ -127,6 +128,7 @@ class classroom
         return $search;
     }
 
+    //Function that gets data from the database to autocomplete the classroom search
     public static function completeSearch($keyword)
     {
         $conn = Db::getConnection();

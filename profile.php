@@ -79,6 +79,8 @@ if (!empty($_POST['uploadPicture'])) {
   }
 }
 
+//Create arrays with all the possible values for user attributes.
+//Just add an option here if you want to expand the choices
 $locationArray = array("Antwerpen", "Henegouwen", "Limburg", "Luik", "Luxemburg", "Namen", "Oost-Vlaanderen", "Vlaams-Brabant", "Waals-Brabant", "West-Vlaanderen");
 $gamesArray = array("Animal Crossing", "Apex Legends", "Black Desert Online", "CS:GO", "Dota 2", "Fortnite", "Hearthstone", "League of Legends", "Minecraft", "Overwatch", "Pokemon", "Rainbow Six", "Super Smash Bros", "World of Warcraft", "I don't game.");
 $musicArray = array("Blues", "Classical", "Country", "Dance", "Disco", "Drum & Bass", "Dubstep", "Folk", "Funk", "Hip Hop", "House", "Jazz", "Metal", "Pop", "Punk", "R&B", "Rap", "Reggae", "Rock", "Techno", "Trance", "Trap");
@@ -118,7 +120,6 @@ $hobbyArray = array("Archery", "Badminton", "Birdwatching", "Board Games", "Card
           <div class="form-group">
             <input type="submit" value="Upload" name="uploadPicture" />
           </div>
-
         </form>
       </div>
       <div class="float-left">

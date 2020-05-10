@@ -238,6 +238,7 @@ class Post
         $timestamp = date('Y-m-d H:i:s');
 
         $conn = Db::getConnection();
+        //Add a timestamp so the server knows the post has been edited
         $statement = $conn->prepare("UPDATE posts SET content = :content, edited = :timestamp WHERE id = :id");
         $statement->bindValue(":id", $id);
         $statement->bindValue(":content", $content);
@@ -269,14 +270,17 @@ class Post
 
     public function addUpvote()
     {
+        //Get the existing upvotes
         $conn = Db::getConnection();
         $statement = $conn->prepare("SELECT upvotes FROM posts WHERE id = :post_id");
         $statement->bindValue(":post_id", $this->getId());
         $statement->execute();
         $amount_upvotes = $statement->fetch(\PDO::FETCH_OBJ);
 
+        //Add one
         $upvotes = $amount_upvotes->upvotes + 1;
 
+        //Save the new amount
         $statement = $conn->prepare("UPDATE posts SET upvotes = :upvotes WHERE id = :post_id");
         $statement->bindValue(":upvotes", $upvotes);
         $statement->bindValue(":post_id", $this->getId());
@@ -285,14 +289,17 @@ class Post
 
     public function removeUpvote()
     {
+        //Get the existing upvotes
         $conn = Db::getConnection();
         $statement = $conn->prepare("SELECT upvotes FROM posts WHERE id = :post_id");
         $statement->bindValue(":post_id", $this->getId());
         $statement->execute();
         $amount_upvotes = $statement->fetch(\PDO::FETCH_OBJ);
 
+        //Remove one
         $upvotes = $amount_upvotes->upvotes - 1;
 
+        //Save the new amount
         $statement = $conn->prepare("UPDATE posts SET upvotes = :upvotes WHERE id = :post_id");
         $statement->bindValue(":upvotes", $upvotes);
         $statement->bindValue(":post_id", $this->getId());
