@@ -15,6 +15,7 @@ if (!empty($_POST['changePassword'])) {
 
     //Change it to the new password
     $user->changePassword($new_password);
+    $succesfull = "Your password is succesfully changed.";
   } else {
     $error_password = "We couldn't change the password.";
   }
@@ -246,6 +247,9 @@ $hobbyArray = array("Archery", "Badminton", "Birdwatching", "Board Games", "Card
               <?php if (!empty($error_password)) :
                 echo $error_password;
               endif; ?>
+                        <?php if (isset($succesfull)) : ?>
+          <div style="font-size: 15px; background-color:#7FFF00; padding:10px; border-radius:10px;"><?php echo $succesfull; ?></div>
+        <?php endif; ?>
             </p>
             <label for="old_password">Current password</label>
             <input type="password" name="old_password" id="old_password" class="form-control">
