@@ -55,6 +55,7 @@ if (!empty($_POST['acceptBuddy'])) {
 
         $mail_content = "Unfortunately, " .  $user->getFullname() . " has denied your request to be buddies.";
 
+        //Check if there's a reason for the rejection and put it in the email content
         if(!empty($_POST['reason'])){
             $mail_content = "Unfortunately, " .  $user->getFullname() . " has denied your request to be buddies.\nReason:\n" . $_POST['reason'];
         }

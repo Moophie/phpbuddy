@@ -24,7 +24,7 @@ if (!empty($_GET)) {
 
 <body>
 
-<?php include_once("nav.include.php"); ?>
+    <?php include_once("nav.include.php"); ?>
 
     <div class="d-flex justify-content-between">
         <div class="search-form jumbotron">
@@ -78,10 +78,10 @@ if (!empty($_GET)) {
                 </div>
             </form>
         </div>
-    
+
         <div class="search-results d-flex flex-wrap jumbotron">
             <?php if (!empty($found_users)) : ?>
-    
+
                 <!-- Print out all users and their properties -->
                 <?php foreach ($found_users as $found_user) : ?>
                     <div class="search-result jumbotron">
@@ -104,4 +104,5 @@ if (!empty($_GET)) {
     <script src="js/jquery.min.js"></script>
     <script src="js/bootstrap.js"></script>
 </body>
+
 </html>

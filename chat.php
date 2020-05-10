@@ -5,6 +5,7 @@ include_once(__DIR__ . "/bootstrap.include.php");
 $user = new classes\Buddy\User($_SESSION['user']);
 
 $active_conversation = $user->getActiveConversations();
+
 if ($active_conversation) {
     $conversation = new classes\Buddy\Conversation();
     $conversation->setId($active_conversation->id);
