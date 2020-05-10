@@ -46,7 +46,7 @@ if (!empty($_POST['register'])) {
         $user->save();
 
         //Let him know he's registered
-        $error = "You have been succesfully registered! A confirmation mail has been sent to your email account.";
+        $succesfull = "You have been succesfully registered! A confirmation mail has been sent to your email account.";
 
 		$user = new classes\Buddy\User($email);
 		
@@ -86,10 +86,13 @@ if (!empty($_POST['register'])) {
 			<form class="registerForm" action="" method="post">
 				<h2>Register Account</h2>
 				<?php if (!empty($error)) : ?>
-					<div style="background-color:#F8D7DA; padding:10px; border-radius:10px;">
+					<div style="font-size: 15px; background-color:#F8D7DA; padding:10px; border-radius:10px;">
 						<p><?= $error ?></p>
 					</div>
 				<?php endif; ?>
+				<?php if (isset($succesfull)) : ?>
+          <div style="font-size: 15px; background-color:#7FFF00; padding:10px; border-radius:10px;"><?php echo $succesfull; ?></div>
+        <?php endif; ?>
 				<br>
 				<div class="form-group">
 					<label for="fullname">Full Name</label>

@@ -15,6 +15,7 @@ if (!empty($_POST['changePassword'])) {
 
     //Change it to the new password
     $user->changePassword($new_password);
+    $succesfull = "Your password is succesfully changed.";
   } else {
     $error_password = "We couldn't change the password.";
   }
@@ -108,7 +109,7 @@ $hobbyArray = array("Archery", "Badminton", "Birdwatching", "Board Games", "Card
 
         <img src="./uploads/<?= htmlspecialchars($user->getProfile_img()) ?>" width="250px;" height="250px;" style="border-radius: 10px"/>
         <?php if (isset($error)) : ?>
-          <div style="color:white; background-color:red; margin-top:10px; text-align:center;"><?php echo $error; ?></div>
+          <div style="font-size: 15px; background-color:#F8D7DA; padding:10px; border-radius:10px;"><?php echo $error; ?></div>
         <?php endif; ?>
         <form enctype="multipart/form-data" action="" method="POST" style="margin-top:20px;">
           <div class="form-group">
@@ -246,6 +247,9 @@ $hobbyArray = array("Archery", "Badminton", "Birdwatching", "Board Games", "Card
               <?php if (!empty($error_password)) :
                 echo $error_password;
               endif; ?>
+                        <?php if (isset($succesfull)) : ?>
+          <div style="font-size: 15px; background-color:#7FFF00; padding:10px; border-radius:10px;"><?php echo $succesfull; ?></div>
+        <?php endif; ?>
             </p>
             <label for="old_password">Current password</label>
             <input type="password" name="old_password" id="old_password" class="form-control">
