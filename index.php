@@ -3,7 +3,8 @@
 include_once(__DIR__ . "/bootstrap.include.php");
 
 require(__DIR__ . "/sendgrid/sendgrid-php.php");
-putenv("SENDGRID_API_KEY=***REMOVED***");
+//Put the API key in an environment variable. Not allowed by sendgrid and thus was removed.
+//Sendgrid will not work on applications taken directly from github
 
 $email = $_SESSION['user'];
 $user = new classes\Buddy\User($email);
@@ -39,7 +40,7 @@ if (!empty($_POST['getBuddy'])) {
     $sgmail->addContent("text/plain", "You've received a buddy request on IMD Buddy from " .  $user->getFullname());
 
     $sendgrid = new \SendGrid(getenv('SENDGRID_API_KEY'));
-    $sendgrid->send($sgmail);
+    $sendgrid->send($sgmail); 
 }
 
 if (!empty($_POST['acceptBuddy'])) {
@@ -60,6 +61,7 @@ if (!empty($_POST['acceptBuddy'])) {
             $mail_content = "Unfortunately, " .  $user->getFullname() . " has denied your request to be buddies.\nReason:\n" . $_POST['reason'];
         }
 
+        
         $sgmail = new \SendGrid\Mail\Mail();
         $sgmail->setFrom("no-reply@imdbuddy.be", "IMD Buddy");
         $sgmail->setSubject("Someone has rejected your buddy request");
