@@ -7,6 +7,7 @@ require(__DIR__ . "/sendgrid/sendgrid-php.php");
 putenv("SENDGRID_API_KEY=***REMOVED***");
 //Sendgrid will not work on applications taken directly from github
 
+
 //Check if values have been sent
 if (!empty($_POST['register'])) {
 
