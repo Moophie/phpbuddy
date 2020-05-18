@@ -4,6 +4,7 @@ include_once(__DIR__ . "/bootstrap.include.php");
 
 require(__DIR__ . "/sendgrid/sendgrid-php.php");
 //Put the API key in an environment variable. Not allowed by sendgrid and thus was removed.
+putenv("SENDGRID_API_KEY=***REMOVED***");
 //Sendgrid will not work on applications taken directly from github
 
 //Check if values have been sent
